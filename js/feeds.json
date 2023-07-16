@@ -1,0 +1,117 @@
+{
+  "comics": [
+    {
+      "title": "The End",
+      "sorttitle": "End",
+      "rssurl": "http://feeds.feedburner.com/endcomic/QkZz",
+      "type": "wp",
+      "thumb": "hubbox_THE_END.png"
+    },
+    {
+      "title": "Ghost Junk Sickness",
+			"sorttitle": "Ghost Junk Sickness",
+      "rssurl": "https://www.ghostjunksickness.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_GJS.png"
+    },
+    {
+      "title": "The Automan’s Daughter",
+      "sorttitle": "Automan’s Daughter",
+      "rssurl": "https://www.automansdaughter.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_THE_AUTOMANS DAUGHTER.png"
+    },
+    {
+      "title": "Magical How?",
+      "sorttitle": "Magical How?",
+      "rssurl": "https://www.magicalhowcomic.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_MAGICAL_HOW.png"
+    },
+    {
+      "title": "Phantomarine",
+      "sorttitle": "Phantomarine",
+      "rssurl": "https://www.phantomarine.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_PHANTOMARINE.png"
+    },
+    {
+      "title": "Hazy London",
+      "sorttitle": "Hazy London",
+      "rssurl": "https://www.hazylondon.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_HAZY.png"
+    },
+    {
+      "title": "Fairmeadow",
+      "sorttitle": "Fairmeadow",
+      "rssurl": "http://www.fairmeadowcomic.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_FAIRMEADOW.png"
+    },
+    {
+      "title": "Tigress Queen",
+      "sorttitle": "Tigress Queen",
+      "rssurl": "https://www.tigressqueen.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_TIGRESS_QUEEN.png"
+    },
+    {
+      "title": "Godslave",
+      "sorttitle": "Godslave",
+      "rssurl": "https://www.godslavecomic.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_GODSLAVE.png"
+    },
+    {
+      "title": "White Noise",
+      "sorttitle": "White Noise",
+      "rssurl": "http://www.white-noise-comic.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_WHITENOISE.png"
+    },
+    {
+      "title": "Bicycle Boy",
+      "sorttitle": "Bicycle Boy",
+      "rssurl": "https://www.bicycleboy.net/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_BICYCLE_BOY.png"
+    },
+    {
+      "title": "The Otherknown",
+      "sorttitle": "Otherknown",
+      "rssurl": "https://www.otherknown.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_OTHERKNOWN.png"
+    },
+    {
+      "title": "Heroes of Thantopolis",
+      "sorttitle": "Heroes of Thantopolis",
+      "rssurl": "https://www.heroesofthantopolis.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_HEROES_OF THANTOPOLIS.png"
+    },
+    {
+      "title": "Daughter of the Lilies",
+      "sorttitle": "Daughter of the Lilies",
+      "rssurl": "https://www.daughterofthelilies.com/dotl/rss",
+      "type": "cc",
+      "thumb": "hubbox_DOTL.png"
+    },
+    {
+      "title": "Lies Within",
+      "sorttitle": "Lies Within",
+      "rssurl": "https://www.lieswithincomic.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_LIES_WITHIN.png"
+    },
+    {
+      "title": "In Blood We Rise",
+      "sorttitle": "In Blood We Rise",
+      "rssurl": "https://inbloodwerise.com/comic/rss",
+      "type": "cc",
+      "thumb": "hubbox_INBLOOD.png"
+    }
+  ]
+}
+
