@@ -1,7 +1,7 @@
 {
   "name": "Comic Viewer Prototype",
   "short_name": "Comic Viewer",
-  "start_url": "https://luckbat.com/comicviewer/",
+  "start_url": "/",
   "display": "standalone",
   "icons": [
     {

@@ -1,46 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<title>Comic Viewer</title>
-	<link rel="stylesheet" type="text/css" href="css/html5reset.css">
-	<link rel="stylesheet" type="text/css" href="css/pagelayout.css">
-	<link rel="manifest" href="manifest.json">
-</head>
-<body>
-<header id="comicheader" class="showheader">
-	<button id="togglesidebar" class="headerbutton">Browse other comics</button> 
-	<h3 id="comictitle">
-	</h3>
-	<button id="toggledarkmode" class="headerbutton">Toggle dark/light mode</button> 
-</header>
-<aside id="sidebar">
-	<ul id="comicslist">
-	</ul>
-</aside>
-<section id="comicpages">
-	<div class="intro">
-		<h2 class="intro-hed">
-			Comic Viewer 
-		</h2>
-		<p>
-			This is a proof-of-concept web app built on top of publicly available RSS feeds. 
-		</p>
-		<p>
-			It is not under active development, as we have no control over the app's contents. 
-		</p>
-		<p>
-			Still, it works pretty okay, considering these comics were never formatted for phones. (Don't forget, you can turn it sideways…) 
-		</p>
-		<p>
-			Enjoy! 
-		</p>
-		<small> To get started, click the menu icon in the top left. </small> 
-	</div>
-</section>
-<script type="text/javascript" src="js/feedparser.js">
-</script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Comic Viewer</title>
+    <link rel="stylesheet" type="text/css" href="css/html5reset.css">
+    <link rel="stylesheet" type="text/css" href="css/pagelayout.css">
+    <link rel="manifest" href="manifest.json">
+    <script type="module" src="js/index.js"></script>
+  </head>
+  <body>
+    <div id="debug">
+      
+    </div>
+    <div id="app"></div>
+<!--     <script type="module" src="js/navigation.js"></script> -->
+  </body>
 </html>

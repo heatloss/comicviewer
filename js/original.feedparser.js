@@ -1,3 +1,5 @@
+
+
 /* jshint esversion: 8 */
 const RSSPROXY = 'https://comic-viewer-proxy.glitch.me/proxy?url=';
 let state = {
