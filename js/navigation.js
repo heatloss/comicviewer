@@ -6,9 +6,9 @@ let state = {
 
 const comicLayout = document.querySelector('#comicpages');
 const comicHeader = document.querySelector('#comicheader');
-const comicGrid = document.querySelector('#grid');
-const comicHeaderTitle = comicHeader.querySelector('#comictitle');
-// const showgrid = document.querySelector('#togglegrid');
+const comicGrid = document.querySelector('#home');
+const comicHeaderTitle = comicHeader.querySelector('#headertitle');
+// const showgrid = document.querySelector('#tohome');
 // const darkMode = document.querySelector('#toggledarkmode');
 
 const toggleGrid = () => {

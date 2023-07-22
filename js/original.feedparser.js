@@ -10,7 +10,7 @@ let pagesloaded = false;
 const comicLayout = document.querySelector('#comicpages');
 const comicHeader = document.querySelector('#comicheader');
 const comicSidebar = document.querySelector('#sidebar');
-const comicHeaderTitle = comicHeader.querySelector('#comictitle');
+const comicHeaderTitle = comicHeader.querySelector('#headertitle');
 
 const comictmpl = document.createElement('template');
 comictmpl.innerHTML = `
@@ -205,7 +205,7 @@ fetch('js/feeds.json')
   .then((response) => response.json())
   .then((comicsdata) => {
     const fragment = document.createElement('div');
-    fragment.classList.add('thumbbox');
+    fragment.classList.add('thumbsgrid');
     const sortedComics = comicsdata.comics.sort((a, b) =>
       a.sorttitle.localeCompare(b.sorttitle),
     );

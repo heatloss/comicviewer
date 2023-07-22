@@ -1,28 +1,28 @@
-import { templater } from "./module.Templater.js";
-import { buildStorylines } from "./module.Storylines.js";
-import { buildComic } from "./module.Comicreader.js";
+import { templater } from './module.Templater.js';
+import { gotoTab } from './module.Tabsystem.js';
+import { buildStorylines } from './module.Storylines.js';
+import { buildComic } from './module.Comicreader.js';
 
 const showGrid = (updatestate) => {
-  document.querySelector("#comicheader").classList.add("showgrid");
+  document.querySelector('#comicheader').classList.add('showhome');
 };
 
 const hideGrid = (updatestate) => {
-  document.querySelector("#comicheader").classList.remove("showgrid");
+  document.querySelector('#comicheader').classList.remove('showhome');
 };
 
 const showStorylines = (updatestate) => {
-  document.querySelector("#comicheader").classList.add("showstorylines");
+  document.querySelector('#comicheader').classList.add('showstorylines');
 };
 
 const hideStorylines = (updatestate) => {
-  document.querySelector("#comicheader").classList.remove("showstorylines");
+  document.querySelector('#comicheader').classList.remove('showstorylines');
 };
 
-const gotoIntro = () => {
-  hideGrid();
+const gotoHome = (pathdata) => {
+  showGrid();
   hideStorylines();
-  const introMarkup = templater("intro");
-  document.querySelector("#comicpages").replaceChildren(introMarkup);
+  gotoTab('homenav', pathdata[1]);
 };
 
 const gotoGrid = (updatestate) => {
@@ -33,8 +33,7 @@ const gotoGrid = (updatestate) => {
 const gotoStorylines = (pathdata) => {
   hideGrid();
   showStorylines();
-  // if no pathdata, just navigate
-  buildStorylines(pathdata[1]);
+  gotoTab('comicintro', 'storylines');
   // GENERATE STORYLINE VIEW FOR THAT COMIC
 };
 
@@ -47,19 +46,19 @@ const gotoComic = (pathdata) => {
 };
 
 const routes = {
-  "/": gotoIntro,
-  "/grid": gotoGrid,
-  "/storylines": gotoStorylines,
-  "/comic": gotoComic,
+  '/': gotoHome,
+  '/home': gotoHome,
+  '/storylines': gotoStorylines,
+  '/comic': gotoComic,
 };
 
 const render = (path) => {
-  const pathdata = path.split(":");
+  const pathdata = path.split(':');
   routes[pathdata[0]](pathdata);
 };
 
-window.addEventListener("popstate", (e) =>
-  render(new URL(window.location.href).pathname)
+window.addEventListener('popstate', (e) =>
+  render(new URL(window.location.href).pathname),
 );
 
 // render("/");

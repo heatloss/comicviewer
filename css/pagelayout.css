@@ -1,13 +1,9 @@
 body {
   width: 100vw;
   overflow-x: hidden;
-  font-family: ui-rounded, "Hiragino Maru Gothic ProN", Quicksand, Comfortaa,
-    Manjari, "Arial Rounded MT", "Arial Rounded MT Bold", Calibri,
+  font-family: ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa,
+    Manjari, 'Arial Rounded MT', 'Arial Rounded MT Bold', Calibri,
     source-sans-pro, sans-serif;
-}
-
-body.darkmode {
-  background-color: black;
 }
 
 img {
@@ -35,17 +31,63 @@ img {
   transform: translateY(-101%);
 }
 
-body.darkmode #comicheader {
-  background-color: rgba(0, 0, 0, 1);
-  border-bottom: 1px solid #000;
-  color: #eee;
+#comicheader:not(.showhome) ~ #home {
+  transform: translateX(-101%);
 }
 
-#grid {
+#comicheader.showhome ~ #comicpages {
+  transform: translateX(25%);
+}
+
+#comicheader:not(.showstorylines) ~ #storylines {
+  transform: translateY(-101%);
+}
+
+#homenav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 3em;
+  background-color: rgba(255, 255, 255, 1);
+  border-top: 1px solid #ddd;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 4;
+}
+
+#homenav .footernav-btn-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: #222;
+  transition: transform 0.125s ease-in-out;
+  border: none;
+}
+
+#homenav .footernav-btn-group .footernav-btn {
+  background-repeat: no-repeat;
+  background-size: 1.3em;
+  background-position: center center;
+  width: 2.3em;
+  height: 2.3em;
+  text-indent: -999vw;
+  overflow: hidden;
+  border: none;
+  background-color: transparent;
+}
+
+#homenav .footernav-btn-group .footernav-btn[data-tabactive] {
+  background-color: #ddd;
+}
+
+#home {
   position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   width: 100vw;
   background-color: rgba(255, 255, 255, 1);
   z-index: 3;
@@ -54,39 +96,13 @@ body.darkmode #comicheader {
   overflow: auto;
 }
 
-body.darkmode #grid {
-  background-color: rgba(0, 0, 0, 1);
-  color: #eee;
-}
-
-#grid > .tabsystem > .tabselectorbox {
-  padding-top: 4em;
-}
-
-#comicheader:not(.showgrid) ~ #grid {
-  transform: translateX(-101%);
-}
-
-#comicheader.showgrid ~ #comicpages {
-  transform: translateX(25%);
-}
-
-#comicheader.showgrid #comictitle {
-  display: none;
-}
-
-#comicheader:not(.showstorylines) ~ #storylines {
-  transform: translateY(-101%);
-}
-
-.tabsystem .tabselectorbox {
+.tabsystem.tabselector {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-bottom: 2em;
 }
 
-.tabsystem .tabselectorbox > .tabselector {
+.tabsystem.tabselector > .tabselectormenu {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -96,7 +112,7 @@ body.darkmode #grid {
   overflow: hidden;
 }
 
-.tabsystem .tabselectorbox > .tabselector > li {
+.tabsystem.tabselector > .tabselectormenu > li {
   font-size: 1.1em;
   padding: 0.5em 1.5em;
   text-transform: uppercase;
@@ -105,18 +121,47 @@ body.darkmode #grid {
   color: #444;
 }
 
-.tabsystem .tabselectorbox > .tabselector > li + li {
+.tabsystem.tabselector > .tabselectormenu > li + li {
   border-left: 1px solid #ccc;
 }
 
-.tabsystem .tabselectorbox > .tabselector > li[data-tabselect] {
+.tabsystem.tabselector > .tabselectormenu > li[data-tabactive] {
   background-color: #fff;
   color: #000;
 }
 
-.tabsystem .tabgroup {
+.tabsystem.tabgroup {
   display: flex;
   flex-direction: row;
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+#home > .tabsystem.tabgroup > .tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  flex: none;
+  width: 100vw;
+  height: 100%;
+  margin: 0;
+  padding: 4em 0 0 0;
+  box-sizing: border-box;
+  transition: transform 0.2s cubic-bezier(0.25, 0, 0, 1);
+  overflow: auto;
+}
+
+#home > .tabsystem.tabgroup > .tab:not([data-tabactive]) {
+  transform: translateX(-101%);
+}
+
+#home
+  > .tabsystem.tabgroup
+  > .tab[data-tabactive]
+  ~ .tab:not([data-tabactive]) {
+  transform: translateX(101%);
 }
 
 .nav-btn-box {
@@ -151,7 +196,7 @@ body.darkmode #grid {
 }
 
 .nav-btn-group .nav-btn:after {
-  content: "»";
+  content: '»';
   font-size: 1.333em;
   margin-left: 0.25em;
   color: #666;
@@ -161,27 +206,32 @@ body.darkmode #grid {
   padding: 1em 0.5em 4.5em 0.5em;
 }
 
-#comicslist .thumbbox {
+#comicslist > .tabsystem.tabselector {
+  margin-bottom: 1.25em;
+}
+
+#comicslist .thumbsgrid {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 0 0.25em 4em 0.25em;
 }
 
-#comicslist .thumbbox .thumb-frame {
+#comicslist .thumbsgrid .thumb-frame {
   width: calc(25% - 0.25em);
   margin-bottom: 0.25em;
 }
 
-#comicslist .thumbbox .thumb-frame .thumb-image {
+#comicslist .thumbsgrid .thumb-frame .thumb-image {
   width: 100%;
   height: auto;
 }
 
-#comicslist .thumbbox .thumb-frame .thumb-title {
+#comicslist .thumbsgrid .thumb-frame .thumb-title {
   display: none;
 }
 
-#comicslist li {
+/* #comicslist li {
   font-size: 1.5em;
   margin-bottom: 1em;
   font-weight: bold;
@@ -190,15 +240,15 @@ body.darkmode #grid {
 #comicslist li a {
   text-decoration: none;
   color: inherit;
-}
+} */
 
-#comictitle {
+#headertitle {
   font-size: 1.1em;
 }
 
 .headerbutton {
   background-repeat: no-repeat;
-  background-size: 1.333em;
+  background-size: 1.4em;
   background-position: center center;
   width: 2em;
   height: 2em;
@@ -206,28 +256,8 @@ body.darkmode #grid {
   overflow: hidden;
   border: none;
   background-color: transparent;
-  border-radius: 15%;
+  border-radius: 0.5em;
   margin: 0 1em;
-}
-
-#togglegrid {
-  background-image: url('data:image/svg+xml;utf8,<svg fill="dimgray" viewBox="0 0 666.667 666.666" xmlns="http://www.w3.org/2000/svg"><path d="m11.179 195.831c-18.016 37.578-11.692 81.529.956 169.432l9.293 64.577c16.247 112.916 24.37 169.373 63.539 203.1 39.169 33.726 96.612 33.726 211.496 33.726h73.74c114.883 0 172.327 0 211.497-33.726 39.166-33.727 47.29-90.184 63.54-203.1l9.29-64.577c12.65-87.903 18.973-131.854.956-169.432-18.013-37.578-56.36-60.42-133.05-106.104l-46.163-27.498c-69.64-41.486-104.463-62.229-142.94-62.229s-73.299 20.743-142.942 62.229l-46.161 27.498c-76.691 45.684-115.036 68.526-133.051 106.104z"/></svg>');
-}
-
-/* #comicheader.showgrid #togglegrid {
-  background-image: url('data:image/svg+xml;utf8,<svg fill="dimgray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>');
-} */
-
-#toggleadjustments {
-  background-image: url('data:image/svg+xml;utf8,<svg fill="dimgray" viewBox="0 0 666.667 516.667" xmlns="http://www.w3.org/2000/svg"><path d="m333.333 150c-13.806 0-25-11.193-25-25v-100c0-13.807 11.194-25 25-25 13.807 0 25 11.193 25 25v100c0 13.807-11.193 25-25 25z"/><path d="m66.667 258.333c-36.819 0-66.667-29.846-66.667-66.666 0-36.819 29.848-66.667 66.667-66.667s66.666 29.848 66.666 66.667c0 36.82-29.847 66.666-66.666 66.666z"/><path d="m266.667 258.333c0-36.82 29.846-66.666 66.666-66.666s66.667 29.846 66.667 66.666-29.847 66.667-66.667 66.667-66.666-29.847-66.666-66.667z"/><path d="m533.333 325c0-36.82 29.847-66.667 66.667-66.667s66.667 29.847 66.667 66.667-29.847 66.667-66.667 66.667-66.667-29.847-66.667-66.667z"/><path d="m575 191.667c0 13.806 11.193 25 25 25s25-11.194 25-25v-166.667c0-13.807-11.193-25-25-25s-25 11.193-25 25z"/><path d="m66.667 300c-13.807 0-25 11.193-25 25v166.667c0 13.806 11.193 25 25 25s25-11.194 25-25v-166.667c0-13.807-11.193-25-25-25z"/><path d="m308.333 491.667c0 13.806 11.194 25 25 25 13.807 0 25-11.194 25-25v-100c0-13.807-11.193-25-25-25-13.806 0-25 11.193-25 25z"/><path d="m600 516.667c-13.807 0-25-11.194-25-25v-33.334c0-13.806 11.193-25 25-25s25 11.194 25 25v33.334c0 13.806-11.193 25-25 25z"/><path d="m41.667 25c0-13.807 11.193-25 25-25s25 11.193 25 25v33.333c0 13.807-11.193 25-25 25s-25-11.193-25-25z"/></svg>');
-}
-
-#togglesettings {
-  background-image: url('data:image/svg+xml;utf8,<svg fill="dimgray" viewBox="0 0 633.334 666.667" xmlns="http://www.w3.org/2000/svg"><path d="m316.333-.667c31.3 0 46.95 0 59.293 5.075 16.46 6.766 29.537 19.745 36.353 36.08 3.114 7.456 4.33 16.128 4.807 28.777.703 18.59 10.31 35.799 26.543 45.1 16.234 9.302 36.054 8.955 52.627.262 11.273-5.915 19.45-9.204 27.513-10.257 17.664-2.308 35.527 2.442 49.66 13.206 10.604 8.072 18.427 21.523 34.077 48.424s23.473 40.352 25.22 53.499c2.323 17.53-2.463 35.259-13.307 49.284-4.953 6.407-11.91 11.787-22.713 18.524-15.87 9.896-26.083 26.753-26.083 45.356 0 18.604 10.213 35.467 26.083 45.364 10.8 6.733 17.757 12.116 22.71 18.52 10.843 14.026 15.63 31.756 13.307 49.286-1.747 13.147-9.57 26.597-25.22 53.497-15.65 26.903-23.474 40.353-34.077 48.427-14.133 10.763-31.997 15.513-49.66 13.203-8.063-1.053-16.237-4.34-27.513-10.253-16.574-8.694-36.394-9.044-52.627.26-16.233 9.303-25.837 26.51-26.537 45.1-.476 12.65-1.696 21.323-4.81 28.78-6.816 16.333-19.893 29.313-36.353 36.08-12.343 5.073-27.993 5.073-59.293 5.073s-46.95 0-59.294-5.073c-16.46-6.767-29.537-19.747-36.354-36.08-3.113-7.457-4.331-16.13-4.807-28.777-.701-18.593-10.307-35.8-26.541-45.103-16.234-9.3-36.054-8.954-52.627-.26-11.276 5.913-19.451 9.203-27.514 10.256-17.664 2.307-35.527-2.443-49.661-13.206-10.601-8.07-18.426-21.524-34.076-48.424-15.649-26.9-23.474-40.353-25.218-53.5-2.325-17.53 2.461-35.256 13.307-49.283 4.95-6.403 11.909-11.787 22.708-18.523 15.872-9.897 26.085-26.757 26.086-45.36.001-18.604-10.212-35.467-26.086-45.367-10.798-6.733-17.755-12.113-22.705-18.517-10.846-14.028-15.632-31.756-13.307-49.286 1.744-13.148 9.569-26.598 25.219-53.499 15.649-26.901 23.474-40.352 34.075-48.425 14.134-10.763 31.998-15.514 49.661-13.206 8.063 1.054 16.24 4.343 27.517 10.258 16.571 8.693 36.389 9.04 52.622-.261s25.839-26.508 26.54-45.098c.476-12.649 1.694-21.321 4.807-28.778 6.817-16.335 19.894-29.314 36.354-36.08 12.344-5.075 27.994-5.075 59.294-5.075zm0 233.334c-55.65 0-100.762 44.77-100.762 100s45.112 100 100.762 100 100.76-44.77 100.76-100-45.11-100-100.76-100z"/></svg>');
-}
-
-#toggledarkmode {
-  background-image: url('data:image/svg+xml;utf8,<svg fill="dimgray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192V448c106 0 192-86 192-192zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"/></svg>');
 }
 
 #storylines {
@@ -287,22 +317,22 @@ body.darkmode #grid {
   transition: transform 0.25s cubic-bezier(1, 0, 0.67, 1);
 }
 
-#comicpages .intro {
-  margin: 4em 2em;
+#faq .intro {
+  margin: 1em 10vw;
 }
 
-#comicpages .intro .intro-hed,
+#faq .intro .intro-hed,
 #comicpages .loading .loading-hed {
   font-size: 1.333em;
   font-weight: bold;
   margin-bottom: 0.5em;
 }
 
-#comicpages .intro p {
-  margin-bottom: 0.5em;
+#faq .intro p {
+  margin-bottom: 0.75em;
 }
 
-#comicpages .intro small {
+#faq .intro small {
   font-size: 0.8em;
   font-style: italic;
 }
@@ -325,19 +355,11 @@ body.darkmode #grid {
   }
 
   .tabsystem {
-    display: flex;
     flex-direction: column;
   }
 
   #storylines .storylines-frame .tabsystem {
     height: 100%;
-  }
-
-  .tabsystem .tabgroup {
-    width: 100vw;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
   }
 
   #storylines .storylines-frame {
@@ -347,7 +369,7 @@ body.darkmode #grid {
     box-sizing: border-box;
   }
 
-  #storylines .storylines-frame #grid .tabsystem .tabselectorbox {
+  #storylines .storylines-frame #home .tabsystem .tabselectorbox {
     margin-bottom: 1.25em;
   }
 
@@ -365,15 +387,15 @@ body.darkmode #grid {
     overflow: auto;
   }
 
-  #storylines .storylines-frame .tabgroup .tab:not([data-tabselect]) {
+  #storylines .storylines-frame .tabgroup .tab:not([data-tabactive]) {
     transform: translateX(-101%);
   }
 
   #storylines
     .storylines-frame
     .tabgroup
-    .tab[data-tabselect]
-    ~ .tab:not([data-tabselect]) {
+    .tab[data-tabactive]
+    ~ .tab:not([data-tabactive]) {
     transform: translateX(101%);
   }
 
@@ -383,10 +405,10 @@ body.darkmode #grid {
   }
 
   #comicslist {
-    padding-top: 0;
+    padding: 0;
   }
 
-  #comicslist .thumbbox .thumb-frame {
+  #comicslist .thumbsgrid .thumb-frame {
     width: calc(50% - 0.125em);
   }
 
@@ -400,9 +422,9 @@ body.darkmode #grid {
   height: auto;
 }
 
-.comic-image:not(:has(img)) {
+/* .comic-image:not(:has(img)) {
   height: 100vh;
-}
+} */
 
 .lds-dual-ring {
   display: inline-block;
@@ -412,7 +434,7 @@ body.darkmode #grid {
 }
 
 .lds-dual-ring:after {
-  content: " ";
+  content: ' ';
   display: block;
   width: 64px;
   height: 64px;

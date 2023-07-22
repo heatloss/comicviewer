@@ -2,7 +2,7 @@ export const header = document.createElement("template");
 header.innerHTML = `
   <header id="comicheader" class="showheader">
     <button id="togglegrid" class="headerbutton">Browse other comics</button> 
-    <h3 id="comictitle">
+    <h3 id="headertitle">
     </h3>
     <button id="toggledarkmode" class="headerbutton">Toggle dark/light mode</button> 
   </header>`;

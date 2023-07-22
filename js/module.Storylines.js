@@ -1,70 +1,57 @@
-import { getPopulatedComic } from "./module.Comicdata.js";
-import { templater } from "./module.Templater.js";
-import { render } from "./module.Router.js";
-import { buildComic } from "./module.Comicreader.js";
+import { getPopulatedComic } from './module.Comicdata.js';
+import { templater } from './module.Templater.js';
+import { render } from './module.Router.js';
+import { buildComic } from './module.Comicreader.js';
+import { initTabs } from './module.Tabsystem.js';
 
-const app = document.querySelector("#app");
-
-const selectTab = (e) => {
-  const toTabId = e.target.dataset.tabpos;
-  const selectorsAndTabs = e.target
-    .closest(".tabsystem")
-    .querySelectorAll(".tabselector > li, .tabgroup > .tab");
-  selectorsAndTabs.forEach((tabelem) => {
-    tabelem.removeAttribute("data-tabselect");
-    if (tabelem.dataset.tabpos === toTabId) {
-      tabelem.setAttribute("data-tabselect", "");
-    }
-  });
-};
+const app = document.querySelector('#app');
 
 const goToComicCover = (e) => {
   render(
-    `/comic:${e.target.dataset.storytitle}:${e.target.dataset.storyindex}`
+    `/comic:${e.target.dataset.storytitle}:${e.target.dataset.storyindex}`,
   );
   console.log(
     `Load ${e.target.dataset.storytitle} storyline #${
       parseInt(e.target.dataset.storyindex, 10) + 1
-    }`
+    }`,
   );
 };
 
 const buildStorylines = async (title) => {
-  app.querySelector("#comictitle").textContent = title;
+  app.querySelector('#headertitle').textContent = title;
 
-  const loadingmsg = templater("loading", title);
-  app.querySelector("#storylines").replaceChildren(loadingmsg);
+  const loadingmsg = templater('loading', title);
+  app.querySelector('#storylines').replaceChildren(loadingmsg);
 
   const comic = await getPopulatedComic(title);
-  const splashImage = document.createElement("img");
-  splashImage.classList.add("splash-image");
-  splashImage.src = "img/" + comic.thumb;
-  const storylineUl = document.createElement("ul");
+  const splashImage = document.createElement('img');
+  splashImage.classList.add('splash-image');
+  splashImage.src = 'img/' + comic.thumb;
+  const storylineUl = document.createElement('ul');
   comic.storylines.forEach((storyline, index) => {
-    const storylineLi = document.createElement("li");
+    const storylineLi = document.createElement('li');
     storylineLi.textContent = storyline.name;
     storylineLi.dataset.storytitle = title;
     storylineLi.dataset.storyindex = index;
-    storylineLi.addEventListener("click", goToComicCover);
+    storylineLi.addEventListener('click', goToComicCover);
     storylineUl.appendChild(storylineLi);
   });
 
-  const storylineBox = templater("storylines", [
+  const storylineBox = templater('storylines', [
     splashImage,
     comic.description,
     storylineUl,
   ]);
 
-  app.querySelector("#storylines").replaceChildren(storylineBox);
+  app.querySelector('#storylines').replaceChildren(storylineBox);
+
+  initTabs('comicintro');
 
   // render(`/comic:${title}`);
   // Now we need separate render and navigate options.
 
   // buildComic(title);
 
-  document.querySelectorAll("#storylines .tabselector").forEach((elem) => {
-    elem.addEventListener("click", selectTab);
-  });
   // COMIC ARCHIVE DATA IS NOW AVAILABLE
 
   /*
