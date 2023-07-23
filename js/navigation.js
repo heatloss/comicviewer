@@ -5,9 +5,9 @@ let state = {
 };
 
 const comicLayout = document.querySelector('#comicpages');
-const comicHeader = document.querySelector('#comicheader');
+const headernav = document.querySelector('#headernav');
 const comicGrid = document.querySelector('#home');
-const comicHeaderTitle = comicHeader.querySelector('#headertitle');
+const headernavTitle = headernav.querySelector('#headertitle');
 // const showgrid = document.querySelector('#tohome');
 // const darkMode = document.querySelector('#toggledarkmode');
 
@@ -24,11 +24,11 @@ const openGrid = (updatestate) => {
   if (updatestate) {
     state.status = 'gridopen';
     window.history.pushState(state, null, '');
-    comicHeader.classList.add('showgrid');
+    headernav.classList.add('showgrid');
   }
   else {
     comicGrid.style.transitionDuration = '0s';
-    comicHeader.classList.add('showgrid');
+    headernav.classList.add('showgrid');
     setTimeout(() => {
       comicGrid.style.transitionDuration = '';
     }, 1);
@@ -39,11 +39,11 @@ const closeGrid = (updatestate) => {
   if (updatestate) {
     state.status = 'gridclosed';
     window.history.pushState(state, null, '');
-    comicHeader.classList.remove('showgrid');
+    headernav.classList.remove('showgrid');
   }
   else {
     comicGrid.style.transitionDuration = '0s';
-    comicHeader.classList.remove('showgrid');
+    headernav.classList.remove('showgrid');
     setTimeout(() => {
       comicGrid.style.transitionDuration = '';
     }, 1);

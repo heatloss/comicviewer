@@ -10,37 +10,43 @@ img {
   display: block;
 }
 
-#comicheader {
-  width: 100%;
+#headerframe {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
   height: 3em;
   background-color: rgba(255, 255, 255, 1);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 4;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
   border-bottom: 1px solid #ddd;
   color: #222;
   transition: transform 0.125s ease-in-out;
 }
 
-#comicheader:not(.showheader) {
+#headerframe:not(.showheader) {
   transform: translateY(-101%);
 }
 
-#comicheader:not(.showhome) ~ #home {
+#headerframe:not(.showhome) ~ #home {
   transform: translateX(-101%);
 }
 
-#comicheader.showhome ~ #comicpages {
+#headerframe.showhome ~ #comicpages {
   transform: translateX(25%);
 }
 
-#comicheader:not(.showstorylines) ~ #storylines {
+#headerframe:not(.showstorylines) ~ #storylines {
   transform: translateY(-101%);
+}
+
+#headerframe #headernav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #homenav {
@@ -65,6 +71,7 @@ img {
   color: #222;
   transition: transform 0.125s ease-in-out;
   border: none;
+  border-radius: 0;
 }
 
 #homenav .footernav-btn-group .footernav-btn {
@@ -108,7 +115,7 @@ img {
   justify-content: center;
   background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 2vw;
+  border-radius: 1em;
   overflow: hidden;
 }
 
@@ -189,7 +196,6 @@ img {
   font-size: 1.1em;
   padding: 0.5em 2em;
   text-transform: uppercase;
-  font-weight: bold;
   margin-bottom: 0.5em;
   text-align: center;
   width: 100%;
@@ -208,6 +214,28 @@ img {
 
 #comicslist > .tabsystem.tabselector {
   margin-bottom: 1.25em;
+}
+
+.tabsystem.tabselector.inline > .tabselectormenu > li {
+  background-repeat: no-repeat;
+  background-size: 1.3em;
+  background-position: center center;
+  width: 2.333em;
+  height: 1.55em;
+  text-indent: -999vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0.5em 0.75em;
+}
+
+.tabsystem.tabselector.inline > .tabselectormenu > li:first-of-type {
+  /* padding-left: 1em; */
+  background-position: 1.43em center;
+}
+
+.tabsystem.tabselector.inline > .tabselectormenu > li:last-of-type {
+  /* padding-right: 1em; */
+  background-position: 1.23em center;
 }
 
 #comicslist .thumbsgrid {
@@ -287,18 +315,25 @@ img {
   margin: 4em 6vw;
 }
 
-#storylines .storylines-frame .storylines-list {
-  margin-bottom: 4em;
+#storylines .storylines-frame .storylines-hed {
+  font-size: 1.333em;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1em;
 }
 
+/* #storylines .storylines-frame .storylines-list {
+  margin-bottom: 4em;
+}
+ */
 #storylines .storylines-frame .tabgroup .tab {
   width: 50%;
-  margin: 2em 3vw;
+  margin: 2em 4.5vw 2em 3vw;
   box-sizing: border-box;
 }
 
 #storylines .storylines-frame .splash-image {
-  margin: 2em auto;
+  margin: 0 auto 2em auto;
 }
 
 #storylines .storylines-frame .storylines-desc {
@@ -308,8 +343,8 @@ img {
 }
 
 #storylines .storylines-list > ul > li {
-  font-size: 1.333em;
-  line-height: 1.25;
+  font-size: 1.25em;
+  line-height: 1.333;
   margin-bottom: 1em;
 }
 
@@ -329,6 +364,7 @@ img {
 }
 
 #faq .intro p {
+  font-size: 1.1em;
   margin-bottom: 0.75em;
 }
 
@@ -344,22 +380,18 @@ img {
 }
 
 @media only screen and (min-width: 481px) {
-  .tabsystem .mobile-only {
-    display: none;
+  .mobile-only {
+    display: none !important;
   }
 }
 
 @media only screen and (max-width: 480px) {
-  .tabsystem .desktop-only {
-    display: none;
+  .desktop-only {
+    display: none !important;
   }
 
   .tabsystem {
     flex-direction: column;
-  }
-
-  #storylines .storylines-frame .tabsystem {
-    height: 100%;
   }
 
   #storylines .storylines-frame {
@@ -367,10 +399,13 @@ img {
     padding-top: 4em;
     height: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    position: relative;
   }
 
-  #storylines .storylines-frame #home .tabsystem .tabselectorbox {
-    margin-bottom: 1.25em;
+  #storylines .storylines-frame .tabsystem.tabselector {
+    margin-bottom: 0.5em;
   }
 
   #storylines .storylines-frame .tabgroup .tab {
@@ -381,7 +416,7 @@ img {
     width: 100vw;
     height: 100%;
     margin: 0;
-    padding: 0 9vw;
+    padding: 1em 9vw 4em 9vw;
     box-sizing: border-box;
     transition: transform 0.2s cubic-bezier(0.25, 0, 0, 1);
     overflow: auto;

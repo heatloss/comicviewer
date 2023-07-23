@@ -1,21 +1,25 @@
+const header = document.createElement('template');
+header.innerHTML = `
+  <nav id="headernav">
+    <button id="tohome" class="headerbutton" data-tabhed="Browse All Comics"></button> 
+    <h3 id="headertitle"></h3>
+    <button id="toggleadjustments" class="headerbutton">Show adjustments</button>
+  </nav>
+`;
+
 const main = document.createElement('template');
 main.innerHTML = `
 <div>
-  <header id="comicheader" class="showheader">
-    <button id="tohome" class="headerbutton">Browse other comics</button> 
-    <h3 id="headertitle">
-    </h3>
-    <button id="toggleadjustments" class="headerbutton">Show adjustments</button> 
-  </header>
+  <header id="headerframe" class="showheader"></header>
   <aside id="home">
     <article class="tabsystem tabgroup" data-tabsysid="homenav">
       <section class="tab" data-tabpos="comiclist">
         <div id="comicslist">
-          <div class="tabsystem tabselector" data-tabsysid="comiclist">
+          <div class="tabsystem tabselector inline" data-tabsysid="comiclist">
             <menu class="tabselectormenu"> 
-              <li data-tabpos="alphabetic" data-tabactive>A-Z</li>
-              <li data-tabpos="updated">Updated</li>
-              <li data-tabpos="genre">Genre</li>
+              <li class="alpha" data-tabpos="alphabetic" data-tabactive>A-Z</li>
+              <li class="update" data-tabpos="updated">Updated</li>
+              <li class="genre" data-tabpos="genre">Genre</li>
             </menu>
           </div>
           <article class="tabsystem tabgroup" data-tabsysid="comicssorted">
@@ -34,7 +38,7 @@ main.innerHTML = `
         <div id="faq">
           <div class="intro">
             <h2 class="intro-hed">
-              Welcome
+              Welcome 
             </h2>
             <p>
               This is a proof-of-concept web app built on top of publicly available webcomic feeds. 
@@ -57,20 +61,20 @@ main.innerHTML = `
         </div>
       </section>
     </article>
+    <nav id="homenav" class="tabsystem tabselector" data-tabsysid="homenav">
+      <menu class="tabselectormenu footernav-btn-group"> 
+        <li class="footernav-btn" data-tabpos="comiclist" data-tabhed="Browse All Comics" id="togrid">Comics browser</li>
+        <li class="footernav-btn" data-tabpos="subscriptions" data-tabhed="Subscribed Comics" id="tosubscriptions">Subscribed comics</li>
+        <li class="footernav-btn" data-tabpos="user" data-tabhed="User Profile" id="touser">User Profile</li>
+        <li class="footernav-btn" data-tabpos="faq" data-tabhed="About Comic Viewer" id="tofaq" data-tabactive>FAQ</li>
+        <li class="footernav-btn" data-tabpos="settings" data-tabhed="Settings" id="tosettings">Settings</li>
+      </menu>
+    </nav>
   </aside>
   <div id="storylines">
   </div>
   <section id="comicpages">
   </section>
-  <nav id="homenav" class="tabsystem tabselector" data-tabsysid="homenav">
-    <menu class="tabselectormenu footernav-btn-group"> 
-      <li class="footernav-btn" data-tabpos="comiclist" data-tabhed="Browse All Comics" id="togrid">Comics browser</li>
-      <li class="footernav-btn" data-tabpos="subscriptions" data-tabhed="Subscribed Comics" id="tosubscriptions">Subscribed comics</li>
-      <li class="footernav-btn" data-tabpos="user" data-tabhed="User Profile" id="touser">User Profile</li>
-      <li class="footernav-btn" data-tabpos="faq" data-tabhed="About Comic Viewer" id="tofaq" data-tabactive>FAQ</li>
-      <li class="footernav-btn" data-tabpos="settings" data-tabhed="Settings" id="tosettings">Settings</li>
-    </menu>
-  </nav>
 </div>
 `;
 
@@ -99,10 +103,10 @@ loading.innerHTML = `
 const storylines = document.createElement('template');
 storylines.innerHTML = `
    <div class="storylines-frame">
-    <div class="tabsystem tabselector mobile-only" data-tabsysid="comicintro">
+    <div class="tabsystem tabselector inline mobile-only" data-tabsysid="comicintro">
       <menu class="tabselectormenu"> 
-        <li data-tabpos="intro" data-tabactive>Intro</li>
-        <li data-tabpos="storylines">Chapters</li>
+        <li class="intro" data-tabpos="intro" data-tabactive>Intro</li>
+        <li class="storylines" data-tabpos="storylines">Chapters</li>
       </menu>
     </div>
     <article class="tabsystem tabgroup" data-tabsysid="comicintro">
@@ -117,13 +121,13 @@ storylines.innerHTML = `
           </h4>
           <menu class="nav-btn-group"> 
             <li class="nav-btn">First page</li>
-            <li class="nav-btn tabselector mobile-only" data-tabpos="storylines">Chapters</li>
+            <li class="nav-btn tabproxy mobile-only" data-tabsysid="comicintro" data-tabpos="storylines">Chapters</li>
             <li class="nav-btn">Latest page</li>
           </menu>
         </div>
       </section>
       <section class="tab" data-tabpos="storylines">
-        <h4 class="storylines-hed desktop-only">
+        <h4 class="storylines-hed">
           Chapters: 
         </h4>
         <div class="storylines-list" data-templater>
@@ -134,6 +138,7 @@ storylines.innerHTML = `
 
 const templates = {
   main,
+  header,
   comic,
   thumb,
   loading,

@@ -56,7 +56,7 @@ const buildStorylines = async (title) => {
 
   /*
   window.scrollTo(0, 0);
-  comicHeaderTitle.textContent = '';
+  headernavTitle.textContent = '';
   const target = e.currentTarget;
 	const loadingmsg = templates.loading.content.firstElementChild.cloneNode(true);
 	loadingmsg.querySelector("#feedname").textContent = `${target.dataset.title}`;
@@ -64,7 +64,7 @@ const buildStorylines = async (title) => {
   closeSidebar(true);
 
 
-      comicHeaderTitle.textContent = title;
+      headernavTitle.textContent = title;
       const items = data.querySelectorAll('item');
       const fragment = document.createElement('div');
       fragment.classList.add('comicpagesbox');

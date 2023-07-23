@@ -2,17 +2,20 @@ import { templater } from './module.Templater.js';
 import { getAllComics } from './module.Comicdata.js';
 import { render } from './module.Router.js';
 
+const app = document.querySelector('#app');
+
 const comics = getAllComics().comics;
 
 const goToComicChapterScreen = async (e) => {
+  e.stopPropagation();
   const title = e.currentTarget.dataset.name;
   render(`/`);
   render(`/storylines:${title}`);
 };
 
-const initializeGrid = (sortstyle = 'alphabetic') => {
+const buildGrid = (sortstyle = 'alphabetic') => {
   comics.sort((a, b) => a.sortname.localeCompare(b.sortname));
-  const gridList = document.querySelector('#comicslist > .tabgroup');
+  const gridList = app.querySelector('#comicslist > .tabgroup');
   const fragment = document.createElement('div');
   fragment.classList.add('thumbsgrid');
   comics.forEach((comic) => {
@@ -28,4 +31,4 @@ const initializeGrid = (sortstyle = 'alphabetic') => {
   gridList.appendChild(fragment);
 };
 
-export { initializeGrid };
+export { buildGrid };

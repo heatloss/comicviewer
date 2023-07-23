@@ -1,6 +1,6 @@
 export const header = document.createElement("template");
 header.innerHTML = `
-  <header id="comicheader" class="showheader">
+  <header id="headernav" class="showheader">
     <button id="togglegrid" class="headerbutton">Browse other comics</button> 
     <h3 id="headertitle">
     </h3>

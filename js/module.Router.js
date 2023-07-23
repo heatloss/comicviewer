@@ -3,25 +3,27 @@ import { gotoTab } from './module.Tabsystem.js';
 import { buildStorylines } from './module.Storylines.js';
 import { buildComic } from './module.Comicreader.js';
 
+const app = document.querySelector('#app');
+
 const showGrid = (updatestate) => {
-  document.querySelector('#comicheader').classList.add('showhome');
+  app.querySelector('#headerframe').classList.add('showhome');
 };
 
 const hideGrid = (updatestate) => {
-  document.querySelector('#comicheader').classList.remove('showhome');
+  app.querySelector('#headerframe').classList.remove('showhome');
 };
 
 const showStorylines = (updatestate) => {
-  document.querySelector('#comicheader').classList.add('showstorylines');
+  app.querySelector('#headerframe').classList.add('showstorylines');
 };
 
 const hideStorylines = (updatestate) => {
-  document.querySelector('#comicheader').classList.remove('showstorylines');
+  app.querySelector('#headerframe').classList.remove('showstorylines');
 };
 
 const gotoHome = (pathdata) => {
   showGrid();
-  hideStorylines();
+  // hideStorylines();
   gotoTab('homenav', pathdata[1]);
 };
 
@@ -33,6 +35,7 @@ const gotoGrid = (updatestate) => {
 const gotoStorylines = (pathdata) => {
   hideGrid();
   showStorylines();
+  buildStorylines(pathdata[1]);
   gotoTab('comicintro', 'storylines');
   // GENERATE STORYLINE VIEW FOR THAT COMIC
 };

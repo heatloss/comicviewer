@@ -8,9 +8,9 @@ let state = {
 let pagesloaded = false;
 
 const comicLayout = document.querySelector('#comicpages');
-const comicHeader = document.querySelector('#comicheader');
+const headernav = document.querySelector('#headernav');
 const comicSidebar = document.querySelector('#sidebar');
-const comicHeaderTitle = comicHeader.querySelector('#headertitle');
+const headernavTitle = headernav.querySelector('#headertitle');
 
 const comictmpl = document.createElement('template');
 comictmpl.innerHTML = `
@@ -71,11 +71,11 @@ const openSidebar = (updatestate) => {
   if (updatestate) {
     state.status = 'sidebaropen';
     window.history.pushState(state, null, '');
-    comicHeader.classList.add('showsidebar');
+    headernav.classList.add('showsidebar');
   }
   else {
     comicSidebar.style.transitionDuration = '0s';
-    comicHeader.classList.add('showsidebar');
+    headernav.classList.add('showsidebar');
     setTimeout(() => {
       comicSidebar.style.transitionDuration = '';
     }, 1);
@@ -86,11 +86,11 @@ const closeSidebar = (updatestate) => {
   if (updatestate) {
     state.status = 'sidebarclosed';
     window.history.pushState(state, null, '');
-    comicHeader.classList.remove('showsidebar');
+    headernav.classList.remove('showsidebar');
   }
   else {
     comicSidebar.style.transitionDuration = '0s';
-    comicHeader.classList.remove('showsidebar');
+    headernav.classList.remove('showsidebar');
     setTimeout(() => {
       comicSidebar.style.transitionDuration = '';
     }, 1);
@@ -115,7 +115,7 @@ const loadComic = (e) => {
   e.preventDefault();
   e.stopPropagation();
   window.scrollTo(0, 0);
-  comicHeaderTitle.textContent = '';
+  headernavTitle.textContent = '';
   const target = e.currentTarget;
   const rssType = target.dataset.rsstype;
   const rssLink = target.dataset.url;
@@ -134,7 +134,7 @@ const loadComic = (e) => {
     .then((str) => new window.DOMParser().parseFromString(str, 'text/xml'))
     .then((data) => {
       const title = data.querySelector('channel > title').textContent;
-      comicHeaderTitle.textContent = title;
+      headernavTitle.textContent = title;
       const items = data.querySelectorAll('item');
       const fragment = document.createElement('div');
       fragment.classList.add('comicpagesbox');
@@ -226,10 +226,10 @@ let lastScrollTop = 0;
 const manageScroll = (e) => {
   var st = document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
   if (st - lastScrollTop > 10) {
-    comicHeader.classList.remove('showheader');
+    headernav.classList.remove('showheader');
   }
   else if (st - lastScrollTop < -10) {
-    comicHeader.classList.add('showheader');
+    headernav.classList.add('showheader');
   }
   lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
 };

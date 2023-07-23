@@ -1,7 +1,7 @@
 const main = document.createElement("template");
 main.innerHTML = `
   <div>
-    <header id="comicheader" class="showheader">
+    <header id="headernav" class="showheader">
       <button id="togglegrid" class="headerbutton">Browse other comics</button> 
       <h3 id="headertitle"></h3>
       <button id="toggledarkmode" class="headerbutton">Toggle dark/light mode</button> 

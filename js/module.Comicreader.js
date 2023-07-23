@@ -2,32 +2,31 @@ import {
   getComic,
   getPopulatedComic,
   getCoversForComic,
-} from "./module.Comicdata.js";
-import { templater } from "./module.Templater.js";
+} from './module.Comicdata.js';
+import { templater } from './module.Templater.js';
 import {
   getPagesFromArchive,
   getImageFromPage,
-} from "./module.Archiveparser.js";
+} from './module.Archiveparser.js';
 
-const app = document.querySelector("#app");
+const app = document.querySelector('#app');
 
 const buildComic = async (title, storyNum = 0, pageNum = 0) => {
   const selectedComic = getComic(title);
   const comicURLToLoad = selectedComic.storylines[storyNum].pages[pageNum].href;
-  const comicImage = document.createElement("img");
+  const comicImage = document.createElement('img');
   comicImage.src = await getImageFromPage(comicURLToLoad);
-
-  const comicBox = document.createElement("div");
-  comicBox.classList.add("comicpagesbox");
-  const comicPage = templater("comic", comicImage);
+  const comicBox = document.createElement('div');
+  comicBox.classList.add('comicpagesbox');
+  const comicPage = templater('comic', comicImage);
   comicBox.appendChild(comicPage);
-  app.querySelector("#comicpages").replaceChildren(comicBox);
+  app.querySelector('#comicpages').replaceChildren(comicBox);
 
   // COMIC ARCHIVE DATA IS NOW AVAILABLE
 
   /*
   window.scrollTo(0, 0);
-  comicHeaderTitle.textContent = '';
+  headernavTitle.textContent = '';
   const target = e.currentTarget;
 	const loadingmsg = templates.loading.content.firstElementChild.cloneNode(true);
 	loadingmsg.querySelector("#feedname").textContent = `${target.dataset.title}`;
@@ -35,7 +34,7 @@ const buildComic = async (title, storyNum = 0, pageNum = 0) => {
   closeSidebar(true);
 
 
-      comicHeaderTitle.textContent = title;
+      headernavTitle.textContent = title;
       const items = data.querySelectorAll('item');
       const fragment = document.createElement('div');
       fragment.classList.add('comicpagesbox');
