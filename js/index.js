@@ -2,7 +2,6 @@
 import comics from './comics.js';
 import { templater } from './module.Templater.js';
 import { initTabs } from './module.Tabsystem.js';
-
 import { buildGrid } from './module.Grid.js';
 import { buildHeader } from './module.Header.js';
 
@@ -23,7 +22,7 @@ async function run() {
   buildHeader();
 
   initTabs('homenav');
-  render('/home:faq'); // Navigates to Home:FAQ
+  render('/intro'); // Navigates to Home:FAQ
 }
 
 run().then((data) => {

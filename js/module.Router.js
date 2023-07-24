@@ -1,48 +1,29 @@
 import { templater } from './module.Templater.js';
+import { gotoZone } from './module.Zonesystem.js';
 import { gotoTab } from './module.Tabsystem.js';
 import { buildStorylines } from './module.Storylines.js';
 import { buildComic } from './module.Comicreader.js';
 
 const app = document.querySelector('#app');
 
-const showGrid = (updatestate) => {
-  app.querySelector('#headerframe').classList.add('showhome');
-};
-
-const hideGrid = (updatestate) => {
-  app.querySelector('#headerframe').classList.remove('showhome');
-};
-
-const showStorylines = (updatestate) => {
-  app.querySelector('#headerframe').classList.add('showstorylines');
-};
-
-const hideStorylines = (updatestate) => {
-  app.querySelector('#headerframe').classList.remove('showstorylines');
-};
-
 const gotoHome = (pathdata) => {
-  showGrid();
-  // hideStorylines();
+  gotoZone('home');
   gotoTab('homenav', pathdata[1]);
 };
 
-const gotoGrid = (updatestate) => {
-  // build the grid?
-  showGrid();
+const gotoIntro = (updatestate) => {
+  gotoZone('rack', 'Comic Viewer');
 };
 
-const gotoStorylines = (pathdata) => {
-  hideGrid();
-  showStorylines();
+const gotoRack = (pathdata) => {
+  gotoZone('rack');
   buildStorylines(pathdata[1]);
   gotoTab('comicintro', 'storylines');
   // GENERATE STORYLINE VIEW FOR THAT COMIC
 };
 
 const gotoComic = (pathdata) => {
-  hideGrid();
-  hideStorylines();
+  gotoZone('comic');
   // if no pathdata, just navigate
   buildComic(pathdata[1], pathdata[2], pathdata[3]);
   // GENERATE COMIC VIEW FOR THAT COMIC, STORYLINE & PAGE
@@ -51,11 +32,13 @@ const gotoComic = (pathdata) => {
 const routes = {
   '/': gotoHome,
   '/home': gotoHome,
-  '/storylines': gotoStorylines,
+  '/intro': gotoIntro,
+  '/rack': gotoRack,
   '/comic': gotoComic,
 };
 
 const render = (path) => {
+  console.log(path);
   const pathdata = path.split(':');
   routes[pathdata[0]](pathdata);
 };

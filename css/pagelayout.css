@@ -30,18 +30,6 @@ img {
   transform: translateY(-101%);
 }
 
-#headerframe:not(.showhome) ~ #home {
-  transform: translateX(-101%);
-}
-
-#headerframe.showhome ~ #comicpages {
-  transform: translateX(25%);
-}
-
-#headerframe:not(.showstorylines) ~ #storylines {
-  transform: translateY(-101%);
-}
-
 #headerframe #headernav {
   display: flex;
   flex-direction: row;
@@ -86,11 +74,7 @@ img {
   background-color: transparent;
 }
 
-#homenav .footernav-btn-group .footernav-btn[data-tabactive] {
-  background-color: #ddd;
-}
-
-#home {
+/* #home {
   position: fixed;
   top: 0;
   left: 0;
@@ -101,75 +85,7 @@ img {
   transition: transform 0.25s cubic-bezier(1, 0, 0.67, 1);
   color: #222;
   overflow: auto;
-}
-
-.tabsystem.tabselector {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.tabsystem.tabselector > .tabselectormenu {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 1em;
-  overflow: hidden;
-}
-
-.tabsystem.tabselector > .tabselectormenu > li {
-  font-size: 1.1em;
-  padding: 0.5em 1.5em;
-  text-transform: uppercase;
-  font-weight: bold;
-  background-color: #ddd;
-  color: #444;
-}
-
-.tabsystem.tabselector > .tabselectormenu > li + li {
-  border-left: 1px solid #ccc;
-}
-
-.tabsystem.tabselector > .tabselectormenu > li[data-tabactive] {
-  background-color: #fff;
-  color: #000;
-}
-
-.tabsystem.tabgroup {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-#home > .tabsystem.tabgroup > .tab {
-  position: absolute;
-  top: 0;
-  left: 0;
-  flex: none;
-  width: 100vw;
-  height: 100%;
-  margin: 0;
-  padding: 4em 0 0 0;
-  box-sizing: border-box;
-  transition: transform 0.2s cubic-bezier(0.25, 0, 0, 1);
-  overflow: auto;
-}
-
-#home > .tabsystem.tabgroup > .tab:not([data-tabactive]) {
-  transform: translateX(-101%);
-}
-
-#home
-  > .tabsystem.tabgroup
-  > .tab[data-tabactive]
-  ~ .tab:not([data-tabactive]) {
-  transform: translateX(101%);
-}
+} */
 
 .nav-btn-box {
   display: flex;
@@ -180,7 +96,6 @@ img {
 .nav-btn-box .nav-btn-hed {
   font-size: 1.2em;
   font-weight: bold;
-  margin-bottom: 0.5em;
 }
 
 .nav-btn-group {
@@ -196,7 +111,7 @@ img {
   font-size: 1.1em;
   padding: 0.5em 2em;
   text-transform: uppercase;
-  margin-bottom: 0.5em;
+  margin-top: 0.5em;
   text-align: center;
   width: 100%;
 }
@@ -210,32 +125,6 @@ img {
 
 #comicslist {
   padding: 1em 0.5em 4.5em 0.5em;
-}
-
-#comicslist > .tabsystem.tabselector {
-  margin-bottom: 1.25em;
-}
-
-.tabsystem.tabselector.inline > .tabselectormenu > li {
-  background-repeat: no-repeat;
-  background-size: 1.3em;
-  background-position: center center;
-  width: 2.333em;
-  height: 1.55em;
-  text-indent: -999vw;
-  overflow: hidden;
-  margin: 0;
-  padding: 0.5em 0.75em;
-}
-
-.tabsystem.tabselector.inline > .tabselectormenu > li:first-of-type {
-  /* padding-left: 1em; */
-  background-position: 1.43em center;
-}
-
-.tabsystem.tabselector.inline > .tabselectormenu > li:last-of-type {
-  /* padding-right: 1em; */
-  background-position: 1.23em center;
 }
 
 #comicslist .thumbsgrid {
@@ -288,7 +177,7 @@ img {
   margin: 0 1em;
 }
 
-#storylines {
+/* #rack {
   position: fixed;
   top: 0;
   left: 0;
@@ -300,49 +189,39 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
 
-#storylines .loading {
+#rack .loading {
   margin: 7em 2em;
   text-align: center;
 }
 
-#storylines .loading #feedname {
+#rack .loading #feedname {
   font-style: italic;
 }
 
-#storylines .storylines-frame {
+#rack .storylines-frame {
   margin: 4em 6vw;
 }
 
-#storylines .storylines-frame .storylines-hed {
+#rack .storylines-frame .storylines-hed {
   font-size: 1.333em;
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 1em;
 }
 
-/* #storylines .storylines-frame .storylines-list {
-  margin-bottom: 4em;
-}
- */
-#storylines .storylines-frame .tabgroup .tab {
-  width: 50%;
-  margin: 2em 4.5vw 2em 3vw;
-  box-sizing: border-box;
-}
-
-#storylines .storylines-frame .splash-image {
+#rack .storylines-frame .splash-image {
   margin: 0 auto 2em auto;
 }
 
-#storylines .storylines-frame .storylines-desc {
+#rack .storylines-frame .storylines-desc {
   font-size: 1.05em;
   font-style: italic;
   margin-bottom: 1.5em;
 }
 
-#storylines .storylines-list > ul > li {
+#rack .storylines-list > ul > li {
   font-size: 1.25em;
   line-height: 1.333;
   margin-bottom: 1em;
@@ -352,23 +231,24 @@ img {
   transition: transform 0.25s cubic-bezier(1, 0, 0.67, 1);
 }
 
-#faq .intro {
-  margin: 1em 10vw;
+#rack > .intro {
+  margin: 5em 10vw;
 }
 
-#faq .intro .intro-hed,
+#home .section-hed,
+#rack > .intro .intro-hed,
 #comicpages .loading .loading-hed {
   font-size: 1.333em;
   font-weight: bold;
   margin-bottom: 0.5em;
 }
 
-#faq .intro p {
+#rack > .intro p {
   font-size: 1.1em;
   margin-bottom: 0.75em;
 }
 
-#faq .intro small {
+#rack > .intro small {
   font-size: 0.8em;
   font-style: italic;
 }
@@ -390,11 +270,7 @@ img {
     display: none !important;
   }
 
-  .tabsystem {
-    flex-direction: column;
-  }
-
-  #storylines .storylines-frame {
+  #rack .storylines-frame {
     margin: 0;
     padding-top: 4em;
     height: 100%;
@@ -404,37 +280,7 @@ img {
     position: relative;
   }
 
-  #storylines .storylines-frame .tabsystem.tabselector {
-    margin-bottom: 0.5em;
-  }
-
-  #storylines .storylines-frame .tabgroup .tab {
-    position: absolute;
-    top: 0;
-    left: 0;
-    flex: none;
-    width: 100vw;
-    height: 100%;
-    margin: 0;
-    padding: 1em 9vw 4em 9vw;
-    box-sizing: border-box;
-    transition: transform 0.2s cubic-bezier(0.25, 0, 0, 1);
-    overflow: auto;
-  }
-
-  #storylines .storylines-frame .tabgroup .tab:not([data-tabactive]) {
-    transform: translateX(-101%);
-  }
-
-  #storylines
-    .storylines-frame
-    .tabgroup
-    .tab[data-tabactive]
-    ~ .tab:not([data-tabactive]) {
-    transform: translateX(101%);
-  }
-
-  #storylines .storylines-frame .splash-image {
+  #rack .storylines-frame .splash-image {
     width: 100%;
     margin: 0 0 1em 0;
   }

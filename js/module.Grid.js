@@ -6,15 +6,17 @@ const app = document.querySelector('#app');
 
 const comics = getAllComics().comics;
 
+const sortAlphabetic = (a, b) => a.sortname.localeCompare(b.sortname);
+const sortRandom = (a, b) => 0.5 - Math.random();
+
 const goToComicChapterScreen = async (e) => {
   e.stopPropagation();
   const title = e.currentTarget.dataset.name;
-  render(`/`);
-  render(`/storylines:${title}`);
+  render(`/rack:${title}`);
 };
 
-const buildGrid = (sortstyle = 'alphabetic') => {
-  comics.sort((a, b) => a.sortname.localeCompare(b.sortname));
+const buildGrid = (sortstyle = 'random') => {
+  comics.sort(sortRandom);
   const gridList = app.querySelector('#comicslist > .tabgroup');
   const fragment = document.createElement('div');
   fragment.classList.add('thumbsgrid');

@@ -14,7 +14,6 @@ const toggleAdjustments = () => {
 const buildHeader = (sortstyle = 'alphabetic') => {
   const headerElem = app.querySelector('#headerframe');
   const headerTmpl = templater('header');
-  console.log(headerTmpl);
   headerTmpl.querySelector('#tohome').addEventListener('click', routeToHome);
   headerElem.appendChild(headerTmpl);
 };

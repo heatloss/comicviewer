@@ -17,11 +17,15 @@ const goToComicCover = (e) => {
   );
 };
 
+const handleExternalLink = (e) => {
+  console.log(e.target);
+};
+
 const buildStorylines = async (title) => {
   app.querySelector('#headertitle').textContent = title;
 
   const loadingmsg = templater('loading', title);
-  app.querySelector('#storylines').replaceChildren(loadingmsg);
+  app.querySelector('#rack').replaceChildren(loadingmsg);
 
   const comic = await getPopulatedComic(title);
   const splashImage = document.createElement('img');
@@ -36,14 +40,22 @@ const buildStorylines = async (title) => {
     storylineLi.addEventListener('click', goToComicCover);
     storylineUl.appendChild(storylineLi);
   });
+  const linksUl = document.createElement('ul');
+  comic.links.forEach((link, index) => {
+    const externalLi = document.createElement('li');
+    externalLi.innerHTML = `<a class="external-link" href="${link.linkurl}">${link.linktext}</a>`;
+    externalLi.addEventListener('click', handleExternalLink);
+    linksUl.appendChild(externalLi);
+  });
 
   const storylineBox = templater('storylines', [
     splashImage,
     comic.description,
     storylineUl,
+    linksUl,
   ]);
 
-  app.querySelector('#storylines').replaceChildren(storylineBox);
+  app.querySelector('#rack').replaceChildren(storylineBox);
 
   initTabs('comicintro');
 

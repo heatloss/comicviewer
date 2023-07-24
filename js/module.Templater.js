@@ -2,16 +2,16 @@ const header = document.createElement('template');
 header.innerHTML = `
   <nav id="headernav">
     <button id="tohome" class="headerbutton" data-tabhed="Browse All Comics"></button> 
-    <h3 id="headertitle"></h3>
+    <button id="headertitle"></button>
     <button id="toggleadjustments" class="headerbutton">Show adjustments</button>
   </nav>
 `;
 
 const main = document.createElement('template');
 main.innerHTML = `
-<div>
+<div class="zonesFrame">
   <header id="headerframe" class="showheader"></header>
-  <aside id="home">
+  <main id="home" data-zoneid="home">
     <article class="tabsystem tabgroup" data-tabsysid="homenav">
       <section class="tab" data-tabpos="comiclist">
         <div id="comicslist">
@@ -28,52 +28,66 @@ main.innerHTML = `
       </section>
       <section class="tab" data-tabpos="subscriptions">
         <div id="subscriptions">
+        <h2 class="section-hed">
+          Subscriptions 
+        </h2>
+
         </div>
       </section>
       <section class="tab" data-tabpos="user">
         <div id="user">
+        <h2 class="section-hed">
+          User Profile 
+        </h2>
         </div>
       </section>
       <section class="tab" data-tabpos="faq">
         <div id="faq">
-          <div class="intro">
-            <h2 class="intro-hed">
-              Welcome 
-            </h2>
-            <p>
-              This is a proof-of-concept web app built on top of publicly available webcomic feeds. 
-            </p>
-            <p>
-              It is not under active development, as we have no control over the app's contents. 
-            </p>
-            <p>
-              Still, it works pretty okay, considering these comics were never formatted for phones. (Don't forget, you can turn it sideways…) 
-            </p>
-            <p>
-              Enjoy! 
-            </p>
-            <small> To get started, click the menu icon in the top left. </small> 
-          </div>
+        <h2 class="section-hed">
+          Frequently Asked Questions 
+        </h2>
         </div>
       </section>
       <section class="tab" data-tabpos="settings">
         <div id="settings">
+        <h2 class="section-hed">
+          Settings 
+        </h2>
         </div>
       </section>
     </article>
     <nav id="homenav" class="tabsystem tabselector" data-tabsysid="homenav">
       <menu class="tabselectormenu footernav-btn-group"> 
-        <li class="footernav-btn" data-tabpos="comiclist" data-tabhed="Browse All Comics" id="togrid">Comics browser</li>
-        <li class="footernav-btn" data-tabpos="subscriptions" data-tabhed="Subscribed Comics" id="tosubscriptions">Subscribed comics</li>
-        <li class="footernav-btn" data-tabpos="user" data-tabhed="User Profile" id="touser">User Profile</li>
-        <li class="footernav-btn" data-tabpos="faq" data-tabhed="About Comic Viewer" id="tofaq" data-tabactive>FAQ</li>
-        <li class="footernav-btn" data-tabpos="settings" data-tabhed="Settings" id="tosettings">Settings</li>
+        <li id="togrid" class="footernav-btn" data-tabpos="comiclist" data-tabhed="Browse All Comics">Comics browser</li>
+        <li id="tosubscriptions" class="footernav-btn" data-tabpos="subscriptions" data-tabhed="Subscribed Comics">Subscribed comics</li>
+        <li id="touser" class="footernav-btn" data-tabpos="user" data-tabhed="User Profile">User Profile</li>
+        <li id="tofaq" class="footernav-btn" data-tabpos="faq" data-tabhed="About Comic Viewer">FAQ</li>
+        <li id="tosettings" class="footernav-btn" data-tabpos="settings" data-tabhed="Settings">Settings</li>
       </menu>
     </nav>
-  </aside>
-  <div id="storylines">
+  </main>
+  <div id="rack" data-zoneid="rack">
+    <div class="intro">
+      <h2 class="intro-hed">
+        Welcome! 
+      </h2>
+      <p>
+        This is a prototype web app built on top of publicly available webcomic feeds. 
+      </p>
+      <p>
+        It is not under active development, as we have no control over the app's contents. 
+      </p>
+      <p>
+        The app's interface references several features that could only exist alongside a comprehensive user-account system, 
+        a thing that this prototype does not have the resources to include. But we did our best to fake it, in places.
+      </p>
+      <p>
+        Enjoy! 
+      </p>
+      <small> To get started, click the home icon in the top left. </small> 
+    </div>
   </div>
-  <section id="comicpages">
+  <section id="comicpages" data-zoneid="comic">
   </section>
 </div>
 `;
@@ -102,39 +116,57 @@ loading.innerHTML = `
 
 const storylines = document.createElement('template');
 storylines.innerHTML = `
-   <div class="storylines-frame">
-    <div class="tabsystem tabselector inline mobile-only" data-tabsysid="comicintro">
-      <menu class="tabselectormenu"> 
-        <li class="intro" data-tabpos="intro" data-tabactive>Intro</li>
-        <li class="storylines" data-tabpos="storylines">Chapters</li>
-      </menu>
-    </div>
-    <article class="tabsystem tabgroup" data-tabsysid="comicintro">
-      <section class="tab" data-tabpos="intro" data-tabactive>
-        <div class="splash-image-frame" data-templater>
-        </div>
-        <h3 class="storylines-desc" data-templater>
-        </h3>
-        <div class="nav-btn-box">
-          <h4 class="nav-btn-hed">
-            Start reading: 
+     <div class="storylines-frame">
+      <div class="tabsystem tabselector inline mobile-only" data-tabsysid="comicintro">
+        <menu class="tabselectormenu"> 
+          <li class="intro" data-tabpos="intro" data-tabactive>Intro</li>
+          <li class="covers" data-tabpos="covers">Chapter covers</li>
+          <li class="share" data-tabpos="share">About this comic</li>
+        </menu>
+      </div>
+      <article class="tabsystem tabgroup" data-tabsysid="comicintro">
+        <section class="tab" data-tabpos="intro" data-tabactive>
+          <div class="splash-image-frame" data-templater>
+          </div>
+          <h3 class="storylines-desc" data-templater>
+          </h3>
+          <div class="nav-btn-box">
+            <h4 class="nav-btn-hed">
+              Start reading: 
+            </h4>
+            <menu class="nav-btn-group"> 
+              <li class="nav-btn">First page</li>
+              <li class="nav-btn tabproxy mobile-only" data-tabsysid="comicintro" data-tabpos="storylines">Chapters</li>
+              <li class="nav-btn">Latest page</li>
+            </menu>
+          </div>
+        </section>
+        <section class="tab" data-tabpos="covers">
+          <h4 class="storylines-hed">
+            Chapters: 
           </h4>
-          <menu class="nav-btn-group"> 
-            <li class="nav-btn">First page</li>
-            <li class="nav-btn tabproxy mobile-only" data-tabsysid="comicintro" data-tabpos="storylines">Chapters</li>
-            <li class="nav-btn">Latest page</li>
-          </menu>
-        </div>
-      </section>
-      <section class="tab" data-tabpos="storylines">
-        <h4 class="storylines-hed">
-          Chapters: 
-        </h4>
-        <div class="storylines-list" data-templater>
-        </div>
-      </section>
-    </article>
-  </div>`;
+          <div class="storylines-list" data-templater>
+          </div>
+        </section>
+        <section class="tab" data-tabpos="share">
+          <h4 class="storylines-hed">
+            Links: 
+          </h4>
+          <div class="link-list" data-templater>
+          </div>
+        </section>
+      </article>
+    </div>`;
+
+const storylinecover = document.createElement('template');
+storylinecover.innerHTML = `
+  <li>
+    <figure class="storyline-cover">
+      <span class="cover-image-frame" data-templater></span>
+      <figcaption class="cover-title" data-templater></figcaption>
+    </figure>;
+  </li>
+       `;
 
 const templates = {
   main,
@@ -143,6 +175,7 @@ const templates = {
   thumb,
   loading,
   storylines,
+  storylinecover,
 };
 
 const templater = (templatename, content) => {
