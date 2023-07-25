@@ -7,12 +7,11 @@ import { initTabs } from './module.Tabsystem.js';
 const app = document.querySelector('#app');
 
 const goToComicCover = (e) => {
-  render(
-    `/comic:${e.target.dataset.storytitle}:${e.target.dataset.storyindex}`
-  );
+  const storylineData = e.currentTarget.dataset;
+  render(`/comic:${storylineData.storytitle}:${storylineData.storyindex}`);
   console.log(
-    `Load ${e.target.dataset.storytitle} storyline #${
-      parseInt(e.target.dataset.storyindex, 10) + 1
+    `Load ${storylineData.storytitle} storyline #${
+      parseInt(storylineData.storyindex, 10) + 1
     }`
   );
 };
@@ -28,13 +27,13 @@ const buildStorylines = async (title) => {
   app.querySelector('#rack').replaceChildren(loadingmsg);
 
   const comic = await getPopulatedComic(title);
-  const comicwithcovers = await getCoversForComic(title);
-  // console.log(comicwithcovers);
+  const storylineArray = await getCoversForComic(title);
+
   const splashImage = document.createElement('img');
   splashImage.classList.add('splash-image');
   splashImage.src = 'img/' + comic.thumb;
   const storylineUl = document.createElement('ul');
-  comic.storylines.forEach((storyline, index) => {
+  storylineArray.forEach((storyline, index) => {
     const coverImage = document.createElement('img');
     coverImage.classList.add('cover-image');
     coverImage.src = storyline.pages[0].img?.full;
@@ -42,6 +41,9 @@ const buildStorylines = async (title) => {
       coverImage,
       storyline.name,
     ]);
+    storylineBox.dataset.storytitle = title;
+    storylineBox.dataset.storyindex = index;
+    storylineBox.addEventListener('click', goToComicCover);
     storylineUl.appendChild(storylineBox);
   });
   const linksUl = document.createElement('ul');

@@ -19,18 +19,18 @@ const storeComicData = () => {
 };
 
 const populateAllStorylineCovers = async (title) => {
-  const comicWithCoverImages = await Promise.all(
+  const storylinesWithCoverImages = await Promise.all(
     getComic(title).storylines.map(async (storyline) => {
       const imgSrc =
         storyline.pages[0].img.full ||
         (await getImageFromPage(storyline.pages[0].href)); // Don't fetch if image is already present
       storyline.pages[0].img.full = imgSrc;
+      return storyline;
     })
   );
   storeComicData();
-  console.log(comicWithCoverImages);
   console.log(comicData);
-  return comicWithCoverImages;
+  return storylinesWithCoverImages; // T
 };
 
 const populateAllImagesInStoryline = async (title, storylinenum) => {
@@ -38,6 +38,7 @@ const populateAllImagesInStoryline = async (title, storylinenum) => {
     getComic(title).storylines[storylinenum].pages.map(async (pageObj) => {
       const imgSrc = pageObj.img.full || (await getImageFromPage(pageObj.href)); // Don't fetch if image is already present
       pageObj.img.full = imgSrc;
+      return pageObj;
     })
   );
   storeComicData();
@@ -62,9 +63,9 @@ const getPopulatedComic = async (title) => {
 };
 
 const getCoversForComic = async (title) => {
-  const comicWithCovers = await populateAllStorylineCovers(title);
+  const storylinesWithCovers = await populateAllStorylineCovers(title);
   // console.log(comicWithCovers);
-  return comicWithCovers;
+  return storylinesWithCovers;
 };
 
 const getAllComics = () => {
