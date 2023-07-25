@@ -32,20 +32,24 @@ const buildStorylines = async (title) => {
   const splashImage = document.createElement('img');
   splashImage.classList.add('splash-image');
   splashImage.src = 'img/' + comic.thumb;
-  const storylineUl = document.createElement('ul');
+
+  const coversList = document.createElement('ul');
+  coversList.classList.add('covers-list');
   storylineArray.forEach((storyline, index) => {
     const coverImage = document.createElement('img');
     coverImage.classList.add('cover-image');
     coverImage.src = storyline.pages[0].img?.full;
-    const storylineBox = templater('storylinecover', [
-      coverImage,
-      storyline.name,
-    ]);
-    storylineBox.dataset.storytitle = title;
-    storylineBox.dataset.storyindex = index;
-    storylineBox.addEventListener('click', goToComicCover);
-    storylineUl.appendChild(storylineBox);
+    const coverLi = templater(
+      'storylinecover',
+      [coverImage, storyline.name],
+      'cover-list-item'
+    );
+    coverLi.dataset.storytitle = title;
+    coverLi.dataset.storyindex = index;
+    coverLi.addEventListener('click', goToComicCover);
+    coversList.appendChild(coverLi);
   });
+
   const linksUl = document.createElement('ul');
   comic.links.forEach((link, index) => {
     const externalLi = document.createElement('li');
@@ -59,7 +63,7 @@ const buildStorylines = async (title) => {
   const storylineBox = templater('storylines', [
     splashImage,
     comic.description,
-    storylineUl,
+    coversList,
     linksUl,
   ]);
 

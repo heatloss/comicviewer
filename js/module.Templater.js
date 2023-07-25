@@ -121,34 +121,37 @@ storylines.innerHTML = `
         <menu class="tabselectormenu"> 
           <li class="intro" data-tabpos="intro" data-tabactive>Intro</li>
           <li class="covers" data-tabpos="covers">Chapter covers</li>
-          <li class="share" data-tabpos="share">About this comic</li>
+          <li class="share" data-tabpos="links">About this comic</li>
         </menu>
       </div>
       <article class="tabsystem tabgroup" data-tabsysid="comicintro">
         <section class="tab" data-tabpos="intro" data-tabactive>
+          <h4 class="storylines-hed">
+            About the comic: 
+          </h4>
           <div class="splash-image-frame" data-templater>
           </div>
           <h3 class="storylines-desc" data-templater>
           </h3>
           <div class="nav-btn-box">
-            <h4 class="nav-btn-hed">
+            <h5 class="nav-btn-hed">
               Start reading: 
-            </h4>
+            </h5>
             <menu class="nav-btn-group"> 
-              <li class="nav-btn">First page</li>
-              <li class="nav-btn tabproxy mobile-only" data-tabsysid="comicintro" data-tabpos="covers">Chapters</li>
-              <li class="nav-btn">Latest page</li>
+              <li class="nav-btn" data-btntype="forward">First page</li>
+              <li class="nav-btn tabproxy mobile-only" data-btntype="forward" data-tabsysid="comicintro" data-tabpos="covers">Covers</li>
+              <li class="nav-btn" data-btntype="forward">Latest page</li>
             </menu>
           </div>
         </section>
         <section class="tab" data-tabpos="covers">
           <h4 class="storylines-hed">
-            Chapters: 
+            Covers: 
           </h4>
           <div class="storylines-list" data-templater>
           </div>
         </section>
-        <section class="tab" data-tabpos="share">
+        <section class="tab" data-tabpos="links">
           <h4 class="storylines-hed">
             Links: 
           </h4>
@@ -177,7 +180,7 @@ const templates = {
   storylinecover,
 };
 
-const templater = (templatename, content) => {
+const templater = (templatename, content, classnames) => {
   const tmpl =
     templates[templatename].content.firstElementChild.cloneNode(true);
   if (content) {
@@ -190,6 +193,10 @@ const templater = (templatename, content) => {
       }
     });
   }
+  if (classnames) {
+    tmpl.classList.add(classnames);
+  }
+
   return tmpl;
 };
 

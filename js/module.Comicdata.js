@@ -29,7 +29,6 @@ const populateAllStorylineCovers = async (title) => {
     })
   );
   storeComicData();
-  console.log(comicData);
   return storylinesWithCoverImages; // T
 };
 
@@ -55,16 +54,18 @@ const getComic = (title) => {
 
 const getPopulatedComic = async (title) => {
   const selectedComic = getComic(title);
-  const archiveAndChapters = await getPagesFromArchive(
-    selectedComic.archiveurl
-  );
-  Object.assign(selectedComic, archiveAndChapters);
+  if (!selectedComic.storylines) {
+    // TODO: Find a better way to determine whether to skip the Archive parsing process.
+    const archiveAndChapters = await getPagesFromArchive(
+      selectedComic.archiveurl
+    );
+    Object.assign(selectedComic, archiveAndChapters);
+  }
   return selectedComic;
 };
 
 const getCoversForComic = async (title) => {
   const storylinesWithCovers = await populateAllStorylineCovers(title);
-  // console.log(comicWithCovers);
   return storylinesWithCovers;
 };
 
