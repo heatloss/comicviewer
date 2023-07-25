@@ -136,7 +136,7 @@ storylines.innerHTML = `
             </h4>
             <menu class="nav-btn-group"> 
               <li class="nav-btn">First page</li>
-              <li class="nav-btn tabproxy mobile-only" data-tabsysid="comicintro" data-tabpos="storylines">Chapters</li>
+              <li class="nav-btn tabproxy mobile-only" data-tabsysid="comicintro" data-tabpos="covers">Chapters</li>
               <li class="nav-btn">Latest page</li>
             </menu>
           </div>
@@ -162,11 +162,10 @@ const storylinecover = document.createElement('template');
 storylinecover.innerHTML = `
   <li>
     <figure class="storyline-cover">
-      <span class="cover-image-frame" data-templater></span>
+      <div class="cover-image-frame" data-templater></div>
       <figcaption class="cover-title" data-templater></figcaption>
-    </figure>;
-  </li>
-       `;
+    </figure>
+  </li>`;
 
 const templates = {
   main,

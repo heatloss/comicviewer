@@ -6,8 +6,10 @@ const app = document.querySelector('#app');
 
 const comics = getAllComics().comics;
 
-const sortAlphabetic = (a, b) => a.sortname.localeCompare(b.sortname);
-const sortRandom = (a, b) => 0.5 - Math.random();
+const sortingMethods = {
+  alpha: (a, b) => a.sortname.localeCompare(b.sortname),
+  shuffle: (a, b) => 0.5 - Math.random(),
+};
 
 const goToComicChapterScreen = async (e) => {
   e.stopPropagation();
@@ -15,8 +17,8 @@ const goToComicChapterScreen = async (e) => {
   render(`/rack:${title}`);
 };
 
-const buildGrid = (sortstyle = 'random') => {
-  comics.sort(sortRandom);
+const buildGrid = (style = 'shuffle') => {
+  comics.sort(sortingMethods[style]);
   const gridList = app.querySelector('#comicslist > .tabgroup');
   const fragment = document.createElement('div');
   fragment.classList.add('thumbsgrid');

@@ -80,7 +80,6 @@ export default {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/phantomarine',
         },
-        { linktext: 'Itch.io', linkurl: 'https://scottycomics.itch.io' },
         { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/phantomarine' },
         { linktext: 'Instagram', linkurl: 'http://www.patreon.com/skullamity' },
         { linktext: 'Tumblr', linkurl: 'https://phantomarine.tumblr.com/' },
@@ -150,7 +149,6 @@ export default {
         },
         { linktext: 'Tumblr', linkurl: 'https://allidrawscomics.tumblr.com/' },
         { linktext: 'Discord', linkurl: 'https://discord.gg/q3CmJux' },
-        { linktext: 'Patreon', linkurl: 'http://www.patreon.com/skullamity' },
       ],
     },
     {
@@ -203,8 +201,8 @@ export default {
       genres: ['action-adventure', 'drama', 'sci-fi'],
       links: [
         { linktext: 'Patreon', linkurl: 'https://www.patreon.com/grackling' },
-        { linktext: 'Portfolio', linkurl: 'http://www.longlostlorian.com/' },
         { linktext: 'Tumblr', linkurl: 'https://longlostlorian.tumblr.com/' },
+        { linktext: 'Portfolio', linkurl: 'http://www.longlostlorian.com/' },
       ],
     },
     {
@@ -260,7 +258,14 @@ export default {
       thumb: 'hubbox_INBLOOD.png',
       genres: ['action-adventure', 'fantasy', 'historical-fiction', 'romance'],
       links: [
-        { linktext: 'Patreon', linkurl: 'http://www.patreon.com/skullamity' },
+        { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/captainmera' },
+        { linktext: 'Instagram', linkurl: 'https://instagram.com/captainmera' },
+        {
+          linktext: 'YouTube',
+          linkurl: 'https://www.youtube.com/channel/UCqJDSDhMgIV_o3EgiIoykGw',
+        },
+        { linktext: 'Tumblr', linkurl: 'https://captainmera.tumblr.com/' },
+        { linktext: 'Twitch', linkurl: 'https://www.twitch.tv/vikingmera' },
       ],
     },
     {
@@ -270,7 +275,11 @@ export default {
       thumb: 'hubbox_SOLSTORIA.png',
       genres: ['action-adventure', 'fantasy'],
       links: [
-        { linktext: 'Patreon', linkurl: 'http://www.patreon.com/skullamity' },
+        {
+          linktext: 'Store',
+          linkurl: 'https://hivemill.com/collections/solstoria',
+        },
+        { linktext: 'Tumblr', linkurl: 'https://charmwitch.tumblr.com/' },
       ],
     },
     {
@@ -280,7 +289,22 @@ export default {
       thumb: 'hubbox_STARHAMMER.png',
       genres: ['action-adventure', 'slice-of-life', 'superhero'],
       links: [
-        { linktext: 'Patreon', linkurl: 'http://www.patreon.com/skullamity' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/starteamgo',
+        },
+        {
+          linktext: 'DeviantArt',
+          linkurl: 'https://www.deviantart.com/aerostarmonk',
+        },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://www.tumblr.com/blog/sketchbot9000',
+        },
+        {
+          linktext: 'Portfolio',
+          linkurl: 'https://harrybogosian.portfolio.site',
+        },
       ],
     },
     {
@@ -290,7 +314,15 @@ export default {
       thumb: 'hubbox_OZZIEVAMP.png',
       genres: ['action-adventure', 'comedy'],
       links: [
-        { linktext: 'Patreon', linkurl: 'http://www.patreon.com/skullamity' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/ozziethevampire',
+        },
+        {
+          linktext: 'Instagram',
+          linkurl: 'https://www.instagram.com/ericmlide/',
+        },
+        { linktext: 'Tumblr', linkurl: 'https://ericlide.tumblr.com/' },
       ],
     },
     {
@@ -300,7 +332,10 @@ export default {
       thumb: 'hubbox_TIGERTIGER.png',
       genres: ['action-adventure', 'historical-fiction', 'mystery'],
       links: [
-        { linktext: 'Patreon', linkurl: 'http://www.patreon.com/skullamity' },
+        { linktext: 'Store', linkurl: 'https://leppushop.storenvy.com' },
+        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/praguerace' },
+        { linktext: 'Paypal', linkurl: 'https://www.paypal.me/leppu' },
+        { linktext: 'Tumblr', linkurl: 'http://pepurika.tumblr.com/' },
       ],
     },
   ],

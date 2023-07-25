@@ -1,4 +1,4 @@
-import { getPopulatedComic } from './module.Comicdata.js';
+import { getPopulatedComic, getCoversForComic } from './module.Comicdata.js';
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { buildComic } from './module.Comicreader.js';
@@ -8,12 +8,12 @@ const app = document.querySelector('#app');
 
 const goToComicCover = (e) => {
   render(
-    `/comic:${e.target.dataset.storytitle}:${e.target.dataset.storyindex}`,
+    `/comic:${e.target.dataset.storytitle}:${e.target.dataset.storyindex}`
   );
   console.log(
     `Load ${e.target.dataset.storytitle} storyline #${
       parseInt(e.target.dataset.storyindex, 10) + 1
-    }`,
+    }`
   );
 };
 
@@ -28,22 +28,28 @@ const buildStorylines = async (title) => {
   app.querySelector('#rack').replaceChildren(loadingmsg);
 
   const comic = await getPopulatedComic(title);
+  const comicwithcovers = await getCoversForComic(title);
+  // console.log(comicwithcovers);
   const splashImage = document.createElement('img');
   splashImage.classList.add('splash-image');
   splashImage.src = 'img/' + comic.thumb;
   const storylineUl = document.createElement('ul');
   comic.storylines.forEach((storyline, index) => {
-    const storylineLi = document.createElement('li');
-    storylineLi.textContent = storyline.name;
-    storylineLi.dataset.storytitle = title;
-    storylineLi.dataset.storyindex = index;
-    storylineLi.addEventListener('click', goToComicCover);
-    storylineUl.appendChild(storylineLi);
+    const coverImage = document.createElement('img');
+    coverImage.classList.add('cover-image');
+    coverImage.src = storyline.pages[0].img?.full;
+    const storylineBox = templater('storylinecover', [
+      coverImage,
+      storyline.name,
+    ]);
+    storylineUl.appendChild(storylineBox);
   });
   const linksUl = document.createElement('ul');
   comic.links.forEach((link, index) => {
     const externalLi = document.createElement('li');
-    externalLi.innerHTML = `<a class="external-link" href="${link.linkurl}">${link.linktext}</a>`;
+    externalLi.innerHTML = `<a class="external-link" data-linktype="${link.linktext.toLowerCase()}" href="${
+      link.linkurl
+    }">${link.linktext}</a>`;
     externalLi.addEventListener('click', handleExternalLink);
     linksUl.appendChild(externalLi);
   });

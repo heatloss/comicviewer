@@ -1,16 +1,25 @@
-import comics from "./comics.js";
+import comics from './comics.js';
 import {
   getPagesFromArchive,
   getImageFromPage,
-} from "./module.Archiveparser.js";
+} from './module.Archiveparser.js';
 
-const comicData = comics;
-comicData.comics.map((comic) => {
-  comic.sortname = comic.sortname || comic.name;
-});
+const normalizedComics = () => {
+  comics.comics.map((comic) => {
+    comic.sortname = comic.sortname || comic.name;
+  });
+  return comics;
+};
+
+const comicData =
+  JSON.parse(localStorage.getItem('comicdata')) || normalizedComics();
+
+const storeComicData = () => {
+  localStorage.setItem('comicdata', JSON.stringify(comicData));
+};
 
 const populateAllStorylineCovers = async (title) => {
-  await Promise.all(
+  const comicWithCoverImages = await Promise.all(
     getComic(title).storylines.map(async (storyline) => {
       const imgSrc =
         storyline.pages[0].img.full ||
@@ -18,15 +27,22 @@ const populateAllStorylineCovers = async (title) => {
       storyline.pages[0].img.full = imgSrc;
     })
   );
+  storeComicData();
+  console.log(comicWithCoverImages);
+  console.log(comicData);
+  return comicWithCoverImages;
 };
 
 const populateAllImagesInStoryline = async (title, storylinenum) => {
-  await Promise.all(
+  const comicWithAllStorylineImages = await Promise.all(
     getComic(title).storylines[storylinenum].pages.map(async (pageObj) => {
       const imgSrc = pageObj.img.full || (await getImageFromPage(pageObj.href)); // Don't fetch if image is already present
       pageObj.img.full = imgSrc;
     })
   );
+  storeComicData();
+  console.log(comicData);
+  return comicWithAllStorylineImages;
 };
 
 const getComic = (title) => {
@@ -42,12 +58,12 @@ const getPopulatedComic = async (title) => {
     selectedComic.archiveurl
   );
   Object.assign(selectedComic, archiveAndChapters);
-
   return selectedComic;
 };
 
 const getCoversForComic = async (title) => {
   const comicWithCovers = await populateAllStorylineCovers(title);
+  // console.log(comicWithCovers);
   return comicWithCovers;
 };
 
