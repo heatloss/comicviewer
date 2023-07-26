@@ -338,5 +338,66 @@ export default {
         { linktext: 'Tumblr', linkurl: 'http://pepurika.tumblr.com/' },
       ],
     },
+    {
+      name: 'Wytchwood',
+      rssurl: 'https://wychwoodcomic.com/comic/rss',
+      archiveurl: 'https://www.wychwoodcomic.com/comic/archive',
+      thumb: 'hubbox_WYCHWOOD.png',
+      genres: ['action-adventure', 'sci-fi', 'fantasy'],
+      links: [
+        {
+          linktext: 'Store',
+          linkurl: 'https://hivemill.com/collections/wychwood',
+        },
+        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/varethane' },
+        {
+          linktext: 'Instagram',
+          linkurl: 'https://www.instagram.com/varethane1/',
+        },
+        { linktext: 'Tumblr', linkurl: 'http://varethane.tumblr.com/' },
+      ],
+    },
+    {
+      name: 'No End',
+      rssurl: 'https://www.noendcomic.com/rss.php',
+      archiveurl: 'https://www.noendcomic.com/comic/archive',
+      thumb: 'hubbox_NO_END.png',
+      genres: ['action-adventure', 'dystopian', 'romance', 'lgbt'],
+      links: [
+        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/noendcomic' },
+        {
+          linktext: 'Instagram',
+          linkurl: 'https://www.instagram.com/noendcomic',
+        },
+        { linktext: 'Tumblr', linkurl: 'http://noendcomic.tumblr.com/' },
+        { linktext: 'Discord', linkurl: 'https://discord.gg/xyu7MMg' },
+        { linktext: 'Twitch', linkurl: 'http://twitch.tv/kromitar' },
+      ],
+    },
+    {
+      name: 'Tripping Over You',
+      rssurl: 'https://www.trippingoveryou.com/comic/rss',
+      archiveurl: 'https://www.trippingoveryou.com/comic/archive',
+      thumb: 'hubbox_TRIPPINGOVERYOU.png',
+      genres: ['slice-of-life', 'lgbt', 'romance'],
+      links: [
+        { linktext: 'Store', linkurl: 'https://www.toyboxcomics.com' },
+        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/toythecomic' },
+        {
+          linktext: 'Instagram',
+          linkurl: 'https://www.instagram.com/toyboxcomics/',
+        },
+        { linktext: 'Discord', linkurl: 'https://discord.gg/cMssHAQvUQ' },
+      ],
+    },
+    {
+      name: 'The Mash',
+      sortname: 'Mash, The',
+      rssurl: 'https://www.mashcomic.com/comic/rss',
+      archiveurl: 'https://www.mashcomic.com/comic/archive',
+      thumb: 'hubbox_THE_MASH.png',
+      genres: ['fantasy', 'horror', 'mystery'],
+      links: [],
+    },
   ],
 };

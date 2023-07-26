@@ -91,7 +91,6 @@ const getPagesFromArchive = async (archiveUrl) => {
 };
 
 const getImageFromPage = async (pageUrl) => {
-  console.log(pageUrl);
   const response = await fetch(`${config.proxy}${pageUrl}`).catch(handleError);
   const pageHTML = await response.text();
   const pageDOM = new DOMParser().parseFromString(pageHTML, 'text/html');

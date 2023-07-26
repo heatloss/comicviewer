@@ -119,24 +119,65 @@ img {
   text-align: center;
 }
 
-/* .nav-btn-group .nav-btn:after {
-  content: '»';
-  font-size: 1.333em;
-  margin-left: 0.25em;
-  color: #666;
-} */
-
-/* .nav-btn-group .nav-btn + .nav-btn {
-  border-top: 1px solid #ddd;
-} */
-
-/* .nav-btn-group .nav-btn:first-of-type {
-  padding-top: 0.75em;
+.section-content:not(#comicslist) {
+  margin: 2em 10vw 7em 10vw;
 }
 
-.nav-btn-group .nav-btn:last-of-type {
-  padding-bottom: 0.75em;
-} */
+#rack .section-content.intro {
+  margin-top: 5em;
+}
+
+.section-content .section-hed,
+#comicpages .loading .loading-hed {
+  font-size: 1.333em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+#comicslist .section-hed {
+  margin: 1em 10vw 1em 10vw;
+  text-align: center;
+}
+
+#comicslist .section-subhed {
+  font-size: 0.9em;
+  margin: 0 10vw 1em 10vw;
+}
+
+.section-content p {
+  font-size: 1.1em;
+  line-height: 1.333;
+  margin-bottom: 0.75em;
+}
+
+.section-content dl {
+  margin-bottom: 1.5em;
+  font-size: 1.1em;
+  line-height: 1.2;
+}
+
+.section-content dt {
+  font-weight: bold;
+  margin-top: 1.5em;
+}
+
+.section-content dd {
+  margin: 0.75em 1em 0 1em;
+}
+
+.section-content ul > li {
+  font-size: 1.1em;
+  list-style-type: disc;
+  padding-left: 0.25em;
+  margin-left: 1em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+.section-content small {
+  font-size: 0.8em;
+  font-style: italic;
+}
 
 #comicslist {
   padding: 1em 0.5em 4.5em 0.5em;
@@ -282,28 +323,6 @@ img {
 
 #comicpages {
   transition: transform 0.25s cubic-bezier(1, 0, 0.67, 1);
-}
-
-#rack > .intro {
-  margin: 5em 10vw;
-}
-
-#home .section-hed,
-#rack > .intro .intro-hed,
-#comicpages .loading .loading-hed {
-  font-size: 1.333em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-#rack > .intro p {
-  font-size: 1.1em;
-  margin-bottom: 0.75em;
-}
-
-#rack > .intro small {
-  font-size: 0.8em;
-  font-style: italic;
 }
 
 #comicpages .comicpagesbox {

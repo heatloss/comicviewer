@@ -17,9 +17,9 @@ const goToComicChapterScreen = (e) => {
   render(`/rack:${title}`);
 };
 
-const buildGrid = (style = 'alpha') => {
+const buildGrid = (style = 'shuffle') => {
   comics.sort(sortingMethods[style]);
-  const gridList = app.querySelector('#comicslist > .tabgroup');
+  const gridList = app.querySelector('#comicslist > .comicsgrid');
   const fragment = document.createElement('div');
   fragment.classList.add('thumbsgrid');
   comics.forEach((comic) => {
