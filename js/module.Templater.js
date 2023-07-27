@@ -9,6 +9,8 @@ const main = await generateHTMLTemplate('main.html');
 
 const storylines = await generateHTMLTemplate('storylines.html');
 
+const comicreader = await generateHTMLTemplate('comicreader.html');
+
 const header = document.createElement('template');
 header.innerHTML = `
   <nav id="headernav">
@@ -18,11 +20,10 @@ header.innerHTML = `
   </nav>
 `;
 
-const comic = document.createElement('template');
-comic.innerHTML = `
-	<article class="comic-frame">
-		<div class="comic-image" data-templater></div>
-	</article>`;
+const comicpage = document.createElement('template');
+comicpage.innerHTML = `
+  <div class="comic-image" data-templater></div>
+`;
 
 const thumb = document.createElement('template');
 thumb.innerHTML = `
@@ -52,7 +53,8 @@ storylinecover.innerHTML = `
 const templates = {
   main,
   header,
-  comic,
+  comicreader,
+  comicpage,
   thumb,
   loading,
   storylines,

@@ -321,14 +321,35 @@ img {
   border: 1px solid #999;
 }
 
-#comicpages {
+/* #comicpages {
   transition: transform 0.25s cubic-bezier(1, 0, 0.67, 1);
+} */
+
+#comicpages .comicpages-stack {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
-#comicpages .comicpagesbox {
-  display: flex;
-  flex-direction: column;
-  margin: 3em 4vw;
+#comicpages .comicpages-stack > .comicpage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  min-height: 100%;
+}
+
+#comicpages .comicpages-stack > .comicpage.ghost.pos-prev {
+  transform: translateX(-101%);
+}
+
+#comicpages .comicpages-stack > .comicpage.ghost.pos-next {
+  transform: translateX(101%);
+}
+
+#comicpages .comicpages-stack > .comicpage > img {
+  width: 100%;
 }
 
 @media only screen and (min-width: 481px) {
