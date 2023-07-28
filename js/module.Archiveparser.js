@@ -1,5 +1,6 @@
 const config = {
   proxy: 'https://comic-viewer-proxy.glitch.me/proxy?url=',
+  imageproxy: 'https://image-url-proxy.glitch.me/proxy?url=',
   archiveselector: `select[name='comic'], 
     .cc-storyline-thumbwrapper > .cc-storyline-pagethumb > a, 
     .cc-storyline-pagetitles > .cc-pagerow > a,
@@ -17,6 +18,10 @@ const handleError = (err) => {
       message: 'Stupid network Error',
     })
   );
+};
+
+const optimizeImage = (originalurl) => {
+  return `${config.imageproxy}${originalurl}`;
 };
 
 const extractStorylines = (fullarchive, storylines) => {
@@ -98,4 +103,4 @@ const getImageFromPage = async (pageUrl) => {
   return parsedImage.src;
 };
 
-export { getPagesFromArchive, getImageFromPage };
+export { getPagesFromArchive, getImageFromPage, optimizeImage };

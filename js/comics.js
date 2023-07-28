@@ -5,7 +5,7 @@ export default {
       sortname: 'End, The',
       rssurl: 'https://feeds.feedburner.com/endcomic/QkZz',
       archiveurl: 'http://www.endcomic.com/archives/',
-      thumb: 'hubbox_THE_END.png',
+      square: 'hubbox_THE_END.png',
       genres: ['action-adventure', 'lgbt', 'sci-fi'],
       links: [
         { linktext: 'Store', linkurl: 'https://endcomic.gumroad.com' },
@@ -16,7 +16,7 @@ export default {
       name: 'Ghost Junk Sickness',
       rssurl: 'https://www.ghostjunksickness.com/comic/rss',
       archiveurl: 'https://www.ghostjunksickness.com/comic/archive',
-      thumb: 'hubbox_GJS.png',
+      square: 'hubbox_GJS.png',
       genres: ['action-adventure', 'lgbt', 'sci-fi'],
       links: [
         {
@@ -39,7 +39,7 @@ export default {
       sortname: 'Automan’s Daughter, The',
       rssurl: 'https://www.automansdaughter.com/comic/rss',
       archiveurl: 'https://www.automansdaughter.com/comic/archive',
-      thumb: 'hubbox_THE_AUTOMANS DAUGHTER.png',
+      square: 'hubbox_THE_AUTOMANS DAUGHTER.png',
       genres: ['action-adventure', 'sci-fi', 'steampunk'],
       links: [
         { linktext: 'Patreon', linkurl: 'https://www.patreon.com/luckbat' },
@@ -54,7 +54,7 @@ export default {
       name: 'Magical How?',
       rssurl: 'https://www.magicalhowcomic.com/comic/rss',
       archiveurl: 'https://www.magicalhowcomic.com/comic/archive',
-      thumb: 'hubbox_MAGICAL_HOW.png',
+      square: 'hubbox_MAGICAL_HOW.png',
       genres: ['fantasy', 'lgbt'],
       links: [
         {
@@ -73,7 +73,7 @@ export default {
       name: 'Phantomarine',
       rssurl: 'https://www.phantomarine.com/comic/rss',
       archiveurl: 'https://www.phantomarine.com/comic/archive',
-      thumb: 'hubbox_PHANTOMARINE.png',
+      square: 'hubbox_PHANTOMARINE.png',
       genres: ['action-adventure', 'mystery'],
       links: [
         {
@@ -90,7 +90,7 @@ export default {
       name: 'Hazy London',
       rssurl: 'https://www.hazylondon.com/comic/rss',
       archiveurl: 'https://www.hazylondon.com/comic/archive',
-      thumb: 'hubbox_HAZY.png',
+      square: 'hubbox_HAZY.png',
       genres: ['action-adventure'],
       links: [
         {
@@ -114,7 +114,7 @@ export default {
       name: 'Fairmeadow',
       rssurl: 'https://www.fairmeadowcomic.com/comic/rss',
       archiveurl: 'https://www.fairmeadowcomic.com/comic/archive',
-      thumb: 'hubbox_FAIRMEADOW.png',
+      square: 'hubbox_FAIRMEADOW.png',
       genres: ['action-adventure', 'drama', 'fantasy', 'lgbt'],
       links: [
         {
@@ -132,7 +132,7 @@ export default {
       name: 'Tigress Queen',
       rssurl: 'https://www.tigressqueen.com/comic/rss',
       archiveurl: 'https://www.tigressqueen.com/comic/archive',
-      thumb: 'hubbox_TIGRESS_QUEEN.png',
+      square: 'hubbox_TIGRESS_QUEEN.png',
       genres: ['action-adventure', 'fantasy', 'romance'],
       links: [
         {
@@ -156,7 +156,7 @@ export default {
       sortname: 'Godslave',
       rssurl: 'https://www.godslavecomic.com/comic/rss',
       archiveurl: 'https://www.godslavecomic.com/comic/archive',
-      thumb: 'hubbox_GODSLAVE.png',
+      square: 'hubbox_GODSLAVE.png',
       genres: ['action-adventure', 'fairytale', 'fantasy', 'urban-fantasy'],
       links: [
         {
@@ -171,7 +171,7 @@ export default {
       sortname: 'White Noise',
       rssurl: 'http://www.white-noise-comic.com/comic/rss',
       archiveurl: 'https://www.white-noise-comic.com/comic/archive',
-      thumb: 'hubbox_WHITENOISE.png',
+      square: 'hubbox_WHITENOISE.png',
       genres: ['action-adventure', 'lgbt', 'slice-of-life'],
       links: [
         { linktext: 'Patreon', linkurl: 'http://www.patreon.com/thephooka' },
@@ -183,7 +183,7 @@ export default {
       name: 'Bicycle Boy',
       rssurl: 'https://www.bicycleboy.net/comic/rss',
       archiveurl: 'https://www.bicycleboy.net/comic/archive',
-      thumb: 'hubbox_BICYCLE_BOY.png',
+      square: 'hubbox_BICYCLE_BOY.png',
       genres: ['action-adventure', 'dystopian', 'sci-fi'],
       links: [
         { linktext: 'Store', linkurl: 'https://payhip.com/Jackarais' },
@@ -197,7 +197,7 @@ export default {
       sortname: 'Otherknown, The',
       rssurl: 'https://www.otherknown.com/comic/rss',
       archiveurl: 'https://www.otherknown.com/comic/archive',
-      thumb: 'hubbox_OTHERKNOWN.png',
+      square: 'hubbox_OTHERKNOWN.png',
       genres: ['action-adventure', 'drama', 'sci-fi'],
       links: [
         { linktext: 'Patreon', linkurl: 'https://www.patreon.com/grackling' },
@@ -209,7 +209,7 @@ export default {
       name: 'Heroes of Thantopolis',
       rssurl: 'https://www.heroesofthantopolis.com/comic/rss',
       archiveurl: 'https://www.heroesofthantopolis.com/comic/archive',
-      thumb: 'hubbox_HEROES_OF THANTOPOLIS.png',
+      square: 'hubbox_HEROES_OF THANTOPOLIS.png',
       genres: ['action-adventure', 'fantasy', 'lgbt'],
       links: [
         { linktext: 'Tumblr', linkurl: 'https://strontiumsun.tumblr.com/' },
@@ -219,7 +219,7 @@ export default {
       name: 'Daughter of the Lilies',
       rssurl: 'https://www.daughterofthelilies.com/dotl/rss',
       archiveurl: 'https://www.daughterofthelilies.com/comic/archive',
-      thumb: 'hubbox_DOTL.png',
+      square: 'hubbox_DOTL.png',
       genres: ['action-adventure', 'fantasy'],
       links: [
         {
@@ -241,7 +241,7 @@ export default {
       name: 'Lies Within',
       rssurl: 'https://www.lieswithincomic.com/comic/rss',
       archiveurl: 'https://www.lieswithincomic.com/comic/archive',
-      thumb: 'hubbox_LIES_WITHIN.png',
+      square: 'hubbox_LIES_WITHIN.png',
       genres: ['action-adventure', 'drama', 'lgbt', 'urban-fantasy'],
       links: [
         {
@@ -255,7 +255,7 @@ export default {
       name: 'In Blood We Rise',
       rssurl: 'https://inbloodwerise.com/comic/rss',
       archiveurl: 'https://inbloodwerise.com/comic/archive',
-      thumb: 'hubbox_INBLOOD.png',
+      square: 'hubbox_INBLOOD.png',
       genres: ['action-adventure', 'fantasy', 'historical-fiction', 'romance'],
       links: [
         { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/captainmera' },
@@ -272,7 +272,7 @@ export default {
       name: 'Solstoria',
       rssurl: 'https://solstoria.net/comic/rss',
       archiveurl: 'https://solstoria.net/comic/archive',
-      thumb: 'hubbox_SOLSTORIA.png',
+      square: 'hubbox_SOLSTORIA.png',
       genres: ['action-adventure', 'fantasy'],
       links: [
         {
@@ -286,7 +286,7 @@ export default {
       name: 'Starhammer',
       rssurl: 'https://www.starhammercomic.com/rss.php',
       archiveurl: 'https://www.starhammercomic.com/comic/archive',
-      thumb: 'hubbox_STARHAMMER.png',
+      square: 'hubbox_STARHAMMER.png',
       genres: ['action-adventure', 'slice-of-life', 'superhero'],
       links: [
         {
@@ -311,7 +311,7 @@ export default {
       name: 'Ozzie the Vampire',
       rssurl: 'https://www.ozziethevampire.com/comic/rss',
       archiveurl: 'https://www.ozziethevampire.com/comic/archive',
-      thumb: 'hubbox_OZZIEVAMP.png',
+      square: 'hubbox_OZZIEVAMP.png',
       genres: ['action-adventure', 'comedy'],
       links: [
         {
@@ -329,7 +329,7 @@ export default {
       name: 'Tiger, Tiger',
       rssurl: 'https://www.tigertigercomic.com/tiger-tiger/rss',
       archiveurl: 'https://www.tigertigercomic.com/comic/archive',
-      thumb: 'hubbox_TIGERTIGER.png',
+      square: 'hubbox_TIGERTIGER.png',
       genres: ['action-adventure', 'historical-fiction', 'mystery'],
       links: [
         { linktext: 'Store', linkurl: 'https://leppushop.storenvy.com' },
@@ -342,7 +342,7 @@ export default {
       name: 'Wytchwood',
       rssurl: 'https://wychwoodcomic.com/comic/rss',
       archiveurl: 'https://www.wychwoodcomic.com/comic/archive',
-      thumb: 'hubbox_WYCHWOOD.png',
+      square: 'hubbox_WYCHWOOD.png',
       genres: ['action-adventure', 'sci-fi', 'fantasy'],
       links: [
         {
@@ -361,7 +361,7 @@ export default {
       name: 'No End',
       rssurl: 'https://www.noendcomic.com/rss.php',
       archiveurl: 'https://www.noendcomic.com/comic/archive',
-      thumb: 'hubbox_NO_END.png',
+      square: 'hubbox_NO_END.png',
       genres: ['action-adventure', 'dystopian', 'romance', 'lgbt'],
       links: [
         { linktext: 'Patreon', linkurl: 'https://www.patreon.com/noendcomic' },
@@ -378,7 +378,7 @@ export default {
       name: 'Tripping Over You',
       rssurl: 'https://www.trippingoveryou.com/comic/rss',
       archiveurl: 'https://www.trippingoveryou.com/comic/archive',
-      thumb: 'hubbox_TRIPPINGOVERYOU.png',
+      square: 'hubbox_TRIPPINGOVERYOU.png',
       genres: ['slice-of-life', 'lgbt', 'romance'],
       links: [
         { linktext: 'Store', linkurl: 'https://www.toyboxcomics.com' },
@@ -395,7 +395,7 @@ export default {
       sortname: 'Mash, The',
       rssurl: 'https://www.mashcomic.com/comic/rss',
       archiveurl: 'https://www.mashcomic.com/comic/archive',
-      thumb: 'hubbox_THE_MASH.png',
+      square: 'hubbox_THE_MASH.png',
       genres: ['fantasy', 'horror', 'mystery'],
       links: [],
     },

@@ -3,6 +3,7 @@ import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { buildComic } from './module.Comicreader.js';
 import { initTabs } from './module.Tabsystem.js';
+import { optimizeImage } from './module.Archiveparser.js';
 
 const app = document.querySelector('#app');
 
@@ -31,14 +32,14 @@ const buildStorylines = async (title) => {
 
   const splashImage = document.createElement('img');
   splashImage.classList.add('splash-image');
-  splashImage.src = 'img/' + comic.thumb;
+  splashImage.src = 'img/' + comic.square;
 
   const coversList = document.createElement('ul');
   coversList.classList.add('covers-list');
   storylineArray.forEach((storyline, index) => {
     const coverImage = document.createElement('img');
     coverImage.classList.add('cover-image');
-    coverImage.src = storyline.pages[0].img?.full;
+    coverImage.src = optimizeImage(storyline.pages[0].img?.original);
     const coverLi = templater(
       'storylinecover',
       [coverImage, storyline.name],

@@ -20,13 +20,17 @@ header.innerHTML = `
   </nav>
 `;
 
-const comicpage = document.createElement('template');
-comicpage.innerHTML = `
-  <div class="comic-image" data-templater></div>
+const ghostmount = document.createElement('template');
+ghostmount.innerHTML = `
+  <article class="comicpages-ghostmount">
+    <section class="comicpage ghost pos-prev" data-templater></section>
+    <section class="comicpage active" data-templater></section>
+    <section class="comicpage ghost pos-next" data-templater></section>
+  </article>
 `;
 
-const thumb = document.createElement('template');
-thumb.innerHTML = `
+const square = document.createElement('template');
+square.innerHTML = `
 	<figure class="thumb-frame">
 		<span data-templater></span>
 		<figcaption class="thumb-title" data-templater></figcaption>
@@ -54,8 +58,8 @@ const templates = {
   main,
   header,
   comicreader,
-  comicpage,
-  thumb,
+  ghostmount,
+  square,
   loading,
   storylines,
   storylinecover,

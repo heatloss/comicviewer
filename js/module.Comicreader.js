@@ -2,123 +2,103 @@ import {
   getComic,
   getPopulatedComic,
   getCoversForComic,
+  getImagesForStoryline,
+  generateProgressbar,
 } from './module.Comicdata.js';
 import { templater } from './module.Templater.js';
 import {
   getPagesFromArchive,
   getImageFromPage,
+  optimizeImage,
 } from './module.Archiveparser.js';
-import { initAdvancers } from './module.Touch.js';
+import { initAdvancers, setAdvancersActive } from './module.Touch.js';
 
 const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
 
-document.addEventListener('advance', (e) => {
-  advancePage(e.detail);
+app.addEventListener('advance', (e) => {
+  transitionPage(e.detail);
 });
-// function singleUseListener(e, func) {
-//   readingState.eventregistry[e] = () => {
-//     func();
-//     window.removeEventListener(e, readingState.eventregistry[e]);
-//   };
-//   window.addEventListener(e, readingState.eventregistry[e]);
-// }
 
 const buildComic = async (title, storyNum = 0, pageNum = 0) => {
   const selectedComic = getComic(title);
-  readingState.stack = selectedComic.storylines[storyNum].pages;
+  // INSERT LOADING ANIMATION
+  generateProgressbar('#comicpages');
+  const fullySourcedStoryline = await getImagesForStoryline(title, storyNum);
+  readingState.stack = fullySourcedStoryline;
   readingState.pageIndex = pageNum;
-  // FETCH THREE PAGES
+  const ghostMount = await generateGhostMount(pageNum);
+  const comicReader = templater('comicreader', ghostMount);
+  app.querySelector('#comicpages').replaceChildren(comicReader);
+  initAdvancers();
+};
+
+const generateGhostMount = async (pageNum) => {
   const ghostPagePrev = document.createElement('img');
   const activePage = document.createElement('img');
   const ghostPageNext = document.createElement('img');
   if (pageNum > 0) {
-    ghostPagePrev.src =
-      readingState.stack[pageNum - 1]?.img?.full ||
+    const ghostPagePrevOrig =
+      readingState.stack[pageNum - 1]?.img?.original ||
       (await getImageFromPage(readingState.stack[pageNum - 1].href));
+    ghostPagePrev.src = optimizeImage(ghostPagePrevOrig);
   }
-  activePage.src =
-    readingState.stack[pageNum]?.img?.full ||
+  const activePageOrig =
+    readingState.stack[pageNum]?.img?.original ||
     (await getImageFromPage(readingState.stack[pageNum].href));
+  activePage.src = optimizeImage(activePageOrig);
   if (pageNum < readingState.stack.length - 1) {
-    ghostPageNext.src =
-      readingState.stack[pageNum + 1]?.img?.full ||
+    const ghostPageNextOrig =
+      readingState.stack[pageNum + 1]?.img?.original ||
       (await getImageFromPage(readingState.stack[pageNum + 1].href));
+    ghostPageNext.src = optimizeImage(ghostPageNextOrig);
   }
 
-  const comicPage = templater('comicreader', [
+  const ghostMount = templater('ghostmount', [
     ghostPagePrev,
     activePage,
     ghostPageNext,
   ]);
 
-  app.querySelector('#comicpages').replaceChildren(comicPage);
-  initAdvancers();
-
-  /*
-  window.scrollTo(0, 0);
-  headernavTitle.textContent = '';
-  const target = e.currentTarget;
-	const loadingmsg = templates.loading.content.firstElementChild.cloneNode(true);
-	loadingmsg.querySelector("#feedname").textContent = `${target.dataset.title}`;
-	comicLayout.replaceChildren(loadingmsg);
-  closeSidebar(true);
-
-
-      headernavTitle.textContent = title;
-      const items = data.querySelectorAll('item');
-      const fragment = document.createElement('div');
-      fragment.classList.add('comicpagesbox');
-      const itemsReversed = [...items].reverse();
-      itemsReversed.forEach((el) => {
-        const comicpage = comictmpl.content.firstElementChild.cloneNode(true);
-        const elcomicbody =
-          rssType === 'wp' ?
-          el.querySelector('encoded').textContent :
-          el.querySelector('description').textContent;
-        const pendingImage = document.createElement('img');
-        pendingImage.classList.add('pending');
-        const imageFrame = comicpage.querySelector('.comic-image');
-        fragment.appendChild(comicpage);
-        processImage(comicpage, elcomicbody, rssType).then((processedbox) => {
-          const processedimage = processedbox.firstElementChild;
-          imageFrame.appendChild(processedimage);
-          observer.observe(processedimage);
-        });
-      });
-      comicLayout.replaceChildren(fragment);
- */
+  return ghostMount;
 };
 
-const advancePage = (advDir) => {
+const transitionPage = (advDir) => {
   const requestedPageIndex = readingState.pageIndex + advDir;
   if (requestedPageIndex < 0) {
     // Transition to #rack
     console.log('BACK TO RACK');
     return false;
-  }
-  if (requestedPageIndex > readingState.stack.length - 1) {
+  } else if (requestedPageIndex > readingState.stack.length - 1) {
     // Transition to #endofchapter
     console.log('END OF CHAPTER');
     return false;
   }
+  console.log(`${advDir < 0 ? '<-' : '->'} ${requestedPageIndex}`);
 
-  console.log(`Transition to page index ${requestedPageIndex}`);
+  setAdvancersActive(false);
+
+  const ghostMount = app.querySelector(
+    '#ghostmount-region > .comicpages-ghostmount'
+  );
+  ghostMount.classList.add(advDir > 0 ? 'movePrev' : 'moveNext');
+  ghostMount.addEventListener('transitionend', completeSlide);
   readingState.pageIndex = requestedPageIndex;
-
-  // comicStack.allPages[comicStack.activePageIndex].classList.remove('active');
-  // const nextPage = comicStack.allPages[pageTarget - 1];
-  // nextPage.classList.add('active');
-  // comicStack.addEventListener('transitionend', completeSlide);
-  // comicStack.style.transform =
-  //   'translateX(' + (pageTarget * -100 + 100) + 'vw)';
-  // comicStack.activePageIndex = pageTarget - 1;
-  // comicStack.pageIndicator.textContent = pageTarget.toString();
 };
 
-function completeSlide() {
-  comicStack.removeEventListener('transitionend', completeSlide);
-  // Reset the ghosts
-}
+const completeSlide = async () => {
+  const ghostMount = app.querySelector(
+    '#ghostmount-region > .comicpages-ghostmount'
+  );
+
+  ghostMount.removeEventListener('transitionend', completeSlide);
+
+  const newGhostMount = await generateGhostMount(readingState.pageIndex);
+
+  ghostMount.parentNode.appendChild(newGhostMount);
+
+  ghostMount.remove();
+  setAdvancersActive(true);
+};
 
 export { buildComic };

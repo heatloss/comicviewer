@@ -19,6 +19,10 @@
   <body>
     <div id="debug"></div>
     <div id="app"></div>
-    <!--     <script type="module" src="js/navigation.js"></script> -->
+    <script>
+      if (navigator && navigator.serviceWorker) {
+        navigator.serviceWorker.register('serviceworker.js');
+      }
+    </script>
   </body>
 </html>

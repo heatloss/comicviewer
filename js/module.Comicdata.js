@@ -4,6 +4,8 @@ import {
   getImageFromPage,
 } from './module.Archiveparser.js';
 
+const progbarConfig = {};
+
 const normalizedComics = () => {
   comics.comics.map((comic) => {
     comic.sortname = comic.sortname || comic.name;
@@ -18,25 +20,54 @@ const storeComicData = () => {
   localStorage.setItem('comicdata', JSON.stringify(comicData));
 };
 
-const populateAllStorylineCovers = async (title) => {
+const getApproximateProgress = (num) => {
+  return approximateProgressRange;
+};
+
+const generateProgressbar = (selector) => {
+  progbarConfig.progressBar = document.createElement('progress');
+  progbarConfig.progressBar.id = 'progbar';
+  app.querySelector(selector).replaceChildren(progbarConfig.progressBar);
+  progbarConfig.progressRange = -1;
+  progbarConfig.progressTimer = setInterval(updateProgress, 50);
+};
+
+const updateProgress = () => {
+  const progressAmt = progbarConfig.progressAmt;
+  if (progbarConfig.progressRange === -1) {
+    progbarConfig.progressRange = progressAmt;
+    progbarConfig.progressBar.max = progressAmt;
+  }
+  progbarConfig.progressBar.value = progbarConfig.progressRange - progressAmt;
+  if (progressAmt < 1) {
+    clearInterval(progbarConfig.progressTimer);
+  }
+};
+
+const sourceAllStorylineCovers = async (title) => {
+  progbarConfig.progressAmt = getComic(title).storylines.length;
   const storylinesWithCoverImages = await Promise.all(
-    getComic(title).storylines.map(async (storyline) => {
+    getComic(title).storylines.map(async (storyline, index) => {
       const imgSrc =
-        storyline.pages[0].img.full ||
+        storyline.pages[0].img.original ||
         (await getImageFromPage(storyline.pages[0].href)); // Don't fetch if image is already present
-      storyline.pages[0].img.full = imgSrc;
+      storyline.pages[0].img.original = imgSrc;
+      progbarConfig.progressAmt -= 1;
       return storyline;
     })
   );
   storeComicData();
-  return storylinesWithCoverImages; // T
+  return storylinesWithCoverImages;
 };
 
-const populateAllImagesInStoryline = async (title, storylinenum) => {
+const sourceAllImagesInStoryline = async (title, storynum) => {
+  progbarConfig.progressAmt = getComic(title).storylines[storynum].pages.length;
   const comicWithAllStorylineImages = await Promise.all(
-    getComic(title).storylines[storylinenum].pages.map(async (pageObj) => {
-      const imgSrc = pageObj.img.full || (await getImageFromPage(pageObj.href)); // Don't fetch if image is already present
-      pageObj.img.full = imgSrc;
+    getComic(title).storylines[storynum].pages.map(async (pageObj, index) => {
+      const imgSrc =
+        pageObj.img.original || (await getImageFromPage(pageObj.href)); // Don't fetch if image is already present
+      pageObj.img.original = imgSrc;
+      progbarConfig.progressAmt -= 1;
       return pageObj;
     })
   );
@@ -65,12 +96,27 @@ const getPopulatedComic = async (title) => {
 };
 
 const getCoversForComic = async (title) => {
-  const storylinesWithCovers = await populateAllStorylineCovers(title);
+  const storylinesWithCovers = await sourceAllStorylineCovers(title);
   return storylinesWithCovers;
+};
+
+const getImagesForStoryline = async (title, storylinenum) => {
+  const storylineWithAllImages = await sourceAllImagesInStoryline(
+    title,
+    storylinenum
+  );
+  return storylineWithAllImages;
 };
 
 const getAllComics = () => {
   return comicData;
 };
 
-export { getComic, getPopulatedComic, getCoversForComic, getAllComics };
+export {
+  getComic,
+  getPopulatedComic,
+  getCoversForComic,
+  getImagesForStoryline,
+  getAllComics,
+  generateProgressbar,
+};

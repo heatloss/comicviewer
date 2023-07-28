@@ -1,9 +1,14 @@
 <div class="comicpages-content">
-  <article class="comicpages-stack">
-    <section class="comicpage ghost pos-prev" data-templater></section>
-    <section class="comicpage active" data-templater></section>
-    <section class="comicpage ghost pos-next" data-templater></section>
-  </article>
-  <button data-pageadvance="-1">PREV</button
-  ><button data-pageadvance="1">NEXT</button>
+  <div id="ghostmount-region" data-templater></div>
+  <nav id="comicsreadernav">
+    <menu class="comic-ops">
+      <li class="comic-op">
+        <button class="btn op-prev" data-pageadvance="-1">PREV</button>
+      </li>
+      <li class="comic-op"><var class="op-page">1</var></li>
+      <li class="comic-op">
+        <button class="btn op-next" data-pageadvance="1">NEXT</button>
+      </li>
+    </menu>
+  </nav>
 </div>

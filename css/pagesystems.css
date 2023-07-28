@@ -141,6 +141,100 @@
   box-sizing: border-box;
 }
 
+#comicpages #comicsreadernav {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #ddd;
+}
+
+#comicpages #comicsreadernav .comic-ops {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 3em;
+}
+
+#comicpages #comicsreadernav .comic-ops .comic-op button {
+  background-repeat: no-repeat;
+  background-size: 1.3em;
+  background-position: center center;
+  width: 2.3em;
+  height: 2.3em;
+  padding: 0.5em 1.5em;
+  text-indent: -999vw;
+  overflow: hidden;
+  border: none;
+  background-color: transparent;
+}
+
+#comicpages #comicsreadernav .comic-ops .comic-op button[disabled] {
+  opacity: 0.25;
+}
+
+#comicpages #ghostmount-region {
+  position: relative;
+  width: 100%;
+  margin-top: 3em;
+  height: calc(100vh - 6em);
+  overflow: hidden;
+}
+
+#ghostmount-region .comicpages-ghostmount {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.25, 0, 0, 1);
+}
+
+#ghostmount-region .comicpages-ghostmount > .comicpage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#ghostmount-region .comicpages-ghostmount > .comicpage > img {
+  object-fit: contain;
+  width: auto;
+  height: 100%;
+}
+
+#ghostmount-region .comicpages-ghostmount > .comicpage.ghost.pos-prev {
+  transform: translateX(-100vw);
+}
+
+#ghostmount-region .comicpages-ghostmount > .comicpage.ghost.pos-next {
+  transform: translateX(100vw);
+}
+
+#ghostmount-region .comicpages-ghostmount.movePrev {
+  transform: translateX(-100vw);
+}
+
+#ghostmount-region .comicpages-ghostmount.moveNext {
+  transform: translateX(100vw);
+}
+
+#ghostmount-region .comicpages-ghostmount ~ .comicpages-ghostmount {
+  visibility: hidden;
+  z-index: -1;
+}
+
+#progbar {
+  display: block;
+  width: 50vw;
+  height: 1em;
+  margin: 5em auto;
+}
+
 @media only screen and (max-width: 480px) {
   #rack .storylines-frame .tabsystem.tabselector {
     margin-bottom: 0.5em;

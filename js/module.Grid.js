@@ -25,9 +25,9 @@ const buildGrid = (style = 'alpha') => {
   comics.forEach((comic) => {
     const thumbImg = document.createElement('img');
     thumbImg.classList.add('thumb-image');
-    thumbImg.src = 'img/' + comic.thumb;
+    thumbImg.src = 'img/' + comic.square;
     thumbImg.alt = comic.name;
-    const comicThumb = templater('thumb', [thumbImg, comic.name]);
+    const comicThumb = templater('square', [thumbImg, comic.name]);
     comicThumb.dataset.name = comic.name;
     comicThumb.addEventListener('click', goToComicChapterScreen);
     fragment.appendChild(comicThumb);

@@ -1,67 +1,45 @@
 const app = document.querySelector('#app');
-// const htmlElem = document.documentElement;
-const comicStack = document.querySelector('.comicpages-stack');
-// comicStack.allPages = comicStack.querySelectorAll('.comicpage');
-// comicStack.pageIndicator = document.querySelector(
-//   '#comic-navigation .currentPage'
-// );
-// comicStack.activePageIndex = 0;
-// comicStack.allPages.forEach((elem, currentIndex) => {
-//   elem.dataset.pageNumber = currentIndex + 1;
-//   if (elem.classList.contains('active')) {
-//     comicStack.activePageIndex = currentIndex;
-//   }
-// });
+let advancementDisabled = false;
+let advanceButtons;
 
 const initAdvancers = () => {
-  const advanceButtons = app.querySelectorAll('[data-pageadvance]');
+  advanceButtons = app.querySelectorAll('[data-pageadvance]');
   advanceButtons.forEach((elem) => {
     elem.addEventListener('click', requestAdvancement);
   });
+  const checkKey = (e) => {
+    if (e.keyCode == '38') {
+      // up arrow
+    } else if (e.keyCode == '40') {
+      // down arrow
+    } else if (e.keyCode == '37') {
+      // left arrow
+      requestAdvancement(-1);
+    } else if (e.keyCode == '39') {
+      // right arrow
+      requestAdvancement(1);
+    }
+  };
+  document.onkeydown = checkKey;
 };
-// const resetButton = document.querySelector('#comic-logo');
-// resetButton.addEventListener('click', resetPage);
-// comicStack.allPages[comicStack.activePageIndex].classList.add('active');
-
-// comicStack.style.width = comicStack.allPages.length * 100 + 'vw';
-// comicStack.classList.add('stacked');
-
-// function getHashNumber() {
-//   return parseInt(window.location.hash.substr(6), 10) || 1;
-// }
-
-// function getActivePageNumber() {
-//   return comicStack.activePageIndex + 1;
-// }
 
 const requestAdvancement = (e) => {
-  const dir = parseInt(e.currentTarget.dataset.pageadvance, 10);
+  if (advancementDisabled) return false;
+  const dir =
+    typeof e === 'number'
+      ? e
+      : parseInt(e.currentTarget.dataset.pageadvance, 10);
   const pageAdvancer = new CustomEvent('advance', {
     detail: dir,
   });
-  document.dispatchEvent(pageAdvancer);
+  app.dispatchEvent(pageAdvancer);
 };
 
-// function jankPage(vector) {
-//   const jankDirectionClass = vector === 1 ? 'jank-right' : 'jank-left';
-//   comicStack.addEventListener('animationend', removeJank);
-//   comicStack.classList.add(jankDirectionClass);
-// }
-//
-// function removeJank() {
-//   comicStack.removeEventListener('animationend', removeJank);
-//   comicStack.classList.remove('jank-left', 'jank-right');
-// }
+const setAdvancersActive = (active) => {
+  advancementDisabled = !active;
+  advanceButtons.forEach((elem) => {
+    elem.disabled = advancementDisabled;
+  });
+};
 
-// function goToHashedPage() {
-//   if (getHashNumber() !== getActivePageNumber()) {
-//     gotoPage(getHashNumber());
-//   }
-// }
-
-// function captureScreenWidth() {
-//   htmlElem.style.setProperty('--innerwidth', `${htmlElem.clientWidth}px`);
-//   htmlElem.style.setProperty('--scrollbarwidth', `${window.innerWidth - htmlElem.clientWidth}px`);
-// }
-
-export { initAdvancers };
+export { initAdvancers, setAdvancersActive };
