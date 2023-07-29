@@ -20,16 +20,15 @@ const storeComicData = () => {
   localStorage.setItem('comicdata', JSON.stringify(comicData));
 };
 
-const getApproximateProgress = (num) => {
-  return approximateProgressRange;
-};
-
-const generateProgressbar = (selector) => {
+const generateProgressbar = (idString = 'progbar') => {
   progbarConfig.progressBar = document.createElement('progress');
-  progbarConfig.progressBar.id = 'progbar';
-  app.querySelector(selector).replaceChildren(progbarConfig.progressBar);
+  progbarConfig.progressBar.id = idString;
+  progbarConfig.progressBar.classList.add('progbar');
+  // app.querySelector(selector).replaceChildren(progbarConfig.progressBar);
   progbarConfig.progressRange = -1;
-  progbarConfig.progressTimer = setInterval(updateProgress, 50);
+  progbarConfig.progressAmt = -1;
+  progbarConfig.progressTimer = setInterval(updateProgress, 250);
+  return progbarConfig.progressBar;
 };
 
 const updateProgress = () => {
@@ -38,7 +37,8 @@ const updateProgress = () => {
     progbarConfig.progressRange = progressAmt;
     progbarConfig.progressBar.max = progressAmt;
   }
-  progbarConfig.progressBar.value = progbarConfig.progressRange - progressAmt;
+  progbarConfig.progressBar.value =
+    progressAmt === -1 ? '-1' : progbarConfig.progressRange - progressAmt;
   if (progressAmt < 1) {
     clearInterval(progbarConfig.progressTimer);
   }

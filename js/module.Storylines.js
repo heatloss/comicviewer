@@ -10,11 +10,11 @@ const app = document.querySelector('#app');
 const goToComicCover = (e) => {
   const storylineData = e.currentTarget.dataset;
   render(`/comic:${storylineData.storytitle}:${storylineData.storyindex}`);
-  console.log(
-    `Load ${storylineData.storytitle} storyline #${
-      parseInt(storylineData.storyindex, 10) + 1
-    }`
-  );
+  // console.log(
+  //   `Load ${storylineData.storytitle} storyline #${
+  //     parseInt(storylineData.storyindex, 10) + 1
+  //   }`
+  // );
 };
 
 const handleExternalLink = (e) => {

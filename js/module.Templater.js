@@ -31,10 +31,18 @@ ghostmount.innerHTML = `
 
 const square = document.createElement('template');
 square.innerHTML = `
-	<figure class="thumb-frame">
-		<span data-templater></span>
-		<figcaption class="thumb-title" data-templater></figcaption>
-	</figure>`;
+  <figure class="thumb-frame">
+    <span data-templater></span>
+    <figcaption class="thumb-title" data-templater></figcaption>
+  </figure>`;
+
+const progressbar = document.createElement('template');
+progressbar.innerHTML = `
+    <div class="progressframe">
+      <h4 class="progress-hed" data-templater></h4>
+      <h5 class="progress-subhed" data-templater></h5>
+      <div class="progressbox" data-templater></div>
+    </div>`;
 
 const loading = document.createElement('template');
 loading.innerHTML = `
@@ -58,6 +66,7 @@ const templates = {
   main,
   header,
   comicreader,
+  progressbar,
   ghostmount,
   square,
   loading,

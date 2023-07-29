@@ -228,11 +228,32 @@
   z-index: -1;
 }
 
-#progbar {
-  display: block;
+.progressframe,
+.progbar {
+  position: absolute;
+  top: 25%;
+  left: 25vw;
   width: 50vw;
-  height: 1em;
-  margin: 5em auto;
+  text-align: center;
+}
+
+.progressframe .progress-hed {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+.progressframe .progress-subhed {
+  font-size: 1em;
+}
+
+.progbar {
+  opacity: 0;
+  animation: fadeup 0.125s linear forwards;
+}
+
+.progressframe .progbar {
+  position: static;
+  width: 50vw;
 }
 
 @media only screen and (max-width: 480px) {
@@ -264,5 +285,17 @@
     .tab[data-tabactive]
     ~ .tab:not([data-tabactive]) {
     transform: translateX(101%);
+  }
+}
+
+@keyframes fadeup {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

@@ -23,7 +23,13 @@ app.addEventListener('advance', (e) => {
 const buildComic = async (title, storyNum = 0, pageNum = 0) => {
   const selectedComic = getComic(title);
   // INSERT LOADING ANIMATION
-  generateProgressbar('#comicpages');
+  const progBar = generateProgressbar();
+  const progbarBox = templater('progressbar', [
+    selectedComic.name + ':',
+    selectedComic.storylines[storyNum].name,
+    progBar,
+  ]);
+  app.querySelector('#comicpages').replaceChildren(progbarBox);
   const fullySourcedStoryline = await getImagesForStoryline(title, storyNum);
   readingState.stack = fullySourcedStoryline;
   readingState.pageIndex = pageNum;
@@ -37,6 +43,15 @@ const generateGhostMount = async (pageNum) => {
   const ghostPagePrev = document.createElement('img');
   const activePage = document.createElement('img');
   const ghostPageNext = document.createElement('img');
+
+  const ghostProgBar = document.createElement('progress');
+  ghostProgBar.classList.add('progbar');
+
+  app.querySelector('#comicpages').appendChild(ghostProgBar);
+  activePage.onload = () => {
+    ghostProgBar.remove();
+  };
+
   if (pageNum > 0) {
     const ghostPagePrevOrig =
       readingState.stack[pageNum - 1]?.img?.original ||
@@ -90,13 +105,12 @@ const completeSlide = async () => {
   const ghostMount = app.querySelector(
     '#ghostmount-region > .comicpages-ghostmount'
   );
-
   ghostMount.removeEventListener('transitionend', completeSlide);
 
   const newGhostMount = await generateGhostMount(readingState.pageIndex);
-
   ghostMount.parentNode.appendChild(newGhostMount);
 
+  // progBar.remove();
   ghostMount.remove();
   setAdvancersActive(true);
 };
