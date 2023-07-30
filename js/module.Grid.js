@@ -11,7 +11,7 @@ const sortingMethods = {
   shuffle: (a, b) => 0.5 - Math.random(),
 };
 
-const goToComicChapterScreen = (e) => {
+const goToRack = (e) => {
   e.stopPropagation();
   const title = e.currentTarget.dataset.name;
   render(`/rack:${title}`);
@@ -29,7 +29,7 @@ const buildGrid = (style = 'alpha') => {
     thumbImg.alt = comic.name;
     const comicThumb = templater('square', [thumbImg, comic.name]);
     comicThumb.dataset.name = comic.name;
-    comicThumb.addEventListener('click', goToComicChapterScreen);
+    comicThumb.addEventListener('click', goToRack);
     fragment.appendChild(comicThumb);
   });
   gridList.appendChild(fragment);

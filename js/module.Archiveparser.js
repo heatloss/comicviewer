@@ -20,8 +20,15 @@ const handleError = (err) => {
   );
 };
 
-const optimizeImage = (originalurl) => {
-  return `${config.imageproxy}${originalurl}`;
+const optimizeImage = (originalurl, xwidth) => {
+  return `${config.imageproxy}${originalurl}${xwidth ? '&x=' + xwidth : ''}`;
+};
+
+const bufferImageList = (imageList) => {
+  console.log('I AM BUFFERING');
+  imageList.forEach((imageSrc) => {
+    fetch(optimizeImage(imageSrc, 800));
+  });
 };
 
 const extractStorylines = (fullarchive, storylines) => {
@@ -100,7 +107,14 @@ const getImageFromPage = async (pageUrl) => {
   const pageHTML = await response.text();
   const pageDOM = new DOMParser().parseFromString(pageHTML, 'text/html');
   const parsedImage = pageDOM.querySelector(config.comicselector);
+  // fetch(optimizeImage(parsedImage.src));
+  // console.log(optimizeImage(parsedImage.src)); // Hopefully this will cause the Service Worker to cache the proxy-converted images?
   return parsedImage.src;
 };
 
-export { getPagesFromArchive, getImageFromPage, optimizeImage };
+export {
+  getPagesFromArchive,
+  getImageFromPage,
+  optimizeImage,
+  bufferImageList,
+};

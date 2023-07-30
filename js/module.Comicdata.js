@@ -2,6 +2,7 @@ import comics from './comics.js';
 import {
   getPagesFromArchive,
   getImageFromPage,
+  bufferImageList,
 } from './module.Archiveparser.js';
 
 const progbarConfig = {};
@@ -47,9 +48,9 @@ const updateProgress = () => {
 const sourceAllStorylineCovers = async (title) => {
   progbarConfig.progressAmt = getComic(title).storylines.length;
   const storylinesWithCoverImages = await Promise.all(
-    getComic(title).storylines.map(async (storyline, index) => {
+    getComic(title).storylines.map(async (storyline) => {
       const imgSrc =
-        storyline.pages[0].img.original ||
+        storyline.pages[0].img?.original ||
         (await getImageFromPage(storyline.pages[0].href)); // Don't fetch if image is already present
       storyline.pages[0].img.original = imgSrc;
       progbarConfig.progressAmt -= 1;
@@ -60,20 +61,40 @@ const sourceAllStorylineCovers = async (title) => {
   return storylinesWithCoverImages;
 };
 
-const sourceAllImagesInStoryline = async (title, storynum) => {
-  progbarConfig.progressAmt = getComic(title).storylines[storynum].pages.length;
-  const comicWithAllStorylineImages = await Promise.all(
-    getComic(title).storylines[storynum].pages.map(async (pageObj, index) => {
+// const sourceAllImagesInStoryline = async (title, storynum) => {
+//   progbarConfig.progressAmt = getComic(title).storylines[storynum].pages.length;
+//   const comicWithAllStorylineImages = await Promise.all(
+//     getComic(title).storylines[storynum].pages.map(async (pageObj, index) => {
+//       const imgSrc =
+//         pageObj.img.original || (await getImageFromPage(pageObj.href)); // Don't fetch if image is already present
+//       pageObj.img.original = imgSrc;
+//       progbarConfig.progressAmt -= 1;
+//       return pageObj;
+//     })
+//   );
+//   storeComicData();
+//   console.log(comicData);
+//   return comicWithAllStorylineImages;
+// };
+
+const sourceSomeImagesInStoryline = async (storyPages, pagenum, buffer = 6) => {
+  const storySlice = storyPages.slice(
+    Math.max(pagenum - buffer, 0),
+    Math.min(pagenum + buffer, storyPages.length - 1)
+  );
+  progbarConfig.progressAmt = storySlice.length;
+  const imageSources = await Promise.all(
+    storySlice.map(async (pageObj) => {
       const imgSrc =
-        pageObj.img.original || (await getImageFromPage(pageObj.href)); // Don't fetch if image is already present
+        pageObj.img?.original || (await getImageFromPage(pageObj.href)); // Don't fetch if image is already present
       pageObj.img.original = imgSrc;
       progbarConfig.progressAmt -= 1;
-      return pageObj;
+      return imgSrc;
     })
   );
   storeComicData();
   console.log(comicData);
-  return comicWithAllStorylineImages;
+  return imageSources;
 };
 
 const getComic = (title) => {
@@ -100,12 +121,24 @@ const getCoversForComic = async (title) => {
   return storylinesWithCovers;
 };
 
-const getImagesForStoryline = async (title, storylinenum) => {
-  const storylineWithAllImages = await sourceAllImagesInStoryline(
-    title,
-    storylinenum
-  );
-  return storylineWithAllImages;
+// const getStorylineImageBuffer = async (storypages, pagenum = 0) => {
+//   const imageBuffer = await sourceSomeImagesInStoryline(storypages, pagenum);
+//   return imageBuffer;
+// };
+
+const bufferCoverImages = async (storylines) => {
+  const coversArray = storylines.map((storyline) => {
+    return storyline.pages[0];
+  });
+  const imageBuffer = await sourceSomeImagesInStoryline(coversArray);
+  bufferImageList(imageBuffer);
+  return imageBuffer;
+};
+
+const bufferStorylineImages = async (storypages, pagenum) => {
+  const imageBuffer = await sourceSomeImagesInStoryline(storypages, pagenum);
+  bufferImageList(imageBuffer);
+  return imageBuffer;
 };
 
 const getAllComics = () => {
@@ -116,7 +149,8 @@ export {
   getComic,
   getPopulatedComic,
   getCoversForComic,
-  getImagesForStoryline,
+  bufferStorylineImages,
+  bufferCoverImages,
   getAllComics,
   generateProgressbar,
 };

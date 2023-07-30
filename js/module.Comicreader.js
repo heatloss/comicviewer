@@ -2,7 +2,7 @@ import {
   getComic,
   getPopulatedComic,
   getCoversForComic,
-  getImagesForStoryline,
+  bufferStorylineImages,
   generateProgressbar,
 } from './module.Comicdata.js';
 import { templater } from './module.Templater.js';
@@ -12,6 +12,7 @@ import {
   optimizeImage,
 } from './module.Archiveparser.js';
 import { initAdvancers, setAdvancersActive } from './module.Touch.js';
+import { render } from './module.Router.js';
 
 const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
@@ -20,19 +21,33 @@ app.addEventListener('advance', (e) => {
   transitionPage(e.detail);
 });
 
-const buildComic = async (title, storyNum = 0, pageNum = 0) => {
-  const selectedComic = getComic(title);
-  // INSERT LOADING ANIMATION
+const goToRack = () => {
+  render(`/rack:${readingState.title}`);
+};
+
+const updatePageNumber = () => {
+  app.querySelector('#comicsreadernav .op-page').textContent =
+    parseInt(readingState.pageIndex, 10) + 1;
+};
+
+const buildChapterProgressBar = () => {
+  const selectedComic = getComic(readingState.title);
   const progBar = generateProgressbar();
   const progbarBox = templater('progressbar', [
     selectedComic.name + ':',
-    selectedComic.storylines[storyNum].name,
+    selectedComic.storylines[readingState.storyIndex].name,
     progBar,
   ]);
   app.querySelector('#comicpages').replaceChildren(progbarBox);
-  const fullySourcedStoryline = await getImagesForStoryline(title, storyNum);
-  readingState.stack = fullySourcedStoryline;
+};
+
+const buildComic = async (title, storyNum = 0, pageNum = 0) => {
+  readingState.title = title;
+  readingState.storyIndex = storyNum;
   readingState.pageIndex = pageNum;
+  readingState.stack = getComic(title).storylines[storyNum].pages;
+  buildChapterProgressBar();
+  bufferStorylineImages(readingState.stack, readingState.pageIndex);
   const ghostMount = await generateGhostMount(pageNum);
   const comicReader = templater('comicreader', ghostMount);
   app.querySelector('#comicpages').replaceChildren(comicReader);
@@ -56,17 +71,17 @@ const generateGhostMount = async (pageNum) => {
     const ghostPagePrevOrig =
       readingState.stack[pageNum - 1]?.img?.original ||
       (await getImageFromPage(readingState.stack[pageNum - 1].href));
-    ghostPagePrev.src = optimizeImage(ghostPagePrevOrig);
+    ghostPagePrev.src = optimizeImage(ghostPagePrevOrig, 800);
   }
   const activePageOrig =
     readingState.stack[pageNum]?.img?.original ||
     (await getImageFromPage(readingState.stack[pageNum].href));
-  activePage.src = optimizeImage(activePageOrig);
+  activePage.src = optimizeImage(activePageOrig, 800);
   if (pageNum < readingState.stack.length - 1) {
     const ghostPageNextOrig =
       readingState.stack[pageNum + 1]?.img?.original ||
       (await getImageFromPage(readingState.stack[pageNum + 1].href));
-    ghostPageNext.src = optimizeImage(ghostPageNextOrig);
+    ghostPageNext.src = optimizeImage(ghostPageNextOrig, 800);
   }
 
   const ghostMount = templater('ghostmount', [
@@ -78,11 +93,15 @@ const generateGhostMount = async (pageNum) => {
   return ghostMount;
 };
 
-const transitionPage = (advDir) => {
+const removeGhostMount = (ghostMount) => {
+  // ghostMount.classList.add('banish');
+  ghostMount.remove();
+};
+
+const transitionPage = async (advDir) => {
   const requestedPageIndex = readingState.pageIndex + advDir;
   if (requestedPageIndex < 0) {
-    // Transition to #rack
-    console.log('BACK TO RACK');
+    goToRack();
     return false;
   } else if (requestedPageIndex > readingState.stack.length - 1) {
     // Transition to #endofchapter
@@ -99,6 +118,8 @@ const transitionPage = (advDir) => {
   ghostMount.classList.add(advDir > 0 ? 'movePrev' : 'moveNext');
   ghostMount.addEventListener('transitionend', completeSlide);
   readingState.pageIndex = requestedPageIndex;
+
+  bufferStorylineImages(readingState.stack, readingState.pageIndex);
 };
 
 const completeSlide = async () => {
@@ -110,8 +131,9 @@ const completeSlide = async () => {
   const newGhostMount = await generateGhostMount(readingState.pageIndex);
   ghostMount.parentNode.appendChild(newGhostMount);
 
-  // progBar.remove();
-  ghostMount.remove();
+  setTimeout(removeGhostMount, 10, ghostMount);
+
+  updatePageNumber();
   setAdvancersActive(true);
 };
 
