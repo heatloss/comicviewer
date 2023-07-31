@@ -1,6 +1,6 @@
 const config = {
-  proxy: 'https://comic-viewer-proxy.glitch.me/proxy?url=',
-  imageproxy: 'https://image-url-proxy.glitch.me/proxy?url=',
+  proxy: 'https://comic-proxy.cyclic.cloud/url/proxy?url=',
+  imageproxy: 'https://comic-proxy.cyclic.cloud/image/proxy?url=',
   archiveselector: `select[name='comic'], 
     .cc-storyline-thumbwrapper > .cc-storyline-pagethumb > a, 
     .cc-storyline-pagetitles > .cc-pagerow > a,
@@ -25,7 +25,6 @@ const optimizeImage = (originalurl, xwidth) => {
 };
 
 const bufferImageList = (imageList) => {
-  console.log('I AM BUFFERING');
   imageList.forEach((imageSrc) => {
     fetch(optimizeImage(imageSrc, 800));
   });

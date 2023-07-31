@@ -1,5 +1,6 @@
 const config = {
-  proxy: 'https://comic-viewer-proxy.glitch.me/proxy?url=',
+  // proxy: 'https://comic-viewer-proxy.glitch.me/proxy?url=',
+  proxy: 'https://comic-proxy.cyclic.cloud/url/proxy?url=',
   comicselector: '#cc-comic',
   verbose: true,
 };

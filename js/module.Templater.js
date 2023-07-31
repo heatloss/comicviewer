@@ -11,6 +11,8 @@ const storylines = await generateHTMLTemplate('storylines.html');
 
 const comicreader = await generateHTMLTemplate('comicreader.html');
 
+const interstitial = await generateHTMLTemplate('interstitial.html');
+
 const header = document.createElement('template');
 header.innerHTML = `
   <nav id="headernav">
@@ -55,12 +57,20 @@ loading.innerHTML = `
 
 const storylinecover = document.createElement('template');
 storylinecover.innerHTML = `
-  <li>
-    <figure class="storyline-cover">
-      <div class="cover-image-frame" data-templater></div>
-      <figcaption class="cover-title" data-templater></figcaption>
-    </figure>
-  </li>`;
+    <li>
+      <figure class="storyline-cover">
+        <div class="cover-image-frame" data-templater></div>
+        <figcaption class="cover-title" data-templater></figcaption>
+      </figure>
+    </li>`;
+
+const storylinenavbtns = document.createElement('template');
+storylinenavbtns.innerHTML = `
+    <menu class="nav-btn-group"> 
+      <li class="nav-btn" data-btntype="forward" data-templater></li>
+      <li class="nav-btn tabproxy mobile-only" data-btntype="forward" data-tabsysid="comicintro" data-tabpos="covers">Covers</li>
+      <li class="nav-btn" data-btntype="forward" data-templater></li>
+    </menu>`;
 
 const templates = {
   main,
@@ -68,10 +78,12 @@ const templates = {
   comicreader,
   progressbar,
   ghostmount,
+  interstitial,
   square,
   loading,
   storylines,
   storylinecover,
+  storylinenavbtns,
 };
 
 const templater = (templatename, content, classnames) => {

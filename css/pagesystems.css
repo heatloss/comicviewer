@@ -286,6 +286,11 @@
     ~ .tab:not([data-tabactive]) {
     transform: translateX(101%);
   }
+
+  #interstitial .interstitial-frame article section {
+    margin: 0;
+    padding: 0 9vw 3em 9vw;
+  }
 }
 
 @keyframes fadeup {

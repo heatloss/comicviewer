@@ -85,15 +85,8 @@
   background-position: right 1.5em center;
 }
 
-/* .nav-btn-group .nav-btn:after {
-  content: '';
-  display: block;
-  width: 1em;
-  height: 1em;
-  padding-right: 0.75em;
-} */
-
-.nav-btn-group .nav-btn[data-btntype='forward'] {
+.nav-btn-group .nav-btn[data-btntype='forward'],
+.nav-btn-group .nav-btn[data-btntype='back'] {
   background-image: url('data:image/svg+xml;utf8,<svg fill="dimgray" viewBox="0 0 283.332 249.999" xmlns="http://www.w3.org/2000/svg"><path d="m7.322 42.678c-9.763-9.763-9.763-25.593 0-35.356s25.593-9.763 35.356 0l99.999 100.001c9.763 9.764 9.763 25.59 0 35.354l-99.999 100c-9.763 9.763-25.593 9.763-35.356 0-9.763-9.764-9.763-25.59 0-35.354l82.321-82.323zm133.335-35.356c-9.764 9.763-9.764 25.593 0 35.356l82.32 82.322-82.32 82.323c-9.764 9.764-9.764 25.59 0 35.354 9.763 9.763 25.59 9.763 35.353 0l100-100c9.763-9.764 9.763-25.59 0-35.354l-100-100.001c-9.763-9.763-25.59-9.763-35.353 0z"/></svg>');
 }
 

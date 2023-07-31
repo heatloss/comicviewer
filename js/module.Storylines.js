@@ -5,22 +5,24 @@ import {
 } from './module.Comicdata.js';
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
-import { buildComic } from './module.Comicreader.js';
 import { initTabs } from './module.Tabsystem.js';
 import { optimizeImage } from './module.Archiveparser.js';
 
 const app = document.querySelector('#app');
-
-const goToComicCover = (e) => {
-  const storylineData = e.currentTarget.dataset;
-  render(`/comic:${storylineData.storytitle}:${storylineData.storyindex}`);
-};
 
 const handleExternalLink = (e) => {
   console.log(e.target);
 };
 
 const buildStorylines = async (title) => {
+  const gotoComicPage = (e) => {
+    const storylineData = e.currentTarget.dataset;
+    render(
+      `/comic:${storylineData.storytitle}:${storylineData.storyindex || 0}:${
+        storylineData.pageindex || 0
+      }`
+    );
+  };
   app.querySelector('#headertitle').textContent = title;
 
   const loadingmsg = templater('loading', title);
@@ -46,7 +48,7 @@ const buildStorylines = async (title) => {
     );
     coverLi.dataset.storytitle = title;
     coverLi.dataset.storyindex = index;
-    coverLi.addEventListener('click', goToComicCover);
+    coverLi.addEventListener('click', gotoComicPage);
     coversList.appendChild(coverLi);
   });
   bufferCoverImages(storylineArray);
@@ -66,6 +68,21 @@ const buildStorylines = async (title) => {
     coversList,
     linksUl,
   ]);
+
+  const firstPageBtn = storylineBox.querySelector(
+    "li.nav-btn[data-btntype='forward']:first-child"
+  );
+  const lastPageBtn = storylineBox.querySelector(
+    "li.nav-btn[data-btntype='forward']:last-child"
+  );
+  firstPageBtn.dataset.storytitle = title;
+  lastPageBtn.dataset.storytitle = title;
+  lastPageBtn.dataset.storyindex = comic.storylines.length - 1;
+  lastPageBtn.dataset.pageindex =
+    comic.storylines[comic.storylines.length - 1].pages.length - 1;
+
+  firstPageBtn.addEventListener('click', gotoComicPage);
+  lastPageBtn.addEventListener('click', gotoComicPage);
 
   app.querySelector('#rack').replaceChildren(storylineBox);
 

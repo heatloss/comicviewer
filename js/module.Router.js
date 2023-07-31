@@ -2,6 +2,7 @@ import { templater } from './module.Templater.js';
 import { gotoZone } from './module.Zonesystem.js';
 import { gotoTab } from './module.Tabsystem.js';
 import { buildStorylines } from './module.Storylines.js';
+import { buildInterstitial } from './module.Interstitial.js';
 import { buildComic } from './module.Comicreader.js';
 
 const app = document.querySelector('#app');
@@ -22,6 +23,12 @@ const gotoRack = (pathdata) => {
   // GENERATE STORYLINE VIEW FOR THAT COMIC
 };
 
+const gotoInterstitial = (pathdata) => {
+  gotoZone('interstitial');
+  buildInterstitial(pathdata[1], pathdata[2]);
+  // GENERATE INTER-CHAPTER VIEW FOR THAT COMIC
+};
+
 const gotoComic = (pathdata) => {
   gotoZone('comic');
   // if no pathdata, just navigate
@@ -35,6 +42,7 @@ const routes = {
   '/intro': gotoIntro,
   '/rack': gotoRack,
   '/comic': gotoComic,
+  '/interstitial': gotoInterstitial,
 };
 
 const render = (path) => {
@@ -44,7 +52,7 @@ const render = (path) => {
 };
 
 window.addEventListener('popstate', (e) =>
-  render(new URL(window.location.href).pathname),
+  render(new URL(window.location.href).pathname)
 );
 
 // render("/");

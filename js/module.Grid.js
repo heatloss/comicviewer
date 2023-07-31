@@ -11,13 +11,12 @@ const sortingMethods = {
   shuffle: (a, b) => 0.5 - Math.random(),
 };
 
-const goToRack = (e) => {
-  e.stopPropagation();
-  const title = e.currentTarget.dataset.name;
-  render(`/rack:${title}`);
-};
-
 const buildGrid = (style = 'alpha') => {
+  const goToRack = (e) => {
+    e.stopPropagation();
+    const title = e.currentTarget.dataset.name;
+    render(`/rack:${title}`);
+  };
   comics.sort(sortingMethods[style]);
   const gridList = app.querySelector('#comicslist > .comicsgrid');
   const fragment = document.createElement('div');

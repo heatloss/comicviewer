@@ -112,7 +112,7 @@ img {
   box-sizing: border-box;
 }
 
-.nav-btn-group .nav-btn[data-btntype='forward'] {
+.nav-btn-group .nav-btn {
   font-size: 1.1em;
   height: 3.25em;
   padding: 0 1.85em;
@@ -261,11 +261,29 @@ img {
   margin: 4em 6vw;
 }
 
-#rack .storylines-frame .storylines-hed {
+#rack .storylines-frame .storylines-hed,
+#interstitial .interstitial-frame .interstitial-hed {
   font-size: 1.333em;
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 1em;
+  text-align: center;
+}
+
+#interstitial .interstitial-frame .interstitial-hed {
+  margin: 1em 0 0.5em 0;
+}
+
+#interstitial .interstitial-frame .interstitial-subhed {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+#interstitial .interstitial-frame .interstitial-blurb {
+  font-size: 1.1em;
+  margin-bottom: 2em;
   text-align: center;
 }
 
@@ -356,7 +374,8 @@ img {
     display: none !important;
   }
 
-  #rack .storylines-frame {
+  #rack .storylines-frame,
+  #interstitial .interstitial-frame {
     margin: 0;
     padding-top: 4em;
     height: 100%;

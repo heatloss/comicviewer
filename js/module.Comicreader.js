@@ -17,17 +17,13 @@ import { render } from './module.Router.js';
 const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
 
-app.addEventListener('advance', (e) => {
-  transitionPage(e.detail);
-});
+// app.addEventListener('advance', (e) => {
+//   transitionComicPage(e.detail);
+// });
 
-const goToRack = () => {
-  render(`/rack:${readingState.title}`);
-};
-
-const updatePageNumber = () => {
+const updatePageNumber = (msg) => {
   app.querySelector('#comicsreadernav .op-page').textContent =
-    parseInt(readingState.pageIndex, 10) + 1;
+    msg || parseInt(readingState.pageIndex, 10) + 1;
 };
 
 const buildChapterProgressBar = () => {
@@ -41,17 +37,21 @@ const buildChapterProgressBar = () => {
   app.querySelector('#comicpages').replaceChildren(progbarBox);
 };
 
-const buildComic = async (title, storyNum = 0, pageNum = 0) => {
+const buildComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
   readingState.title = title;
-  readingState.storyIndex = storyNum;
-  readingState.pageIndex = pageNum;
-  readingState.stack = getComic(title).storylines[storyNum].pages;
+  readingState.storyIndex = parseInt(storyNumParam, 10);
+  readingState.pageIndex = parseInt(pageNumParam, 10);
+  console.log(readingState);
+  readingState.stack =
+    getComic(title).storylines[readingState.storyIndex].pages;
   buildChapterProgressBar();
   bufferStorylineImages(readingState.stack, readingState.pageIndex);
-  const ghostMount = await generateGhostMount(pageNum);
+  const ghostMount = await generateGhostMount(readingState.pageIndex);
   const comicReader = templater('comicreader', ghostMount);
   app.querySelector('#comicpages').replaceChildren(comicReader);
+  updatePageNumber();
   initAdvancers();
+  app.addEventListener('advance', transitionComicPage);
 };
 
 const generateGhostMount = async (pageNum) => {
@@ -98,20 +98,35 @@ const removeGhostMount = (ghostMount) => {
   ghostMount.remove();
 };
 
-const transitionPage = async (advDir) => {
+const transitionComicPage = async (e) => {
+  const advDir = typeof e === 'number' ? e : e.detail;
+
+  const gotoRack = () => {
+    app.removeEventListener('advance', transitionComicPage);
+    render(`/rack:${readingState.title}`);
+  };
+  const gotoInterstitial = (storyidx = readingState.storyIndex) => {
+    app.removeEventListener('advance', transitionComicPage);
+    render(`/interstitial:${readingState.title}:${storyidx}`);
+  };
+
   const requestedPageIndex = readingState.pageIndex + advDir;
   if (requestedPageIndex < 0) {
-    goToRack();
+    if (readingState.storyIndex > 0) {
+      // TODO: Swap the transition side in this scenario.
+      gotoInterstitial(readingState.storyIndex - 1);
+    } else {
+      gotoRack();
+    }
     return false;
   } else if (requestedPageIndex > readingState.stack.length - 1) {
-    // Transition to #endofchapter
-    console.log('END OF CHAPTER');
+    gotoInterstitial();
     return false;
   }
   console.log(`${advDir < 0 ? '<-' : '->'} ${requestedPageIndex}`);
 
   setAdvancersActive(false);
-
+  updatePageNumber(requestedPageIndex + 1);
   const ghostMount = app.querySelector(
     '#ghostmount-region > .comicpages-ghostmount'
   );
