@@ -2,6 +2,7 @@ import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { getComic } from './module.Comicdata.js';
 import { initAdvancers, setAdvancersActive } from './module.Touch.js';
+import { reverseZones } from './module.Zonesystem.js';
 
 const app = document.querySelector('#app');
 const interstitialState = {};
@@ -79,7 +80,7 @@ const exitIterstitial = async (e) => {
     comic.storylines[comic.storylines.length - 1].pages.length - 1;
     interstitialToComicPage(eData); // Last page of previous chapter
   } else if (advDir === 1) {
-    // TODO: Swap the transition side in this scenario.
+    reverseZones(); // TODO: Swap the transition side in this scenario.
     eData.storyindex = interstitialState.storylineindex + 1;
     interstitialToComicPage(eData); // First page of next chapter
   }

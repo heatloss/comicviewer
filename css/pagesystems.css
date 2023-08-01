@@ -1,4 +1,4 @@
-.zonesFrame {
+#zonesFrame {
   width: 100vw;
   min-height: 100vh;
   position: relative;
@@ -13,6 +13,9 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+}
+
+#zonesFrame.transitioning [data-zoneid] {
   transition: transform 0.25s cubic-bezier(0.25, 0, 0, 1);
 }
 
@@ -22,6 +25,16 @@
 
 [data-zoneid][data-zoneactive] ~ [data-zoneid]:not([data-zoneactive]) {
   transform: translateX(101%);
+}
+
+#zonesFrame.reverse [data-zoneid]:not([data-zoneactive]) {
+  transform: translateX(101%);
+}
+
+#zonesFrame.reverse
+  [data-zoneid][data-zoneactive]
+  ~ [data-zoneid]:not([data-zoneactive]) {
+  transform: translateX(-101%);
 }
 
 .tabsystem.tabselector {
@@ -56,7 +69,7 @@
 .tabsystem.tabselector > .tabselectormenu > li[data-tabactive] {
   background-color: #ddd;
   color: #000;
-  margin: 0 -1px;
+  /* margin: 0 -1px; */
 }
 
 /* .tabsystem.tabselector > .tabselectormenu > li[data-tabactive]:first-of-type {

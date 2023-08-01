@@ -6,6 +6,7 @@ import { buildInterstitial } from './module.Interstitial.js';
 import { buildComic } from './module.Comicreader.js';
 
 const app = document.querySelector('#app');
+const leadingdir = window.location.pathname.replace(/\/$/, '');
 
 const gotoHome = (pathdata) => {
   gotoZone('home');
@@ -36,7 +37,7 @@ const gotoComic = (pathdata) => {
   // GENERATE COMIC VIEW FOR THAT COMIC, STORYLINE & PAGE
 };
 
-const routes = {
+const goRoutes = {
   '/': gotoHome,
   '/home': gotoHome,
   '/intro': gotoIntro,
@@ -46,14 +47,14 @@ const routes = {
 };
 
 const render = (path) => {
-  console.log(path);
   const pathdata = path.split(':');
-  routes[pathdata[0]](pathdata);
+  goRoutes[pathdata[0]](pathdata);
+  window.history.replaceState(null, pathdata[0], path);
 };
 
-window.addEventListener('popstate', (e) =>
-  render(new URL(window.location.href).pathname)
-);
+// window.addEventListener('popstate', (e) =>
+//   render(new URL(window.location.href).pathname)
+// );
 
 // render("/");
 

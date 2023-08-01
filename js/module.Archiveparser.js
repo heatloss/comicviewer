@@ -1,6 +1,8 @@
 const config = {
-  proxy: 'https://comic-proxy.cyclic.cloud/url/proxy?url=',
-  imageproxy: 'https://comic-proxy.cyclic.cloud/image/proxy?url=',
+  // proxy: 'https://comic-proxy.cyclic.cloud/url/proxy?url=',
+  // imageproxy: 'https://comic-proxy.cyclic.cloud/image/proxy?url=',
+  proxy: 'http://proxy.luckbat.com:3000/url/proxy?url=',
+  imageproxy: 'http://proxy.luckbat.com:3000/image/proxy?url=',
   archiveselector: `select[name='comic'], 
     .cc-storyline-thumbwrapper > .cc-storyline-pagethumb > a, 
     .cc-storyline-pagetitles > .cc-pagerow > a,
@@ -21,6 +23,10 @@ const handleError = (err) => {
 };
 
 const optimizeImage = (originalurl, xwidth) => {
+  return `${config.imageproxy}${originalurl}${xwidth ? '&x=' + xwidth : ''}`;
+};
+
+const optimizeSrcSet = (originalurl) => {
   return `${config.imageproxy}${originalurl}${xwidth ? '&x=' + xwidth : ''}`;
 };
 
