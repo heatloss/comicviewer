@@ -27,13 +27,12 @@
   transform: translateX(101%);
 }
 
-#zonesFrame.reverse [data-zoneid]:not([data-zoneactive]) {
+[data-zoneid].reverse:not([data-zoneactive]) {
   transform: translateX(101%);
 }
 
-#zonesFrame.reverse
-  [data-zoneid][data-zoneactive]
-  ~ [data-zoneid]:not([data-zoneactive]) {
+[data-zoneid][data-zoneactive].reverse ~ [data-zoneid]:not([data-zoneactive]),
+[data-zoneid][data-zoneactive] ~ [data-zoneid].reverse:not([data-zoneactive]) {
   transform: translateX(-101%);
 }
 

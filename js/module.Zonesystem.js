@@ -1,7 +1,7 @@
 const app = document.querySelector('#app');
 
 const gotoZone = (zoneID, zoneHed) => {
-  prepareZoneTransition();
+  prepareZoneTransition(); // Except for when the zone being requested is already the active zone...
   const allZones = app.querySelectorAll('[data-zoneid]');
   allZones.forEach((zone) => {
     zone.removeAttribute('data-zoneactive');
@@ -23,28 +23,22 @@ const prepareZoneTransition = () => {
 const concludeZoneTransition = () => {
   const zoneFrame = app.querySelector('#zonesFrame');
   app.querySelector('#zonesFrame').classList.remove('transitioning');
+  app.querySelectorAll('[data-zoneid].reverse').forEach((zone) => {
+    zone.classList.remove('reverse');
+  });
   zoneFrame.removeEventListener('transitionend', concludeZoneTransition);
 };
 
-const reverseZones = () => {
-  const zoneFrame = app.querySelector('#zonesFrame');
-  zoneFrame.classList.add('reverse');
-  zoneFrame.addEventListener('transitionend', unReverseZones);
-  console.log('REVERSE');
+const reverseZone = (zoneid) => {
+  app.querySelector(zoneid).classList.add('reverse');
+  app.querySelector('[data-zoneactive]').classList.add('reverse');
+  // zoneFrame.addEventListener('transitionend', unReverseZones);
 };
 
-const unReverseZones = () => {
-  const zoneFrame = app.querySelector('#zonesFrame');
-  setTimeout(removeReverse, 10);
-  // zoneFrame.classList.remove('reverse');
-  zoneFrame.removeEventListener('transitionend', unReverseZones);
-  console.log('REVERSE REVERSED');
-};
-
-const removeReverse = (zoneFrame) => {
-  app.querySelector('#zonesFrame').classList.remove('reverse');
+const startTransition = (zoneFrame) => {
+  zoneFrame.classList.add('transitioning');
 };
 
 const initZones = () => {}; // Presumably zones will need some global event listeners?
 
-export { initZones, gotoZone, reverseZones };
+export { initZones, gotoZone, reverseZone };

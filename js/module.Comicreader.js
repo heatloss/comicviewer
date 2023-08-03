@@ -13,6 +13,7 @@ import {
 } from './module.Archiveparser.js';
 import { initAdvancers, setAdvancersActive } from './module.Touch.js';
 import { render } from './module.Router.js';
+import { reverseZone } from './module.Zonesystem.js';
 
 const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
@@ -59,12 +60,8 @@ const generateGhostMount = async (pageNum) => {
   const activePage = document.createElement('img');
   const ghostPageNext = document.createElement('img');
 
-  const ghostProgBar = document.createElement('progress');
-  ghostProgBar.classList.add('progbar');
-
-  app.querySelector('#comicpages').appendChild(ghostProgBar);
   activePage.onload = () => {
-    ghostProgBar.remove();
+    app.querySelector('#ghostProg')?.remove();
   };
 
   if (pageNum > 0) {
@@ -77,6 +74,7 @@ const generateGhostMount = async (pageNum) => {
     readingState.stack[pageNum]?.img?.original ||
     (await getImageFromPage(readingState.stack[pageNum].href));
   activePage.src = optimizeImage(activePageOrig, 800);
+
   if (pageNum < readingState.stack.length - 1) {
     const ghostPageNextOrig =
       readingState.stack[pageNum + 1]?.img?.original ||
@@ -114,7 +112,8 @@ const transitionComicPage = async (e) => {
   if (requestedPageIndex < 0) {
     if (readingState.storyIndex > 0) {
       // TODO: Swap the transition side in this scenario.
-      gotoInterstitial(readingState.storyIndex - 1);
+      reverseZone('#interstitial');
+      setTimeout(gotoInterstitial, 1, readingState.storyIndex - 1);
     } else {
       gotoRack();
     }
@@ -142,6 +141,11 @@ const completeSlide = async () => {
     '#ghostmount-region > .comicpages-ghostmount'
   );
   ghostMount.removeEventListener('transitionend', completeSlide);
+
+  const ghostProgBar = document.createElement('progress');
+  ghostProgBar.id = 'ghostProg';
+  ghostProgBar.classList.add('progbar');
+  app.querySelector('#comicpages').appendChild(ghostProgBar);
 
   const newGhostMount = await generateGhostMount(readingState.pageIndex);
   ghostMount.parentNode.appendChild(newGhostMount);

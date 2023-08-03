@@ -2,7 +2,7 @@ import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { getComic } from './module.Comicdata.js';
 import { initAdvancers, setAdvancersActive } from './module.Touch.js';
-import { reverseZones } from './module.Zonesystem.js';
+import { reverseZone } from './module.Zonesystem.js';
 
 const app = document.querySelector('#app');
 const interstitialState = {};
@@ -15,6 +15,12 @@ const interstitialToComicPage = (e) => {
       storylineData.pageindex || 0
     }`
   );
+};
+
+const interstitialToComicPageReversed = (e) => {
+  const eData = e.currentTarget ? e.currentTarget.dataset : e;
+  reverseZone('#comicpages');
+  setTimeout(interstitialToComicPage, 1, eData);
 };
 
 const interstitialToRack = () => {
@@ -36,10 +42,7 @@ const buildInterstitial = async (title, storyNumParam) => {
   const lastChapterName = comic.storylines[storylineIndex].name;
   interstitialState.title = title;
   interstitialState.storylineindex = storylineIndex;
-  const interstitialBox = templater('interstitial', [
-    lastChapterNumber,
-    lastChapterName,
-  ]);
+  const interstitialBox = templater('interstitial', [lastChapterName]);
 
   const loadNextPageBtn = interstitialBox.querySelector(
     "li.nav-btn[data-btntype='forward']:first-child"
@@ -60,7 +63,7 @@ const buildInterstitial = async (title, storyNumParam) => {
   lastPageBtn.dataset.pageindex =
     comic.storylines[comic.storylines.length - 1].pages.length - 1;
 
-  loadNextPageBtn.addEventListener('click', interstitialToComicPage);
+  loadNextPageBtn.addEventListener('click', interstitialToComicPageReversed);
   backToRackBtn.addEventListener('click', interstitialToRack);
   lastPageBtn.addEventListener('click', interstitialToComicPage);
 
@@ -80,9 +83,8 @@ const exitIterstitial = async (e) => {
     comic.storylines[comic.storylines.length - 1].pages.length - 1;
     interstitialToComicPage(eData); // Last page of previous chapter
   } else if (advDir === 1) {
-    reverseZones(); // TODO: Swap the transition side in this scenario.
     eData.storyindex = interstitialState.storylineindex + 1;
-    interstitialToComicPage(eData); // First page of next chapter
+    interstitialToComicPageReversed(eData);
   }
   console.log(`${advDir < 0 ? '<- END OF PREV CHAPTER' : '-> CONTINUE'}`);
 };
