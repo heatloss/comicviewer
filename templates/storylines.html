@@ -1,45 +1,42 @@
- 
 <div class="storylines-frame">
-	<div class="tabsystem tabselector inline mobile-only" data-tabsysid="comicintro">
-		<menu class="tabselectormenu"> 
-			<li class="intro" data-tabpos="intro" data-tabactive>Intro</li>
-			<li class="covers" data-tabpos="covers">Chapter covers</li>
-			<li class="share" data-tabpos="links">About this comic</li>
-		</menu>
-	</div>
-	<article class="tabsystem tabgroup" data-tabsysid="comicintro">
-		<section class="tab" data-tabpos="intro" data-tabactive>
-			<h4 class="storylines-hed">
-				About the comic: 
-			</h4>
-			<div class="splash-image-frame" data-templater>
-			</div>
-			<h3 class="storylines-desc" data-templater>
-			</h3>
-			<div class="nav-btn-box">
-				<h5 class="nav-btn-hed">
-					Start reading: 
-				</h5>
-				<menu class="nav-btn-group"> 
-					<li class="nav-btn" data-btntype="forward">First page</li>
-					<li class="nav-btn tabproxy mobile-only" data-btntype="forward" data-tabsysid="comicintro" data-tabpos="covers">Covers</li>
-					<li class="nav-btn" data-btntype="forward">Latest page</li>
-				</menu>
-			</div>
-		</section>
-		<section class="tab" data-tabpos="covers">
-			<h4 class="storylines-hed">
-				Covers: 
-			</h4>
-			<div class="storylines-list" data-templater>
-			</div>
-		</section>
-		<section class="tab" data-tabpos="links">
-			<h4 class="storylines-hed">
-				Links: 
-			</h4>
-			<div class="link-list" data-templater>
-			</div>
-		</section>
-	</article>
+  <div
+    class="tabsystem tabselector inline mobile-only"
+    data-tabsysid="aboutcomic"
+  >
+    <menu class="tabselectormenu">
+      <li class="intro" data-tabpos="intro" data-tabactive>Intro</li>
+      <li class="covers" data-tabpos="covers">Chapter covers</li>
+      <li class="share" data-tabpos="links">About this comic</li>
+    </menu>
+  </div>
+  <article class="tabsystem tabgroup" data-tabsysid="aboutcomic">
+    <section class="tab" data-tabpos="intro" data-tabactive>
+      <h4 class="storylines-hed">About the comic:</h4>
+      <div class="splash-image-frame" data-templater></div>
+      <p class="storylines-desc" data-templater></p>
+      <div class="nav-btn-box">
+        <h5 class="nav-btn-hed">Start reading:</h5>
+        <menu class="nav-btn-group">
+          <li class="nav-btn" data-btntype="forward">First page</li>
+          <li
+            class="nav-btn tabproxy mobile-only"
+            data-btntype="forward"
+            data-tabsysid="aboutcomic"
+            data-tabpos="covers"
+          >
+            Covers
+          </li>
+          <li class="nav-btn" data-btntype="forward">Latest page</li>
+        </menu>
+      </div>
+    </section>
+    <section class="tab" data-tabpos="covers">
+      <h4 class="storylines-hed">Covers:</h4>
+      <div class="storylines-list" data-templater></div>
+    </section>
+    <section class="tab" data-tabpos="links">
+      <h4 class="storylines-hed">Links:</h4>
+      <div class="link-list" data-templater></div>
+    </section>
+  </article>
 </div>

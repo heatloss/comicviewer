@@ -1,4 +1,5 @@
 import {
+  getComic,
   getPopulatedComic,
   getCoversForComic,
   bufferCoverImages,
@@ -16,7 +17,7 @@ const handleExternalLink = (e) => {
   console.log(e.target);
 };
 
-const rackToHome = (e) => {
+const rackToHome = () => {
   app.removeEventListener('advance', exitRack);
   render('/home:comiclist');
 };
@@ -31,7 +32,66 @@ const rackToComicPage = (e) => {
   );
 };
 
+// const buildComicMenu = (title = rackState.title) => {
+//   const storylines = getComic(title).storylines;
+//   const fragment = document.createDocumentFragment();
+//   storylines.forEach((storyline, index) => {
+//     const menuLi = document.createElement('li');
+//     menuLi.textContent = storyline.name;
+//     menuLi.classList.add('menu-btn');
+//     menuLi.dataset.action = index;
+//     menuLi.addEventListener('click', menuToCover);
+//     fragment.appendChild(menuLi);
+//   });
+//   const gridMenu = templater('comicchaptermenu', [title, fragment]);
+//   replaceHeaderTitle(title);
+//   app.querySelector('#headerframe .header-menu').replaceChildren(gridMenu);
+// };
+
 const buildStorylines = async (title) => {
+  app.querySelector('#headertitle').textContent = title;
+  rackState.title = title;
+
+  const loadingmsg = templater('loading', title);
+  app.querySelector('#rack').replaceChildren(loadingmsg);
+
+  const comic = getComic(title);
+
+  const splashImage = document.createElement('img');
+  splashImage.classList.add('splash-image');
+  splashImage.src = 'img/' + comic.square;
+
+  const comicDesc = comic.description || '';
+
+  const coversList = document.createElement('ul');
+  coversList.classList.add('covers-list');
+
+  const linksUl = document.createElement('ul');
+  comic.links.forEach((link, index) => {
+    const externalLi = document.createElement('li');
+    externalLi.innerHTML = `<a class="external-link" data-linktype="${link.linktext.toLowerCase()}" href="${
+      link.linkurl
+    }">${link.linktext}</a>`;
+    externalLi.addEventListener('click', handleExternalLink);
+    linksUl.appendChild(externalLi);
+  });
+
+  const storylineBox = templater('storylines', [
+    splashImage,
+    comicDesc,
+    coversList,
+    linksUl,
+  ]);
+
+  app.querySelector('#rack').replaceChildren(storylineBox);
+  fillStoryBox(storylineBox);
+  initTabs('aboutcomic');
+  initAdvancers();
+  // buildComicMenu(title);
+  app.addEventListener('advance', exitRack);
+};
+
+const fillStoryBox = async (storylineBox) => {
   const gotoComicPage = (e) => {
     app.removeEventListener('advance', exitRack);
     const storylineData = e.currentTarget.dataset;
@@ -41,21 +101,12 @@ const buildStorylines = async (title) => {
       }`
     );
   };
-  app.querySelector('#headertitle').textContent = title;
-  rackState.title = title;
-
-  const loadingmsg = templater('loading', title);
-  app.querySelector('#rack').replaceChildren(loadingmsg);
-
+  const coversList = storylineBox.querySelector('.covers-list');
+  const title = rackState.title;
   const comic = await getPopulatedComic(title);
+  storylineBox.querySelector('.storylines-desc').textContent =
+    comic.description;
   const storylineArray = await getCoversForComic(title);
-
-  const splashImage = document.createElement('img');
-  splashImage.classList.add('splash-image');
-  splashImage.src = 'img/' + comic.square;
-
-  const coversList = document.createElement('ul');
-  coversList.classList.add('covers-list');
   storylineArray.forEach((storyline, index) => {
     const coverImage = document.createElement('img');
     coverImage.classList.add('cover-image');
@@ -70,24 +121,6 @@ const buildStorylines = async (title) => {
     coverLi.addEventListener('click', gotoComicPage);
     coversList.appendChild(coverLi);
   });
-  bufferCoverImages(storylineArray);
-  const linksUl = document.createElement('ul');
-  comic.links.forEach((link, index) => {
-    const externalLi = document.createElement('li');
-    externalLi.innerHTML = `<a class="external-link" data-linktype="${link.linktext.toLowerCase()}" href="${
-      link.linkurl
-    }">${link.linktext}</a>`;
-    externalLi.addEventListener('click', handleExternalLink);
-    linksUl.appendChild(externalLi);
-  });
-
-  const storylineBox = templater('storylines', [
-    splashImage,
-    comic.description,
-    coversList,
-    linksUl,
-  ]);
-
   const firstPageBtn = storylineBox.querySelector(
     "li.nav-btn[data-btntype='forward']:first-child"
   );
@@ -103,11 +136,7 @@ const buildStorylines = async (title) => {
   firstPageBtn.addEventListener('click', gotoComicPage);
   lastPageBtn.addEventListener('click', gotoComicPage);
 
-  app.querySelector('#rack').replaceChildren(storylineBox);
-
-  initTabs('comicintro');
-  initAdvancers();
-  app.addEventListener('advance', exitRack);
+  bufferCoverImages(storylineArray);
 };
 
 const exitRack = async (e) => {

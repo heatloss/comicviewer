@@ -1,3 +1,5 @@
+import { activateHeaderMenu, deactivateHeaderMenu } from './module.Header.js';
+
 const app = document.querySelector('#app');
 
 const gotoTab = (tabsystem, tabpos) => {
@@ -10,6 +12,11 @@ const gotoTab = (tabsystem, tabpos) => {
       tabelem.setAttribute('data-tabactive', '');
       if (tabelem.dataset.tabhed) {
         app.querySelector('#headertitle').textContent = tabelem.dataset.tabhed;
+      }
+      if (tabelem.dataset.tabheadermenu) {
+        activateHeaderMenu();
+      } else {
+        deactivateHeaderMenu();
       }
     }
   });
@@ -27,9 +34,8 @@ const selectTab = (e) => {
 const initTabs = (tabsysid) => {
   app
     .querySelectorAll(
-      `
-      .tabsystem.tabselector[data-tabsysid="${tabsysid}"] > .tabselectormenu > li,
-      .tabproxy[data-tabsysid="${tabsysid}"]`,
+      `.tabsystem.tabselector[data-tabsysid="${tabsysid}"] > .tabselectormenu > li,
+      .tabproxy[data-tabsysid="${tabsysid}"]`
     )
     .forEach((elem) => {
       elem.addEventListener('click', selectTab);

@@ -14,17 +14,28 @@ import {
 import { initAdvancers, setAdvancersActive } from './module.Touch.js';
 import { render } from './module.Router.js';
 import { reverseZone } from './module.Zonesystem.js';
+import { closeMenu, replaceHeaderTitle } from './module.Header.js';
 
 const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
 
-// app.addEventListener('advance', (e) => {
-//   transitionComicPage(e.detail);
-// });
-
 const updatePageNumber = (msg) => {
   app.querySelector('#comicsreadernav .op-page').textContent =
     msg || parseInt(readingState.pageIndex, 10) + 1;
+};
+
+const menuToCover = (e) => {
+  const coverindex = e.currentTarget.dataset.storyindex;
+  closeMenu();
+  render(`/comic:${readingState.title}:${coverindex}:0`);
+};
+
+const menuToRack = () => {
+  app
+    .querySelector("#headersystems .header-menu .menu-btn[data-btntype='back']")
+    .removeEventListener('click', menuToRack);
+  closeMenu();
+  render(`/rack:${readingState.title}`);
 };
 
 const buildChapterProgressBar = () => {
@@ -38,14 +49,36 @@ const buildChapterProgressBar = () => {
   app.querySelector('#comicpages').replaceChildren(progbarBox);
 };
 
-const buildComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
+const buildComicMenu = (title = readingState.title) => {
+  const storylines = getComic(title).storylines;
+  const fragment = document.createDocumentFragment();
+  storylines.forEach((storyline, index) => {
+    const menuLi = document.createElement('li');
+    menuLi.textContent = storyline.name;
+    menuLi.classList.add('menu-btn');
+    menuLi.dataset.btntype = 'forward';
+    menuLi.dataset.storyindex = index;
+    menuLi.addEventListener('click', menuToCover);
+    fragment.appendChild(menuLi);
+  });
+  const gridMenu = templater('comicchaptermenu', fragment);
+  gridMenu
+    .querySelector(".menu-btn[data-btntype='back']")
+    .addEventListener('click', menuToRack);
+
+  replaceHeaderTitle(title);
+  app.querySelector('#headerframe .header-menu').replaceChildren(gridMenu);
+};
+
+const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
+  // TODO: Make sure this function can initialize the storylines if navigated to directly.
   readingState.title = title;
   readingState.storyIndex = parseInt(storyNumParam, 10);
   readingState.pageIndex = parseInt(pageNumParam, 10);
-  console.log(readingState);
   readingState.stack =
     getComic(title).storylines[readingState.storyIndex].pages;
   buildChapterProgressBar();
+  buildComicMenu();
   bufferStorylineImages(readingState.stack, readingState.pageIndex);
   const ghostMount = await generateGhostMount(readingState.pageIndex);
   const comicReader = templater('comicreader', ghostMount);
@@ -111,7 +144,6 @@ const transitionComicPage = async (e) => {
   const requestedPageIndex = readingState.pageIndex + advDir;
   if (requestedPageIndex < 0) {
     if (readingState.storyIndex > 0) {
-      // TODO: Swap the transition side in this scenario.
       reverseZone('#interstitial');
       setTimeout(gotoInterstitial, 1, readingState.storyIndex - 1);
     } else {
@@ -156,4 +188,4 @@ const completeSlide = async () => {
   setAdvancersActive(true);
 };
 
-export { buildComic };
+export { initComic };

@@ -1,7 +1,10 @@
+import { activateHeaderMenu, deactivateHeaderMenu } from './module.Header.js';
+
 const app = document.querySelector('#app');
 
-const gotoZone = (zoneID, zoneHed) => {
+const gotoZone = (zoneID, zoneHed, headerMenu) => {
   prepareZoneTransition(); // Except for when the zone being requested is already the active zone...
+  deactivateHeaderMenu();
   const allZones = app.querySelectorAll('[data-zoneid]');
   allZones.forEach((zone) => {
     zone.removeAttribute('data-zoneactive');
@@ -9,6 +12,9 @@ const gotoZone = (zoneID, zoneHed) => {
       zone.setAttribute('data-zoneactive', '');
       if (zoneHed) {
         app.querySelector('#headertitle').textContent = zoneHed;
+      }
+      if (headerMenu) {
+        activateHeaderMenu();
       }
     }
   });

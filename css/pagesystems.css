@@ -46,8 +46,8 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: #eee;
-  border: 1px solid #ddd;
+  background-color: var(--ux-bg-color);
+  border: 1px solid var(--ux-border-color);
   border-radius: 1em;
   overflow: hidden;
 }
@@ -57,8 +57,7 @@
   padding: 0.5em 1.5em;
   text-transform: uppercase;
   font-weight: bold;
-  background-color: #eee;
-  color: #444;
+  background-color: var(--ux-bg-color);
 }
 
 /* .tabsystem.tabselector > .tabselectormenu > li + li {
@@ -66,8 +65,7 @@
 } */
 
 .tabsystem.tabselector > .tabselectormenu > li[data-tabactive] {
-  background-color: #ddd;
-  color: #000;
+  background-color: var(--ux-border-color);
   /* margin: 0 -1px; */
 }
 
@@ -145,7 +143,61 @@
 }
 
 #homenav .footernav-btn-group .footernav-btn[data-tabactive] {
-  background-color: #ddd;
+  background-color: var(--ux-border-color);
+}
+
+#headerframe .header-menu {
+  position: fixed;
+  width: 82vw;
+  max-height: calc(100vh - 8em);
+  top: 3.25em;
+  left: calc(50% - 41vw);
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ux-bg-color);
+  border: 1px solid var(--ux-border-color);
+  padding: 1.5em 0 0.5em 0;
+  border-radius: 1em;
+  overflow: auto;
+  box-sizing: border-box;
+  transition: transform 0.125s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.125s linear;
+}
+
+#headersystems:not(.open) .header-menu {
+  opacity: 0;
+  transform: translateY(-3em);
+  pointer-events: none;
+}
+
+#headerframe .header-menu .menu-hed {
+  font-weight: bold;
+  font-size: 1.15em;
+  text-align: center;
+  color: var(--accent-text-color);
+}
+
+#headerframe .header-menu .menu-group + .menu-hed {
+  margin-top: 1em;
+}
+
+#headerframe .header-menu .menu-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6em 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#headerframe .header-menu .menu-group > .menu-btn {
+  font-size: 1.05em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  text-transform: uppercase;
+  padding: 1em 2.85em 1em 1.85em;
+  box-sizing: border-box;
 }
 
 #rack .storylines-frame .tabgroup .tab {
@@ -157,7 +209,7 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #ddd;
+  background-color: var(--ux-bg-color);
 }
 
 #comicpages #comicsreadernav .comic-ops {
@@ -183,6 +235,10 @@
 
 #comicpages #comicsreadernav .comic-ops .comic-op button[disabled] {
   opacity: 0.25;
+}
+
+#comicpages #comicsreadernav .comic-ops .comic-op .op-page {
+  color: var(--accent-text-color);
 }
 
 #comicpages #ghostmount-region {
