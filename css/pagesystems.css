@@ -78,8 +78,8 @@
 } */
 
 .tabsystem.tabgroup {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  /* flex-direction: row; */
   width: 100%;
   height: 100%;
   /* min-height: 100vh; */
@@ -149,24 +149,48 @@
 #headerframe .header-menu {
   position: fixed;
   width: 82vw;
+  max-width: 20em;
   max-height: calc(100vh - 8em);
   top: 3.25em;
-  left: calc(50% - 41vw);
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   background-color: var(--ux-bg-color);
   border: 1px solid var(--ux-border-color);
-  padding: 1.5em 0 0.5em 0;
+  padding: 1.5em 0.05em 0.5em 0;
   border-radius: 1em;
-  overflow: auto;
   box-sizing: border-box;
   transition: transform 0.125s cubic-bezier(0.34, 1.56, 0.64, 1),
     opacity 0.125s linear;
 }
 
+#headerframe .header-menu .header-menu-contents {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+#headerframe .header-menu .header-menu-contents::-webkit-scrollbar {
+  width: 11px;
+}
+#headerframe .header-menu .header-menu-contents {
+  scrollbar-width: thin;
+  scrollbar-color: var(--page-border-color) var(--ux-bg-color);
+}
+#headerframe .header-menu .header-menu-contents::-webkit-scrollbar-track {
+  background: var(--ux-bg-color);
+}
+#headerframe .header-menu .header-menu-contents::-webkit-scrollbar-thumb {
+  background-color: var(--page-border-color);
+  border-radius: 6px;
+  border: 3px solid var(--ux-bg-color);
+}
+
 #headersystems:not(.open) .header-menu {
   opacity: 0;
-  transform: translateY(-3em);
+  transform: translateX(-50%) translateY(-3em);
   pointer-events: none;
 }
 
@@ -201,7 +225,6 @@
 }
 
 #rack .storylines-frame .tabgroup .tab {
-  /* width: 50%; */
   box-sizing: border-box;
 }
 

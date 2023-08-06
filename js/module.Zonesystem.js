@@ -41,9 +41,9 @@ const reverseZone = (zoneid) => {
   // zoneFrame.addEventListener('transitionend', unReverseZones);
 };
 
-const startTransition = (zoneFrame) => {
-  zoneFrame.classList.add('transitioning');
-};
+// const startTransition = (zoneFrame) => {
+//   zoneFrame.classList.add('transitioning');
+// };
 
 const initZones = () => {}; // Presumably zones will need some global event listeners?
 

@@ -1,5 +1,15 @@
-// Core assets
-let coreAssets = [];
+// Core assets (JS and CSS are automatically cached)
+let coreAssets = [
+  '/index.html',
+  '/templates/main.html',
+  '/templates/header.html',
+  '/templates/comicreader.html',
+  '/templates/storylines.html',
+  '/templates/interstitial.html',
+  '/favicon.ico',
+  '/favicon-16x16.png',
+  '/favicon-32x32.png',
+];
 
 // On install, cache core assets
 self.addEventListener('install', function (event) {
@@ -45,6 +55,7 @@ self.addEventListener('fetch', function (event) {
           return response;
         })
         .catch(function (error) {
+          console.log(error);
           // If there's no item in cache, respond with a fallback
           return caches.match(request).then(function (response) {
             return response || caches.match('/offline.html');

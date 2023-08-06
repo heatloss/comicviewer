@@ -1,16 +1,10 @@
 import {
   getComic,
-  getPopulatedComic,
-  getCoversForComic,
   bufferStorylineImages,
   generateProgressbar,
 } from './module.Comicdata.js';
 import { templater } from './module.Templater.js';
-import {
-  getPagesFromArchive,
-  getImageFromPage,
-  optimizeImage,
-} from './module.Archiveparser.js';
+import { getImageFromPage, optimizeImage } from './module.Archiveparser.js';
 import { initAdvancers, setAdvancersActive } from './module.Touch.js';
 import { render } from './module.Router.js';
 import { reverseZone } from './module.Zonesystem.js';

@@ -8,7 +8,7 @@ import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { initTabs } from './module.Tabsystem.js';
 import { optimizeImage } from './module.Archiveparser.js';
-import { initAdvancers, setAdvancersActive } from './module.Touch.js';
+import { initAdvancers } from './module.Touch.js';
 
 const app = document.querySelector('#app');
 const rackState = {};
@@ -32,22 +32,6 @@ const rackToComicPage = (e) => {
   );
 };
 
-// const buildComicMenu = (title = rackState.title) => {
-//   const storylines = getComic(title).storylines;
-//   const fragment = document.createDocumentFragment();
-//   storylines.forEach((storyline, index) => {
-//     const menuLi = document.createElement('li');
-//     menuLi.textContent = storyline.name;
-//     menuLi.classList.add('menu-btn');
-//     menuLi.dataset.action = index;
-//     menuLi.addEventListener('click', menuToCover);
-//     fragment.appendChild(menuLi);
-//   });
-//   const gridMenu = templater('comicchaptermenu', [title, fragment]);
-//   replaceHeaderTitle(title);
-//   app.querySelector('#headerframe .header-menu').replaceChildren(gridMenu);
-// };
-
 const buildStorylines = async (title) => {
   app.querySelector('#headertitle').textContent = title;
   rackState.title = title;
@@ -61,13 +45,29 @@ const buildStorylines = async (title) => {
   splashImage.classList.add('splash-image');
   splashImage.src = 'img/' + comic.square;
 
+  const comicCredits = comic.credits || '';
   const comicDesc = comic.description || '';
 
   const coversList = document.createElement('ul');
   coversList.classList.add('covers-list');
 
   const linksUl = document.createElement('ul');
-  comic.links.forEach((link, index) => {
+  // const websiteLi = document.createElement('li');
+  const extendedLinks = [
+    {
+      linktext: 'Comic Website',
+      linkurl: `https://${new URL(comic.archiveurl).hostname.replace(
+        'www.',
+        ''
+      )}`,
+    },
+    ...comic.links,
+  ];
+  // websiteLi.innerHTML = `<a class="external-link" data-linktype="comic-website" href="${new URL(
+  //   comic.archiveurl
+  // ).hostname.replace('www.', '')}">Comic Website</a>`;
+  // linksUl.appendChild(websiteLi);
+  extendedLinks.forEach((link) => {
     const externalLi = document.createElement('li');
     externalLi.innerHTML = `<a class="external-link" data-linktype="${link.linktext.toLowerCase()}" href="${
       link.linkurl
@@ -78,6 +78,7 @@ const buildStorylines = async (title) => {
 
   const storylineBox = templater('storylines', [
     splashImage,
+    comicCredits,
     comicDesc,
     coversList,
     linksUl,
@@ -101,6 +102,7 @@ const fillStoryBox = async (storylineBox) => {
       }`
     );
   };
+  // TODO: Insert loading animation
   const coversList = storylineBox.querySelector('.covers-list');
   const title = rackState.title;
   const comic = await getPopulatedComic(title);

@@ -17,11 +17,11 @@ const sortingMethods = [
     id: 'alpha',
     sortfunc: (a, b) => a.sortname.localeCompare(b.sortname),
   },
-  { name: 'Randomly', id: 'shuffle', sortfunc: (a, b) => 0.5 - Math.random() },
+  { name: 'Randomly', id: 'shuffle', sortfunc: () => 0.5 - Math.random() },
   {
     name: 'by Last Update',
     id: 'date',
-    sortfunc: (a, b) => 0.5 - Math.random(),
+    sortfunc: (a, b) => a.sortname.localeCompare(b.sortname),
   },
   {
     name: 'by Genre',
@@ -62,13 +62,13 @@ const generateGenreList = () => {
   return itemizedGenres;
 };
 
-const getAllDatesFromRSS = () => {
-  console.log('date');
-};
+// const getAllDatesFromRSS = () => {
+//   console.log('date');
+// };
 
 const generateComicGrid = (sortstyle) => {
   switch (sortstyle) {
-    case 'alpha':
+    case 'alpha': {
       comics.sort(getSort(sortstyle));
       const alphabeticBlock = templater(
         'squarecategory',
@@ -77,8 +77,8 @@ const generateComicGrid = (sortstyle) => {
       );
 
       return alphabeticBlock;
-      break;
-    case 'shuffle':
+    }
+    case 'shuffle': {
       comics.sort(getSort(sortstyle));
       const shuffledBlock = templater(
         'squarecategory',
@@ -87,11 +87,11 @@ const generateComicGrid = (sortstyle) => {
       );
 
       return shuffledBlock;
-      break;
+    }
     case 'date':
       console.log('get the dates');
       break;
-    case 'genre':
+    case 'genre': {
       const genreList = generateGenreList();
       const populatedGenreList = genreList.map((genrename) => {
         const genreMatchedComicList = comics.filter((comic) =>
@@ -109,7 +109,7 @@ const generateComicGrid = (sortstyle) => {
         fragment.appendChild(genreBlock);
       });
       return fragment;
-      break;
+    }
     default:
       console.log('error');
   }
@@ -146,7 +146,7 @@ const buildGrid = (style = 'shuffle') => {
   gridList.replaceChildren(generateComicGrid(style));
 };
 
-const buildGridMenu = (selectedid) => {
+const buildGridMenu = () => {
   const fragment = document.createDocumentFragment();
   sortingMethods.forEach((sortmethod) => {
     const menuLi = document.createElement('li');

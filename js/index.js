@@ -1,15 +1,16 @@
 // import Feedparser from './class.Feedparser.js'
-import comics from './comics.js';
-import { templater } from './module.Templater.js';
+// import comics from './comics.js';
+import { initTemplates, templater } from './module.Templater.js';
 import { initTabs } from './module.Tabsystem.js';
-import { initGrid } from './module.Grid.js';
+// import { initGrid } from './module.Grid.js';
 import { initHeader } from './module.Header.js';
 
 import { render } from './module.Router.js';
 
 const app = document.querySelector('#app');
 
-function run() {
+async function run() {
+  await initTemplates();
   const main = templater('main');
   app.replaceChildren(main);
   initHeader();

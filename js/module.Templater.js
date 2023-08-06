@@ -5,16 +5,6 @@ const generateHTMLTemplate = async (templatename) => {
   return template;
 };
 
-const main = await generateHTMLTemplate('main.html');
-
-const header = await generateHTMLTemplate('header.html');
-
-const storylines = await generateHTMLTemplate('storylines.html');
-
-const comicreader = await generateHTMLTemplate('comicreader.html');
-
-const interstitial = await generateHTMLTemplate('interstitial.html');
-
 const ghostmount = document.createElement('template');
 ghostmount.innerHTML = `
   <article class="comicpages-ghostmount">
@@ -91,22 +81,48 @@ comicchaptermenu.innerHTML = `
     <menu class="menu-group" data-templater></menu>
   </div>`;
 
-const templates = {
-  main,
-  header,
-  comicreader,
-  progressbar,
-  ghostmount,
-  interstitial,
-  squarecategory,
-  square,
-  loading,
-  storylines,
-  storylinecover,
-  storylinenavbtns,
-  gridsortmenu,
-  comicchaptermenu,
+let templates = {};
+
+const initTemplates = async () => {
+  const main = await generateHTMLTemplate('main.html');
+  const header = await generateHTMLTemplate('header.html');
+  const storylines = await generateHTMLTemplate('storylines.html');
+  const comicreader = await generateHTMLTemplate('comicreader.html');
+  const interstitial = await generateHTMLTemplate('interstitial.html');
+  templates = {
+    main,
+    header,
+    comicreader,
+    progressbar,
+    ghostmount,
+    interstitial,
+    squarecategory,
+    square,
+    loading,
+    storylines,
+    storylinecover,
+    storylinenavbtns,
+    gridsortmenu,
+    comicchaptermenu,
+  };
 };
+
+// const templates = {
+//   main,
+//   header,
+//   comicreader,
+//   progressbar,
+//   ghostmount,
+//   interstitial,
+//   squarecategory,
+//   square,
+//   loading,
+//   storylines,
+//   storylinecover,
+//   storylinenavbtns,
+//   gridsortmenu,
+//   comicchaptermenu,
+// };
 
 const templater = (templatename, content, classnames) => {
   const tmpl =
@@ -128,4 +144,4 @@ const templater = (templatename, content, classnames) => {
   return tmpl;
 };
 
-export { templater };
+export { initTemplates, templater };

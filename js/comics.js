@@ -6,6 +6,7 @@ export default {
       rssurl: 'https://feeds.feedburner.com/endcomic/QkZz',
       archiveurl: 'http://www.endcomic.com/archives/',
       square: 'hubbox_THE_END.png',
+      credits: 'August & Cory Brown',
       genres: ['action-adventure', 'lgbt', 'sci-fi'],
       links: [
         { linktext: 'Store', linkurl: 'https://endcomic.gumroad.com' },
@@ -17,6 +18,7 @@ export default {
       rssurl: 'https://www.ghostjunksickness.com/comic/rss',
       archiveurl: 'https://www.ghostjunksickness.com/comic/archive',
       square: 'hubbox_GJS.png',
+      credits: 'Krispy and Space (studioCARTRIDGE)',
       genres: ['action-adventure', 'lgbt', 'sci-fi'],
       links: [
         {
@@ -40,6 +42,7 @@ export default {
       rssurl: 'https://www.automansdaughter.com/comic/rss',
       archiveurl: 'https://www.automansdaughter.com/comic/archive',
       square: 'hubbox_THE_AUTOMANS DAUGHTER.png',
+      credits: 'Mike Stamm',
       genres: ['action-adventure', 'sci-fi', 'steampunk'],
       links: [
         { linktext: 'Patreon', linkurl: 'https://www.patreon.com/luckbat' },
@@ -55,6 +58,7 @@ export default {
       rssurl: 'https://www.magicalhowcomic.com/comic/rss',
       archiveurl: 'https://www.magicalhowcomic.com/comic/archive',
       square: 'hubbox_MAGICAL_HOW.png',
+      credits: 'eyugho',
       genres: ['fantasy', 'lgbt'],
       links: [
         {
@@ -74,6 +78,7 @@ export default {
       rssurl: 'https://www.phantomarine.com/comic/rss',
       archiveurl: 'https://www.phantomarine.com/comic/archive',
       square: 'hubbox_PHANTOMARINE.png',
+      credits: 'Claire Niebergall',
       genres: ['action-adventure', 'mystery'],
       links: [
         {
@@ -91,6 +96,7 @@ export default {
       rssurl: 'https://www.hazylondon.com/comic/rss',
       archiveurl: 'https://www.hazylondon.com/comic/archive',
       square: 'hubbox_HAZY.png',
+      credits: 'Crystal Jayme (Scotty)',
       genres: ['action-adventure'],
       links: [
         {
@@ -115,6 +121,7 @@ export default {
       rssurl: 'https://www.fairmeadowcomic.com/comic/rss',
       archiveurl: 'https://www.fairmeadowcomic.com/comic/archive',
       square: 'hubbox_FAIRMEADOW.png',
+      credits: 'KP',
       genres: ['action-adventure', 'drama', 'fantasy', 'lgbt'],
       links: [
         {
@@ -133,6 +140,7 @@ export default {
       rssurl: 'https://www.tigressqueen.com/comic/rss',
       archiveurl: 'https://www.tigressqueen.com/comic/archive',
       square: 'hubbox_TIGRESS_QUEEN.png',
+      credits: 'Allison Shaw (Alli)',
       genres: ['action-adventure', 'fantasy', 'romance'],
       links: [
         {
@@ -157,6 +165,7 @@ export default {
       rssurl: 'https://www.godslavecomic.com/comic/rss',
       archiveurl: 'https://www.godslavecomic.com/comic/archive',
       square: 'hubbox_GODSLAVE.png',
+      credits: 'Meaghan Carter',
       genres: ['action-adventure', 'fairytale', 'fantasy', 'urban-fantasy'],
       links: [
         {
@@ -172,6 +181,7 @@ export default {
       rssurl: 'http://www.white-noise-comic.com/comic/rss',
       archiveurl: 'https://www.white-noise-comic.com/comic/archive',
       square: 'hubbox_WHITENOISE.png',
+      credits: 'Adrien Lee (thephooka)',
       genres: ['action-adventure', 'lgbt', 'slice-of-life'],
       links: [
         { linktext: 'Patreon', linkurl: 'http://www.patreon.com/thephooka' },
@@ -184,6 +194,7 @@ export default {
       rssurl: 'https://www.bicycleboy.net/comic/rss',
       archiveurl: 'https://www.bicycleboy.net/comic/archive',
       square: 'hubbox_BICYCLE_BOY.png',
+      credits: 'Jackarais',
       genres: ['action-adventure', 'dystopian', 'sci-fi'],
       links: [
         { linktext: 'Store', linkurl: 'https://payhip.com/Jackarais' },
@@ -198,6 +209,7 @@ export default {
       rssurl: 'https://www.otherknown.com/comic/rss',
       archiveurl: 'https://www.otherknown.com/comic/archive',
       square: 'hubbox_OTHERKNOWN.png',
+      credits: 'Lorian Merriman',
       genres: ['action-adventure', 'drama', 'sci-fi'],
       links: [
         { linktext: 'Patreon', linkurl: 'https://www.patreon.com/grackling' },
@@ -210,6 +222,7 @@ export default {
       rssurl: 'https://www.heroesofthantopolis.com/comic/rss',
       archiveurl: 'https://www.heroesofthantopolis.com/comic/archive',
       square: 'hubbox_HEROES_OF THANTOPOLIS.png',
+      credits: 'Izzy Hall (Strontium)',
       genres: ['action-adventure', 'fantasy', 'lgbt'],
       links: [
         { linktext: 'Tumblr', linkurl: 'https://strontiumsun.tumblr.com/' },
@@ -220,6 +233,7 @@ export default {
       rssurl: 'https://www.daughterofthelilies.com/dotl/rss',
       archiveurl: 'https://www.daughterofthelilies.com/comic/archive',
       square: 'hubbox_DOTL.png',
+      credits: 'Meg Syverud and Jessica "Yoko" Weaver (Nytrinhia)',
       genres: ['action-adventure', 'fantasy'],
       links: [
         {
@@ -242,6 +256,7 @@ export default {
       rssurl: 'https://www.lieswithincomic.com/comic/rss',
       archiveurl: 'https://www.lieswithincomic.com/comic/archive',
       square: 'hubbox_LIES_WITHIN.png',
+      credits: 'Lacey (@byelacey)',
       genres: ['action-adventure', 'drama', 'lgbt', 'urban-fantasy'],
       links: [
         {
@@ -256,6 +271,7 @@ export default {
       rssurl: 'https://inbloodwerise.com/comic/rss',
       archiveurl: 'https://inbloodwerise.com/comic/archive',
       square: 'hubbox_INBLOOD.png',
+      credits: 'Mera',
       genres: ['action-adventure', 'fantasy', 'historical-fiction', 'romance'],
       links: [
         { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/captainmera' },
@@ -266,6 +282,7 @@ export default {
         },
         { linktext: 'Tumblr', linkurl: 'https://captainmera.tumblr.com/' },
         { linktext: 'Twitch', linkurl: 'https://www.twitch.tv/vikingmera' },
+        { linktext: 'Discord', linkurl: 'https://discord.gg/AaXX4Mt9Ye' },
       ],
     },
     {
@@ -273,6 +290,7 @@ export default {
       rssurl: 'https://solstoria.net/comic/rss',
       archiveurl: 'https://solstoria.net/comic/archive',
       square: 'hubbox_SOLSTORIA.png',
+      credits: 'Angélica María',
       genres: ['action-adventure', 'fantasy'],
       links: [
         {
@@ -287,6 +305,7 @@ export default {
       rssurl: 'https://www.starhammercomic.com/rss.php',
       archiveurl: 'https://www.starhammercomic.com/comic/archive',
       square: 'hubbox_STARHAMMER.png',
+      credits: 'Harry Bogosian and J.N. Monk (StarTeamGO!)',
       genres: ['action-adventure', 'slice-of-life', 'superhero'],
       links: [
         {
@@ -312,6 +331,7 @@ export default {
       rssurl: 'https://www.ozziethevampire.com/comic/rss',
       archiveurl: 'https://www.ozziethevampire.com/comic/archive',
       square: 'hubbox_OZZIEVAMP.png',
+      credits: 'Eric Lide',
       genres: ['action-adventure', 'comedy'],
       links: [
         {
@@ -330,6 +350,7 @@ export default {
       rssurl: 'https://www.tigertigercomic.com/tiger-tiger/rss',
       archiveurl: 'https://www.tigertigercomic.com/comic/archive',
       square: 'hubbox_TIGERTIGER.png',
+      credits: 'Petra Erika Nordlund',
       genres: ['action-adventure', 'historical-fiction', 'mystery'],
       links: [
         { linktext: 'Store', linkurl: 'https://leppushop.storenvy.com' },
@@ -343,6 +364,7 @@ export default {
       rssurl: 'https://wychwoodcomic.com/comic/rss',
       archiveurl: 'https://www.wychwoodcomic.com/comic/archive',
       square: 'hubbox_WYCHWOOD.png',
+      credits: 'Ally (Varethane)',
       genres: ['action-adventure', 'sci-fi', 'fantasy'],
       links: [
         {
@@ -362,6 +384,7 @@ export default {
       rssurl: 'https://www.noendcomic.com/rss.php',
       archiveurl: 'https://www.noendcomic.com/comic/archive',
       square: 'hubbox_NO_END.png',
+      credits: 'Erli and Kromi',
       genres: ['action-adventure', 'dystopian', 'romance', 'lgbt'],
       links: [
         { linktext: 'Patreon', linkurl: 'https://www.patreon.com/noendcomic' },
@@ -379,6 +402,7 @@ export default {
       rssurl: 'https://www.trippingoveryou.com/comic/rss',
       archiveurl: 'https://www.trippingoveryou.com/comic/archive',
       square: 'hubbox_TRIPPINGOVERYOU.png',
+      credits: 'Suzana and Owena',
       genres: ['slice-of-life', 'lgbt', 'romance'],
       links: [
         { linktext: 'Store', linkurl: 'https://www.toyboxcomics.com' },
@@ -396,8 +420,9 @@ export default {
       rssurl: 'https://www.mashcomic.com/comic/rss',
       archiveurl: 'https://www.mashcomic.com/comic/archive',
       square: 'hubbox_THE_MASH.png',
+      credits: 'Danigami',
       genres: ['fantasy', 'horror', 'mystery'],
-      links: [],
+      links: [{ linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/danigami' }],
     },
   ],
 };

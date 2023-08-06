@@ -26,9 +26,9 @@ const optimizeImage = (originalurl, xwidth) => {
   return `${config.imageproxy}${originalurl}${xwidth ? '&x=' + xwidth : ''}`;
 };
 
-const optimizeSrcSet = (originalurl) => {
-  return `${config.imageproxy}${originalurl}${xwidth ? '&x=' + xwidth : ''}`;
-};
+// const optimizeSrcSet = (originalurl) => {
+//   return `${config.imageproxy}${originalurl}${xwidth ? '&x=' + xwidth : ''}`;
+// };
 
 const bufferImageList = (imageList) => {
   imageList.forEach((imageSrc) => {

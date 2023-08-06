@@ -8,9 +8,12 @@ img {
 }
 
 #app {
-  font-family: ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa,
+  font-family: system-ui, sans-serif;
+  /* font-family: ui-rounded, 'Hiragino Maru Gothic ProN', Quicksand, Comfortaa,
     Manjari, 'Arial Rounded MT', 'Arial Rounded MT Bold', Calibri,
-    source-sans-pro, sans-serif;
+    source-sans-pro, sans-serif; */
+  /* font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans',
+    source-sans-pro, sans-serif; */
   background-color: var(--page-bg-color);
   color: var(--page-text-color);
 }
@@ -152,7 +155,7 @@ img {
 #comicpages .loading .loading-hed {
   font-size: 1.333em;
   font-weight: bold;
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
   color: var(--accent-text-color);
 }
 
@@ -305,13 +308,23 @@ img {
 #rack .storylines-frame .splash-image {
   max-width: 100%;
   margin: 0 auto 2em auto;
-  border: 1px solid var(--ux-border-color);
+  border: 1px solid var(--page-border-color);
+}
+
+#rack .storylines-frame .author {
+  font-size: 1.05em;
+  margin: 0.25em 0 1.25em 0;
+}
+
+#rack .storylines-frame .author .credit {
+  font-weight: bold;
 }
 
 #rack .storylines-frame .storylines-desc {
   font-size: 1.05em;
   font-style: italic;
-  margin-bottom: 1.5em;
+  margin-bottom: 2em;
+  line-height: 1.4;
 }
 
 #rack .link-list > ul > li {
@@ -339,7 +352,7 @@ img {
   > li
   > .storyline-cover
   .cover-image-frame {
-  width: 33%;
+  width: 40%;
 }
 
 #rack .storylines-list > .covers-list > li > .storyline-cover .cover-title {
@@ -353,7 +366,7 @@ img {
 #rack .storylines-list > .covers-list > li > .storyline-cover .cover-image {
   width: 100%;
   height: auto;
-  border: 1px solid var(--ux-border-color);
+  border: 1px solid var(--page-border-color);
 }
 
 /* #comicpages {
@@ -372,16 +385,37 @@ img {
     display: none !important;
   }
 
+  #rack .storylines-frame .splash-image {
+    width: 100%;
+  }
+
+  #rack .storylines-frame .tabgroup {
+    grid-template-columns: auto 40vw;
+    grid-template-rows: min-content min-content auto;
+    column-gap: 5vw;
+    row-gap: 5vw;
+    justify-items: center;
+    align-items: start;
+    grid-template-areas:
+      'intro covers'
+      'links covers'
+      'empty covers';
+  }
+
   #rack .storylines-frame .tabgroup .tab[data-tabpos='intro'] {
-    width: 33%;
+    grid-area: intro;
+    width: 100%;
+    max-width: 27em;
   }
 
   #rack .storylines-frame .tabgroup .tab[data-tabpos='covers'] {
-    width: 67%;
+    grid-area: covers;
   }
 
   #rack .storylines-frame .tabgroup .tab[data-tabpos='links'] {
-    display: none;
+    grid-area: links;
+    width: 100%;
+    max-width: 23em;
   }
 }
 

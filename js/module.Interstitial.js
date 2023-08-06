@@ -1,7 +1,7 @@
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { getComic } from './module.Comicdata.js';
-import { initAdvancers, setAdvancersActive } from './module.Touch.js';
+import { initAdvancers } from './module.Touch.js';
 import { reverseZone } from './module.Zonesystem.js';
 
 const app = document.querySelector('#app');
@@ -38,7 +38,7 @@ const buildInterstitial = async (title, storyNumParam) => {
     return false;
   }
 
-  const lastChapterNumber = storylineIndex + 1;
+  // const lastChapterNumber = storylineIndex + 1;
   const lastChapterName = comic.storylines[storylineIndex].name;
   interstitialState.title = title;
   interstitialState.storylineindex = storylineIndex;
