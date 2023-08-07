@@ -3,6 +3,11 @@ import {
   bufferStorylineImages,
   generateProgressbar,
 } from './module.Comicdata.js';
+import {
+  getUserData,
+  addSubscription,
+  removeSubscription,
+} from './module.Userdata.js';
 import { templater } from './module.Templater.js';
 import { getImageFromPage, optimizeImage } from './module.Archiveparser.js';
 import { initAdvancers, setAdvancersActive } from './module.Touch.js';
@@ -12,6 +17,21 @@ import { closeMenu, replaceHeaderTitle } from './module.Header.js';
 
 const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
+const userData = getUserData();
+
+const handleSubscription = (e) => {
+  const subscribeButton = e.target;
+  const subscribeTitle = subscribeButton.dataset.title;
+  if (subscribeButton.hasAttribute('data-subscribed')) {
+    removeSubscription(subscribeTitle);
+    subscribeButton.textContent = 'Add to Subscriptions';
+    subscribeButton.removeAttribute('data-subscribed');
+  } else {
+    addSubscription(subscribeTitle);
+    subscribeButton.textContent = 'Remove Subscription';
+    subscribeButton.dataset.subscribed = '';
+  }
+};
 
 const updatePageNumber = (msg) => {
   app.querySelector('#comicsreadernav .op-page').textContent =
@@ -56,6 +76,15 @@ const buildComicMenu = (title = readingState.title) => {
     fragment.appendChild(menuLi);
   });
   const gridMenu = templater('comicchaptermenu', fragment);
+  const subscribeButton = gridMenu.querySelector(
+    ".menu-btn[data-btntype='subscribe']"
+  );
+  subscribeButton.dataset.title = title;
+  if (userData.subscribedComics.includes(title)) {
+    subscribeButton.dataset.subscribed = '';
+  }
+  subscribeButton.addEventListener('click', handleSubscription);
+
   gridMenu
     .querySelector(".menu-btn[data-btntype='back']")
     .addEventListener('click', menuToRack);

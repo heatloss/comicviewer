@@ -23,10 +23,32 @@ square.innerHTML = `
 
 const squarecategory = document.createElement('template');
 squarecategory.innerHTML = `
-    <div class="category-block">
-      <h5 class="section-subhed" data-templater></h5>
-      <div class="thumbs-block" data-templater></div>
-    </div>`;
+  <div class="category-block">
+    <h5 class="section-subhed" data-templater></h5>
+    <div class="thumbs-block" data-templater></div>
+  </div>`;
+
+const subscriptionops = document.createElement('template');
+subscriptionops.innerHTML = `
+  <div class="subs-ops-block">
+    <ul class="subs-ops nav-btn-group mini">
+      <li class="subs-op nav-btn" data-btntype="forward" data-templater></li>
+      <li class="subs-op nav-btn" data-btntype="subscribe" data-templater></li>
+    </ul>
+  </div>`;
+
+const subscriptionrow = document.createElement('template');
+subscriptionrow.innerHTML = `
+  <dl class="sub-block">
+    <dt class="subscription-title" data-templater></dt>
+    <dd class="subscription-image">
+      <figure class="thumb-frame">
+        <span data-templater></span>
+        <figcaption class="thumb-title" data-templater></figcaption>
+      </figure>    
+    </dd>
+    <dd class="subscription-copy" data-templater></dd>
+  </dl>`;
 
 const progressbar = document.createElement('template');
 progressbar.innerHTML = `
@@ -89,6 +111,7 @@ const initTemplates = async () => {
   const storylines = await generateHTMLTemplate('storylines.html');
   const comicreader = await generateHTMLTemplate('comicreader.html');
   const interstitial = await generateHTMLTemplate('interstitial.html');
+  const subscriptions = await generateHTMLTemplate('subscriptions.html');
   templates = {
     main,
     header,
@@ -98,6 +121,9 @@ const initTemplates = async () => {
     interstitial,
     squarecategory,
     square,
+    subscriptions,
+    subscriptionrow,
+    subscriptionops,
     loading,
     storylines,
     storylinecover,
@@ -106,23 +132,6 @@ const initTemplates = async () => {
     comicchaptermenu,
   };
 };
-
-// const templates = {
-//   main,
-//   header,
-//   comicreader,
-//   progressbar,
-//   ghostmount,
-//   interstitial,
-//   squarecategory,
-//   square,
-//   loading,
-//   storylines,
-//   storylinecover,
-//   storylinenavbtns,
-//   gridsortmenu,
-//   comicchaptermenu,
-// };
 
 const templater = (templatename, content, classnames) => {
   const tmpl =

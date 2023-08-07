@@ -19,6 +19,7 @@ const comicData =
 
 const storeComicData = () => {
   localStorage.setItem('comicdata', JSON.stringify(comicData));
+  console.log(comicData);
 };
 
 const generateProgressbar = (idString = 'progbar') => {
@@ -93,7 +94,6 @@ const sourceSomeImagesInStoryline = async (storyPages, pagenum, buffer = 6) => {
     })
   );
   storeComicData();
-  console.log(comicData);
   return imageSources;
 };
 

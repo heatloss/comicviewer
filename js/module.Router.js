@@ -2,6 +2,7 @@
 import { gotoZone } from './module.Zonesystem.js';
 import { gotoTab } from './module.Tabsystem.js';
 import { initGrid } from './module.Grid.js';
+import { buildSubscriptions } from './module.Subscriptions.js';
 import { buildStorylines } from './module.Storylines.js';
 import { buildInterstitial } from './module.Interstitial.js';
 import { initComic } from './module.Comicreader.js';
@@ -9,7 +10,8 @@ import { initComic } from './module.Comicreader.js';
 const gotoHome = (pathdata) => {
   gotoZone('home');
   gotoTab('homenav', pathdata[1]);
-  initGrid(); // TODO: Skip the re-sort and re-render if the grid has already been rendered.
+  initGrid(); // TODO: Skip the re-sort & re-render if the grid has already been rendered.
+  buildSubscriptions();
 };
 
 const gotoIntro = () => {

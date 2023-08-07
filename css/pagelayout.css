@@ -137,14 +137,70 @@ img {
 
 .nav-btn-group .nav-btn {
   font-size: 1.1em;
-  height: 3.25em;
-  padding: 0 1.85em;
+  padding: 1.05em 1.85em;
   text-transform: uppercase;
-  text-align: center;
+  text-align: left;
+}
+
+.nav-btn-group.mini {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.nav-btn-group.mini .nav-btn {
+  font-size: 1em;
+  padding: 0.75em 0.75em;
+  text-transform: uppercase;
+  text-align: left;
+  background-color: var(--ux-bg-color);
+  border: 1px solid var(--ux-border-color);
+  border-radius: 0.5em;
+}
+
+.nav-btn-group.mini .nav-btn + .nav-btn {
+  margin-top: 0.5em;
 }
 
 .section-content:not(#comicslist) {
   margin: 2em 10vw 7em 10vw;
+}
+
+#subscriptions .subs-list .sub-block {
+  display: grid;
+  grid-template-columns: min-content auto;
+  column-gap: 3.3vw;
+  row-gap: 3.3vw;
+  justify-items: start;
+  align-items: start;
+  grid-template-areas:
+    'title title'
+    'splash copy';
+  margin-bottom: 1em;
+}
+
+#subscriptions .subs-list .sub-block .subscription-title {
+  grid-area: title;
+  font-size: 1.2em;
+  /* margin-bottom: 1em; */
+}
+
+#subscriptions .subs-list .sub-block .subscription-image {
+  grid-area: splash;
+  width: 17.5em;
+}
+
+#subscriptions .subs-list .sub-block .subscription-image .thumb-image {
+  max-width: 100%;
+}
+
+#subscriptions .subs-list .sub-block .subscription-image .thumb-title {
+  display: none;
+}
+
+#subscriptions .subs-list .sub-block .subscription-copy {
+  grid-area: copy;
+  width: 100%;
 }
 
 #rack .section-content.intro {
@@ -184,23 +240,7 @@ img {
   margin-bottom: 0.75em;
 }
 
-.section-content dl {
-  margin-bottom: 1.5em;
-  font-size: 1.1em;
-  line-height: 1.2;
-}
-
-.section-content dt {
-  font-weight: bold;
-  margin-top: 1.5em;
-  color: var(--accent-text-color);
-}
-
-.section-content dd {
-  margin: 0.75em 1em 0 1em;
-}
-
-.section-content ul > li {
+#settings.section-content ul > li {
   font-size: 1.1em;
   list-style-type: disc;
   padding-left: 0.25em;
@@ -212,6 +252,22 @@ img {
 .section-content small {
   font-size: 0.8em;
   font-style: italic;
+}
+
+#faq.section-content dl {
+  margin-bottom: 1.5em;
+  font-size: 1.1em;
+  line-height: 1.2;
+}
+
+#faq.section-content dt {
+  font-weight: bold;
+  margin-top: 1.5em;
+  color: var(--accent-text-color);
+}
+
+#faq.section-content dd {
+  margin: 0.75em 1em 0 1em;
 }
 
 #comicslist {
@@ -296,6 +352,13 @@ img {
   font-size: 1.1em;
   font-weight: bold;
   margin-bottom: 2em;
+  text-align: center;
+}
+
+#subscriptions .subscription-frame .subscription-subhed {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 2em 0 1.5em 0;
   text-align: center;
 }
 
@@ -422,6 +485,10 @@ img {
 @media only screen and (max-width: 480px) {
   .desktop-only {
     display: none !important;
+  }
+
+  #subscriptions .subs-list .sub-block .subscription-image {
+    width: 7.25em;
   }
 
   #rack .storylines-frame,
