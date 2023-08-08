@@ -32,8 +32,12 @@ const subscriptionops = document.createElement('template');
 subscriptionops.innerHTML = `
   <div class="subs-ops-block">
     <ul class="subs-ops nav-btn-group mini">
-      <li class="subs-op nav-btn" data-btntype="forward" data-templater></li>
-      <li class="subs-op nav-btn" data-btntype="subscribe" data-templater></li>
+      <li class="subs-op nav-btn" data-btntype="forward">
+        <span class="mobile-only" data-templater></span><span class="desktop-only" data-templater></span>
+      </li>
+      <li class="subs-op nav-btn" data-btntype="subscribe">
+        <span class="mobile-only" data-templater></span><span class="desktop-only" data-templater></span>
+      </li>
     </ul>
   </div>`;
 

@@ -7,6 +7,7 @@ import {
   getUserData,
   addSubscription,
   removeSubscription,
+  setReadingPosition,
 } from './module.Userdata.js';
 import { templater } from './module.Templater.js';
 import { getImageFromPage, optimizeImage } from './module.Archiveparser.js';
@@ -33,9 +34,10 @@ const handleSubscription = (e) => {
   }
 };
 
-const updatePageNumber = (msg) => {
+const updatePageNumber = (num = readingState.pageIndex) => {
+  num = parseInt(num, 10);
   app.querySelector('#comicsreadernav .op-page').textContent =
-    msg || parseInt(readingState.pageIndex, 10) + 1;
+    readingState.stack[num].archivepageindex + 1;
 };
 
 const menuToCover = (e) => {
@@ -180,7 +182,7 @@ const transitionComicPage = async (e) => {
   console.log(`${advDir < 0 ? '<-' : '->'} ${requestedPageIndex}`);
 
   setAdvancersActive(false);
-  updatePageNumber(requestedPageIndex + 1);
+  updatePageNumber(requestedPageIndex);
   const ghostMount = app.querySelector(
     '#ghostmount-region > .comicpages-ghostmount'
   );
@@ -207,7 +209,12 @@ const completeSlide = async () => {
 
   setTimeout(removeGhostMount, 10, ghostMount);
 
-  updatePageNumber();
+  // updatePageNumber();
+  setReadingPosition(
+    readingState.title,
+    readingState.storyIndex,
+    readingState.pageIndex
+  );
   setAdvancersActive(true);
 };
 

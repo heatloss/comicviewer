@@ -60,7 +60,7 @@ const getPagesFromArchive = async (archiveUrl) => {
     archiveDOM.querySelectorAll(config.archiveselector);
   const archiveList = [...archiveNodelist]
     .filter((option) => option?.value?.length !== 0) // Filter only needed for the Select list
-    .map((node) => {
+    .map((node, index) => {
       const archivePageURL = node.value
         ? `https://${archiveDomain}/${node.value}`
         : `${node.href.replace('www.', '')}`;
@@ -69,6 +69,7 @@ const getPagesFromArchive = async (archiveUrl) => {
         href: archivePageURL,
         name: node.textContent,
         img: {},
+        archivepageindex: index,
       };
       return pageObj;
     });

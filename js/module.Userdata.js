@@ -1,5 +1,5 @@
 const emptyUserData = {
-  readComics: [],
+  readComics: {},
   subscribedComics: [],
 };
 
@@ -14,9 +14,17 @@ const getUserData = () => {
   return userData;
 };
 
+const setReadingPosition = (title, storylineNum, pageNum) => {
+  if (!userData.readComics[title]) {
+    userData.readComics[title] = { storyline: 0, page: 0 };
+  }
+  userData.readComics[title].storyline = storylineNum;
+  userData.readComics[title].page = pageNum;
+  storeUserData();
+};
+
 const addSubscription = (title) => {
   userData.subscribedComics.push(title);
-  // console.log(userData.subscribedComics);
   storeUserData();
 };
 
@@ -24,8 +32,13 @@ const removeSubscription = (title) => {
   userData.subscribedComics = userData.subscribedComics.filter(
     (item) => item !== title
   );
-  // console.log(userData.subscribedComics);
   storeUserData();
 };
 
-export { storeUserData, getUserData, addSubscription, removeSubscription };
+export {
+  storeUserData,
+  getUserData,
+  addSubscription,
+  removeSubscription,
+  setReadingPosition,
+};

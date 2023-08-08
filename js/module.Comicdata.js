@@ -22,6 +22,15 @@ const storeComicData = () => {
   console.log(comicData);
 };
 
+// const getArchivePageIndex = (title, storyindex, pageindex) => {
+//   const comicStorylinePageObj =
+//     getComic(title).storylines[storyindex].pages[pageindex];
+//   const archivePageNum = getComic(title).allpages.find(
+//     (item) => item.id === comicStorylinePageObj.id
+//   ).archivepageindex;
+//   return archivePageNum;
+// };
+
 const generateProgressbar = (idString = 'progbar') => {
   progbarConfig.progressBar = document.createElement('progress');
   progbarConfig.progressBar.id = idString;

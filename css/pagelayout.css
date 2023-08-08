@@ -166,22 +166,26 @@ img {
   margin: 2em 10vw 7em 10vw;
 }
 
+#subscriptions .subs-list {
+  margin-top: 2em;
+}
+
 #subscriptions .subs-list .sub-block {
   display: grid;
   grid-template-columns: min-content auto;
   column-gap: 3.3vw;
-  row-gap: 3.3vw;
+  row-gap: 1em;
   justify-items: start;
   align-items: start;
   grid-template-areas:
     'title title'
     'splash copy';
-  margin-bottom: 1em;
+  margin-bottom: 2.5em;
 }
 
 #subscriptions .subs-list .sub-block .subscription-title {
   grid-area: title;
-  font-size: 1.2em;
+  font-size: 1.4em;
   /* margin-bottom: 1em; */
 }
 
@@ -443,6 +447,19 @@ img {
   position: relative;
 }
 
+@media only screen and (min-width: 769px) {
+  .section-content:not(#comicslist) {
+    max-width: 42em;
+    margin: 2em auto 7em auto;
+  }
+
+  #rack .storylines-frame,
+  #interstitial .interstitial-frame {
+    max-width: 42em;
+    margin: 4em auto 4em auto;
+  }
+}
+
 @media only screen and (min-width: 481px) {
   .mobile-only {
     display: none !important;
@@ -453,7 +470,7 @@ img {
   }
 
   #rack .storylines-frame .tabgroup {
-    grid-template-columns: auto 40vw;
+    grid-template-columns: auto auto;
     grid-template-rows: min-content min-content auto;
     column-gap: 5vw;
     row-gap: 5vw;
