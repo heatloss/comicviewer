@@ -11,38 +11,42 @@ const app = document.querySelector('#app');
 const userData = getUserData();
 const comics = getAllComics().comics;
 
-const handleSubscription = (e) => {
-  const subscribeButton = e.currentTarget;
-  const subscribeTitle = subscribeButton.dataset.title;
-  if (subscribeButton.hasAttribute('data-subscribed')) {
-    removeSubscription(subscribeTitle);
-    subscribeButton.textContent = 'Add to Subscriptions';
-    subscribeButton.removeAttribute('data-subscribed');
-  } else {
-    addSubscription(subscribeTitle);
-    subscribeButton.textContent = 'Remove Subscription';
-    subscribeButton.dataset.subscribed = '';
-  }
-};
-
-const handleReadMore = (e) => {
-  const readData = e.currentTarget.dataset;
-  console.log(readData);
-  if (userData[readData.title]?.storyline && userData[readData.title]?.page) {
-    render(`/comic:${readData.title}:${readData.storyline}:${readData.page}`);
-  } else {
-    render(`/rack:${readData.title}`);
-  }
-};
-
 const generateSubOps = (title) => {
+  const handleSubscription = (e) => {
+    const subscribeButton = e.currentTarget;
+    const subscribeTitle = subscribeButton.dataset.title;
+    if (subscribeButton.hasAttribute('data-subscribed')) {
+      removeSubscription(subscribeTitle);
+      subscribeButton.textContent = 'Add to Subscriptions';
+      subscribeButton.removeAttribute('data-subscribed');
+    } else {
+      addSubscription(subscribeTitle);
+      subscribeButton.textContent = 'Remove Subscription';
+      subscribeButton.dataset.subscribed = '';
+    }
+  };
+  const handleReadMore = (e) => {
+    const readData = e.currentTarget.dataset;
+    console.log(readData, userData);
+    if (
+      userData.readComics[readData.title]?.storyindex &&
+      userData.readComics[readData.title]?.pageindex
+    ) {
+      render(
+        `/comic:${readData.title}:${readData.storyindex}:${readData.pageindex}`
+      );
+    } else {
+      render(`/rack:${readData.title}`);
+    }
+  };
   const isSubscribed = userData.subscribedComics.includes(title);
   const hasReadingPosition =
-    userData.readComics[title]?.storyline && userData.readComics[title]?.page;
+    userData.readComics[title]?.storyindex &&
+    userData.readComics[title]?.pageindex;
   const getArchivePageNum = () => {
     return (
-      getComic(title).storylines[userData.readComics[title]?.storyline].pages[
-        userData.readComics[title]?.page
+      getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
+        userData.readComics[title]?.pageindex
       ].archivepageindex + 1
     );
   };
@@ -60,8 +64,8 @@ const generateSubOps = (title) => {
   const subsOpRead = subsOps.querySelector('[data-btntype="forward"]');
   const subsOpSubscribe = subsOps.querySelector('[data-btntype="subscribe"]');
   subsOpRead.dataset.title = title;
-  subsOpRead.dataset.storyline = userData.readComics[title]?.storyline || 0;
-  subsOpRead.dataset.page = userData.readComics[title]?.page || 0;
+  subsOpRead.dataset.storyindex = userData.readComics[title]?.storyindex || 0;
+  subsOpRead.dataset.pageindex = userData.readComics[title]?.pageindex || 0;
   subsOpSubscribe.dataset.title = title;
   if (isSubscribed) {
     subsOpSubscribe.dataset.subscribed = '';

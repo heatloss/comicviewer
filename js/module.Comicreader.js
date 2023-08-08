@@ -84,6 +84,7 @@ const buildComicMenu = (title = readingState.title) => {
   subscribeButton.dataset.title = title;
   if (userData.subscribedComics.includes(title)) {
     subscribeButton.dataset.subscribed = '';
+    subscribeButton.textContent = 'Remove Subscription';
   }
   subscribeButton.addEventListener('click', handleSubscription);
 
@@ -109,6 +110,11 @@ const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
   const comicReader = templater('comicreader', ghostMount);
   app.querySelector('#comicpages').replaceChildren(comicReader);
   updatePageNumber();
+  setReadingPosition(
+    readingState.title,
+    readingState.storyIndex,
+    readingState.pageIndex
+  );
   initAdvancers();
   app.addEventListener('advance', transitionComicPage);
 };

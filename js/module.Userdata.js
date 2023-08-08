@@ -18,13 +18,15 @@ const setReadingPosition = (title, storylineNum, pageNum) => {
   if (!userData.readComics[title]) {
     userData.readComics[title] = { storyline: 0, page: 0 };
   }
-  userData.readComics[title].storyline = storylineNum;
-  userData.readComics[title].page = pageNum;
+  userData.readComics[title].storyindex = storylineNum;
+  userData.readComics[title].pageindex = pageNum;
   storeUserData();
 };
 
 const addSubscription = (title) => {
-  userData.subscribedComics.push(title);
+  if (title) {
+    userData.subscribedComics.push(title);
+  }
   storeUserData();
 };
 

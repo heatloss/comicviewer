@@ -4,6 +4,11 @@ import {
   getCoversForComic,
   bufferCoverImages,
 } from './module.Comicdata.js';
+import {
+  getUserData,
+  addSubscription,
+  removeSubscription,
+} from './module.Userdata.js';
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { initTabs } from './module.Tabsystem.js';
@@ -26,7 +31,7 @@ const rackToComicPage = (e) => {
   app.removeEventListener('advance', exitRack);
   const storylineData = e.currentTarget ? e.currentTarget.dataset : e;
   render(
-    `/comic:${storylineData.storytitle}:${storylineData.storyindex || 0}:${
+    `/comic:${storylineData.title}:${storylineData.storyindex || 0}:${
       storylineData.pageindex || 0
     }`
   );
@@ -63,10 +68,6 @@ const buildStorylines = async (title) => {
     },
     ...comic.links,
   ];
-  // websiteLi.innerHTML = `<a class="external-link" data-linktype="comic-website" href="${new URL(
-  //   comic.archiveurl
-  // ).hostname.replace('www.', '')}">Comic Website</a>`;
-  // linksUl.appendChild(websiteLi);
   extendedLinks.forEach((link) => {
     const externalLi = document.createElement('li');
     externalLi.innerHTML = `<a class="external-link" data-linktype="${link.linktext.toLowerCase()}" href="${
@@ -88,7 +89,6 @@ const buildStorylines = async (title) => {
   fillStoryBox(storylineBox);
   initTabs('aboutcomic');
   initAdvancers();
-  // buildComicMenu(title);
   app.addEventListener('advance', exitRack);
 };
 
@@ -97,12 +97,34 @@ const fillStoryBox = async (storylineBox) => {
     app.removeEventListener('advance', exitRack);
     const storylineData = e.currentTarget.dataset;
     render(
-      `/comic:${storylineData.storytitle}:${storylineData.storyindex || 0}:${
+      `/comic:${storylineData.title}:${storylineData.storyindex || 0}:${
         storylineData.pageindex || 0
       }`
     );
   };
+  const handleSubscription = (e) => {
+    const subscribeButton = e.currentTarget;
+    const subscribeTitle = subscribeButton.dataset.title;
+    if (subscribeButton.hasAttribute('data-subscribed')) {
+      removeSubscription(subscribeTitle);
+      subscribeButton.textContent = 'Add to Subscriptions';
+      subscribeButton.removeAttribute('data-subscribed');
+    } else {
+      addSubscription(subscribeTitle);
+      subscribeButton.textContent = 'Remove Subscription';
+      subscribeButton.dataset.subscribed = '';
+    }
+  };
+  const getArchivePageNum = (title = rackState.title) => {
+    console.log();
+    return (
+      getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
+        userData.readComics[title]?.pageindex
+      ].archivepageindex + 1
+    );
+  };
   // TODO: Insert loading animation
+  const userData = getUserData();
   const coversList = storylineBox.querySelector('.covers-list');
   const title = rackState.title;
   const comic = await getPopulatedComic(title);
@@ -118,7 +140,7 @@ const fillStoryBox = async (storylineBox) => {
       [coverImage, storyline.name],
       'cover-list-item'
     );
-    coverLi.dataset.storytitle = title;
+    coverLi.dataset.title = title;
     coverLi.dataset.storyindex = index;
     coverLi.addEventListener('click', gotoComicPage);
     coversList.appendChild(coverLi);
@@ -129,21 +151,40 @@ const fillStoryBox = async (storylineBox) => {
   const lastPageBtn = storylineBox.querySelector(
     "li.nav-btn[data-btntype='forward']:last-child"
   );
-  firstPageBtn.dataset.storytitle = title;
-  lastPageBtn.dataset.storytitle = title;
+  const subscribeBtn = storylineBox.querySelector(
+    "li.nav-btn[data-btntype='subscribe']"
+  );
+  const isSubscribed = userData.subscribedComics.includes(title);
+  const hasReadingPosition =
+    userData.readComics[title]?.storyindex &&
+    userData.readComics[title]?.pageindex;
+  if (hasReadingPosition) {
+    firstPageBtn.querySelector('.label').textContent = 'Continue from page ';
+    firstPageBtn.querySelector('.page').textContent = getArchivePageNum(title);
+    firstPageBtn.dataset.storyindex = userData.readComics[title].storyindex;
+    firstPageBtn.dataset.pageindex = userData.readComics[title].pageindex;
+  }
+  if (isSubscribed) {
+    subscribeBtn.dataset.subscribed = '';
+    subscribeBtn.textContent = 'Remove Subscription';
+  }
+  firstPageBtn.dataset.title = title;
+  lastPageBtn.dataset.title = title;
+  subscribeBtn.dataset.title = title;
   lastPageBtn.dataset.storyindex = comic.storylines.length - 1;
   lastPageBtn.dataset.pageindex =
     comic.storylines[comic.storylines.length - 1].pages.length - 1;
 
   firstPageBtn.addEventListener('click', gotoComicPage);
   lastPageBtn.addEventListener('click', gotoComicPage);
+  subscribeBtn.addEventListener('click', handleSubscription);
 
   bufferCoverImages(storylineArray);
 };
 
 const exitRack = async (e) => {
   const advDir = e.detail;
-  const eData = { storytitle: rackState.title };
+  const eData = { title: rackState.title };
   if (advDir === -1) {
     rackToHome();
   } else if (advDir === 1) {
