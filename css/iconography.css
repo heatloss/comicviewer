@@ -102,7 +102,7 @@
   color: var(--ux-text-color);
   background-size: 1.25em;
   background-repeat: no-repeat;
-  background-position: right 1.5em top 1.45em;
+  background-position: right 1.5em top 1.4em;
 }
 
 .nav-btn-group .nav-btn[data-btntype='forward'],

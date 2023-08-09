@@ -141,9 +141,13 @@ img {
 
 .nav-btn-group .nav-btn {
   font-size: 1.1em;
-  padding: 1.05em 1.85em;
+  padding: 1.05em 1.5em;
   text-transform: uppercase;
   text-align: left;
+}
+
+.nav-btn-group .nav-btn .abbrev {
+  display: none;
 }
 
 .nav-btn-group .nav-btn .page {
@@ -171,7 +175,9 @@ img {
 }
 
 .section-content:not(#comicslist) {
-  margin: 2em 10vw 7em 10vw;
+  margin: 2em auto 7em auto;
+  width: 80vw;
+  max-width: 41em;
 }
 
 #subscriptions .subs-list {
@@ -293,8 +299,8 @@ img {
 }
 
 #comicslist .thumbsgrid .thumb-frame {
-  width: calc(25% - 0.25em);
-  margin-bottom: 0.25em;
+  width: calc(25% - (1.5em / 4));
+  margin-bottom: 0.5em;
   position: relative;
 }
 
@@ -313,8 +319,8 @@ img {
   display: block;
   position: absolute;
   bottom: 0;
-  left: 17%;
-  width: 66%;
+  left: calc(50% - 7em);
+  width: 14em;
   text-align: center;
   font-size: 0.8em;
   color: var(--accent-text-color);
@@ -370,7 +376,9 @@ img {
 
 #rack .storylines-frame,
 #interstitial .interstitial-frame {
-  margin: 4em 6vw;
+  margin: 4em auto;
+  width: calc(100% - 12vw);
+  max-width: 60em;
 }
 
 #rack .storylines-frame .storylines-hed,
@@ -409,7 +417,7 @@ img {
 
 #rack .storylines-frame .splash-image {
   max-width: 100%;
-  margin: 0 auto 2em auto;
+  margin: 0 auto 1em auto;
   border: 1px solid var(--page-border-color);
 }
 
@@ -423,9 +431,11 @@ img {
 }
 
 #rack .storylines-frame .author {
+  font-variant: all-small-caps;
 }
 
 #rack .storylines-frame .author .credit {
+  font-variant: normal;
   font-weight: bold;
 }
 
@@ -433,9 +443,11 @@ img {
   color: var(--ux-text-color);
   text-align: right;
   margin-left: 1em;
+  font-variant: all-small-caps;
 }
 
 #rack .storylines-frame .lastupdated .date {
+  font-variant: normal;
   font-weight: bold;
 }
 
@@ -471,15 +483,15 @@ img {
   > li
   > .storyline-cover
   .cover-image-frame {
-  width: 40%;
+  width: 50%;
 }
 
 #rack .storylines-list > .covers-list > li > .storyline-cover .cover-title {
-  font-size: 1.1em;
-  width: 67%;
+  font-size: 1.2em;
   padding: 0.25em 0 0.25em 1em;
   box-sizing: border-box;
   color: var(--accent-text-color);
+  width: 50%;
 }
 
 #rack .storylines-list > .covers-list > li > .storyline-cover .cover-image {
@@ -495,39 +507,58 @@ img {
   position: relative;
 }
 
-@media only screen and (min-width: 769px) {
-  .section-content:not(#comicslist) {
-    max-width: 42em;
-    margin: 2em auto 7em auto;
-  }
-
-  #rack .storylines-frame,
-  #interstitial .interstitial-frame {
-    max-width: 42em;
-    margin: 4em auto 4em auto;
-  }
-
-  #rack
-    .storylines-list
-    > .covers-list
-    > li
-    > .storyline-cover
-    .cover-image-frame {
-    width: 60%;
-  }
-
-  #rack .storylines-list > .covers-list > li > .storyline-cover .cover-title {
-    font-size: 1.2em;
-  }
+#rack .storylines-frame .tabgroup {
+  grid-template-columns: 300px auto auto;
+  grid-template-rows: auto;
+  column-gap: 5vw;
+  row-gap: 5vw;
+  justify-items: center;
+  align-items: start;
+  grid-template-areas: 'intro covers links';
 }
 
-@media only screen and (min-width: 481px) {
-  .mobile-only {
+#rack .storylines-frame .tabgroup .tab[data-tabpos='intro'] {
+  grid-area: intro;
+}
+
+#rack .storylines-frame .tabgroup .tab[data-tabpos='covers'] {
+  grid-area: covers;
+}
+
+#rack .storylines-frame .tabgroup .tab[data-tabpos='links'] {
+  grid-area: links;
+}
+
+/* @media only screen and (min-width: 481px) and (max-width: 768px) {
+  .desktop-only {
     display: none !important;
   }
 
   #rack .storylines-frame .splash-image {
     width: 100%;
+  }
+
+  #comicslist .category-block.date .thumbsgrid .thumb-frame:before,
+  #comicslist .category-block.date .thumbsgrid .thumb-frame:after {
+    content: attr(data-lastupdatedmobile);
+    left: calc(50% - 5em);
+    width: 10em;
+  }
+
+  #rack .storylines-frame,
+  #interstitial .interstitial-frame {
+    max-width: 42em;
+    margin: 4em 12vw 4em 12vw;
+  }
+} */
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  #comicslist .thumbsgrid .thumb-frame {
+    width: calc(33.33% - (1em / 3));
+  }
+
+  #rack .storylines-list > .covers-list > li > .storyline-cover .cover-title {
+    font-size: 1.05em;
   }
 
   #rack .storylines-frame .tabgroup {
@@ -543,9 +574,41 @@ img {
       'empty covers';
   }
 
+  #rack .storylines-frame .splash-image {
+    width: 100%;
+  }
+
+  /* .section-content:not(#comicslist) {
+    max-width: 42em;
+    margin: 2em auto 7em auto;
+  }
+  
+  #rack .storylines-frame,
+  #interstitial .interstitial-frame {
+    max-width: 42em;
+    margin: 4em auto 4em auto;
+  } */
+
+  /* #rack .storylines-frame .tabgroup {
+    grid-template-columns: 50% 50%;
+  }
+
+  #rack
+    .storylines-list
+    > .covers-list
+    > li
+    > .storyline-cover
+    .cover-image-frame {
+    width: 60%;
+  }
+
+  #rack .storylines-list > .covers-list > li > .storyline-cover .cover-title {
+    font-size: 1.2em;
+  }
+
+
   #rack .storylines-frame .tabgroup .tab[data-tabpos='intro'] {
     grid-area: intro;
-    width: 100%;
     max-width: 27em;
   }
 
@@ -555,16 +618,11 @@ img {
 
   #rack .storylines-frame .tabgroup .tab[data-tabpos='links'] {
     grid-area: links;
-    width: 100%;
     max-width: 23em;
-  }
+  } */
 }
 
 @media only screen and (max-width: 480px) {
-  .desktop-only {
-    display: none !important;
-  }
-
   #subscriptions .subs-list .sub-block .subscription-image {
     width: 7.25em;
   }
@@ -585,6 +643,10 @@ img {
     margin: 0 0 1em 0;
   }
 
+  .nav-btn-group .nav-btn .unabbreviated {
+    display: none;
+  }
+
   #comicslist {
     padding: 0;
   }
@@ -600,10 +662,10 @@ img {
   #comicslist .category-block.date .thumbsgrid .thumb-frame:before,
   #comicslist .category-block.date .thumbsgrid .thumb-frame:after {
     content: attr(data-lastupdatedmobile);
-    /* left: 5%;
-    width: 90%; */
     padding: 0.25em 0 0.125em 0;
     border-radius: 0.75em 0.75em 0 0;
+    left: calc(50% - 5em);
+    width: 10em;
   }
 }
 

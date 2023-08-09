@@ -96,6 +96,10 @@
   margin-bottom: 1.25em;
 }
 
+.tabsystem.tabselector.inline {
+  display: none;
+}
+
 .tabsystem.tabselector.inline > .tabselectormenu > li {
   background-repeat: no-repeat;
   background-size: 1.3em;
@@ -118,9 +122,9 @@
   background-position: 1.13em center;
 }
 
-/* #home .tabsystem.tabgroup {
-  min-height: 100vh;
-} */
+.nav-btn-group .nav-btn.tabproxy {
+  display: none;
+}
 
 #home > .tabsystem.tabgroup > .tab {
   position: absolute;
@@ -353,6 +357,19 @@
 }
 
 @media only screen and (max-width: 480px) {
+  .tabsystem.tabgroup {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tabsystem.tabselector.inline {
+    display: inherit;
+  }
+
+  .nav-btn-group .nav-btn.tabproxy {
+    display: inherit;
+  }
+
   #rack .storylines-frame .tabsystem.tabselector {
     margin-bottom: 0.5em;
   }

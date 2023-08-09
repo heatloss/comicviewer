@@ -33,10 +33,10 @@ subscriptionops.innerHTML = `
   <div class="subs-ops-block">
     <ul class="subs-ops nav-btn-group mini">
       <li class="subs-op nav-btn" data-btntype="forward">
-        <span class="mobile-only" data-templater></span><span class="desktop-only" data-templater></span>
+        <span class="abbrev" data-templater></span><span class="unabbreviated" data-templater></span>
       </li>
       <li class="subs-op nav-btn" data-btntype="subscribe">
-        <span class="mobile-only" data-templater></span><span class="desktop-only" data-templater></span>
+        <span class="abbrev" data-templater></span><span class="unabbreviated" data-templater></span>
       </li>
     </ul>
   </div>`;
@@ -84,7 +84,7 @@ const storylinenavbtns = document.createElement('template');
 storylinenavbtns.innerHTML = `
   <menu class="nav-btn-group"> 
     <li class="nav-btn" data-btntype="forward" data-templater></li>
-    <li class="nav-btn tabproxy mobile-only" data-btntype="forward" data-tabsysid="aboutcomic" data-tabpos="covers">Covers</li>
+    <li class="nav-btn tabproxy" data-btntype="forward" data-tabsysid="aboutcomic" data-tabpos="covers">Covers</li>
     <li class="nav-btn" data-btntype="forward" data-templater></li>
   </menu>`;
 
