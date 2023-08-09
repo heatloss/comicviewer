@@ -3,8 +3,14 @@ import {
   getUserData,
   addSubscription,
   removeSubscription,
+  hasReadingPosition,
+  isSubscribed,
 } from './module.Userdata.js';
-import { getComic, getAllComics } from './module.Comicdata.js';
+import {
+  getComic,
+  getPopulatedComic,
+  getAllComics,
+} from './module.Comicdata.js';
 import { render } from './module.Router.js';
 
 const app = document.querySelector('#app');
@@ -39,10 +45,6 @@ const generateSubOps = (title) => {
       render(`/rack:${readData.title}`);
     }
   };
-  const isSubscribed = userData.subscribedComics.includes(title);
-  const hasReadingPosition =
-    userData.readComics[title]?.storyindex &&
-    userData.readComics[title]?.pageindex;
   const getArchivePageNum = () => {
     return (
       getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
@@ -50,15 +52,17 @@ const generateSubOps = (title) => {
       ].archivepageindex + 1
     );
   };
+  const isSubbed = isSubscribed(title);
+  const hasReadPos = hasReadingPosition(title);
   const subOpsArray = [
-    `${hasReadingPosition ? 'Continue' : 'Learn more'}`,
+    `${hasReadPos ? 'Continue' : 'Learn more'}`,
     `${
-      hasReadingPosition
+      hasReadPos
         ? 'Continue from Page ' + getArchivePageNum()
         : 'More about this comic'
     }`,
-    `${isSubscribed ? 'Unsubscribe' : 'Subscribe'}`,
-    `${isSubscribed ? 'Remove from subscriptions' : 'Add to subscriptions'}`,
+    `${isSubbed ? 'Unsubscribe' : 'Subscribe'}`,
+    `${isSubbed ? 'Remove from subscriptions' : 'Add to subscriptions'}`,
   ];
   const subsOps = templater('subscriptionops', subOpsArray);
   const subsOpRead = subsOps.querySelector('[data-btntype="forward"]');
@@ -67,7 +71,7 @@ const generateSubOps = (title) => {
   subsOpRead.dataset.storyindex = userData.readComics[title]?.storyindex || 0;
   subsOpRead.dataset.pageindex = userData.readComics[title]?.pageindex || 0;
   subsOpSubscribe.dataset.title = title;
-  if (isSubscribed) {
+  if (isSubbed) {
     subsOpSubscribe.dataset.subscribed = '';
   }
   subsOpRead.addEventListener('click', handleReadMore);
@@ -112,8 +116,13 @@ const generateRandomList = () => {
   return fragment;
 };
 
-const buildSubscriptions = () => {
-  console.log('Rebuild');
+const buildSubscriptions = async () => {
+  console.log(userData.subscribedComics);
+  if (userData.subscribedComics.length > 0) {
+    for (const title of userData.subscribedComics) {
+      await getPopulatedComic(title);
+    }
+  }
   const subscriptionsTab = app.querySelector('#subscriptions');
   const subscriptionsList =
     userData.subscribedComics.length > 0

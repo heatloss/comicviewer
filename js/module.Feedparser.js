@@ -1,21 +1,10 @@
+import { getAllComics } from './module.Comicdata.js';
+
 const config = {
-  // proxy: 'https://comic-viewer-proxy.glitch.me/url/proxy?url=',
-  // proxy: 'https://comic-proxy.cyclic.cloud/url/proxy?url=',
   proxy: 'http://proxy.luckbat.com:3000/url/proxy?url=',
-  comicselector: '#cc-comic',
-  verbose: true,
 };
 
-const handleError = (err) => {
-  console.warn(err);
-  return new Response(
-    JSON.stringify({
-      code: 400,
-      message: 'Stupid network Error',
-    })
-  );
-};
-
+/*
 const getPagesFromRSS = async (feedUrl) => {
   const response = await fetch(`${config.proxy}${feedUrl}`).catch(handleError);
   const feedXML = await response.text();
@@ -45,28 +34,29 @@ const getPagesFromRSS = async (feedUrl) => {
   });
   return feedObject;
 };
-
-const getImageFromPage = async (pageUrl) => {
-  const response = await fetch(`${config.proxy}${pageUrl}`).catch(handleError);
-  const pageHTML = await response.text();
-  const pageDOM = new DOMParser().parseFromString(pageHTML, 'text/html');
-  const parsedImage = pageDOM.querySelector(config.comicselector);
-  return parsedImage.src;
+*/
+const getLastDateFromRSS = async (feedUrl) => {
+  try {
+    const response = await fetch(`${config.proxy}${feedUrl}`);
+    const feedXML = await response.text();
+    const feedDOM = new DOMParser().parseFromString(feedXML, 'text/xml');
+    const items = [...feedDOM.querySelectorAll('item')];
+    const lastPubDate = items[0].querySelector('pubDate').textContent;
+    return lastPubDate;
+  } catch (error) {
+    console.error('Error:', error);
+  }
 };
 
-export { getPagesFromRSS, getImageFromPage };
-
-/*
-  const feedJSON = await getPagesFromRSS(rssurl);
-  console.log(feedJSON);
-  // CAN NOW POPULATE COMIC TITLE AND SITE URL
-
+const setAllLastDatesFromRSS = async () => {
+  const comics = getAllComics().comics;
   await Promise.all(
-    feedJSON.list.map(async (pageObj) => {
-      const imgSrc = await getImageFromPage(pageObj.href);
-      pageObj.img.full = imgSrc;
+    comics.map(async (comic) => {
+      const lastDate = await getLastDateFromRSS(comic.rssurl);
+      comic.lastupdated = lastDate;
+      return comic;
     })
   );
-  console.log(feedJSON);
-  // CAN NOW LOAD COMIC IMAGES
-  */
+};
+
+export { getLastDateFromRSS, setAllLastDatesFromRSS };

@@ -113,8 +113,6 @@ const getImageFromPage = async (pageUrl) => {
   const pageHTML = await response.text();
   const pageDOM = new DOMParser().parseFromString(pageHTML, 'text/html');
   const parsedImage = pageDOM.querySelector(config.comicselector);
-  // fetch(optimizeImage(parsedImage.src));
-  // console.log(optimizeImage(parsedImage.src)); // Hopefully this will cause the Service Worker to cache the proxy-converted images?
   return parsedImage.src;
 };
 

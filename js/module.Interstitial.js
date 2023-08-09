@@ -34,7 +34,7 @@ const buildInterstitial = async (title, storyNumParam) => {
 
   const comic = getComic(title);
   if (storylineIndex === comic.storylines.length - 1) {
-    alert('NO MORE CHAPTERS');
+    alert('NO MORE CHAPTERS'); // TODO: Build end interstitial
     return false;
   }
 

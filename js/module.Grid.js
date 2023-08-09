@@ -11,6 +11,17 @@ const getSort = (sortid) => {
   return sortingMethods.find((sortmethod) => sortmethod.id === sortid).sortfunc;
 };
 
+const getPlainDate = (datestring, forMobile) => {
+  const options = {
+    weekday: forMobile ? 'short' : 'long',
+    year: 'numeric',
+    month: forMobile ? 'short' : 'long',
+    day: 'numeric',
+  };
+
+  return new Date(datestring).toLocaleDateString('en-US', options);
+};
+
 const sortingMethods = [
   {
     name: 'Alphabetically',
@@ -21,7 +32,7 @@ const sortingMethods = [
   {
     name: 'by Last Update',
     id: 'date',
-    sortfunc: (a, b) => a.sortname.localeCompare(b.sortname),
+    sortfunc: (a, b) => new Date(b.lastupdated) - new Date(a.lastupdated),
   },
   {
     name: 'by Genre',
@@ -88,9 +99,16 @@ const generateComicGrid = (sortstyle) => {
 
       return shuffledBlock;
     }
-    case 'date':
-      console.log('get the dates');
-      break;
+    case 'date': {
+      comics.sort(getSort(sortstyle));
+      const shuffledBlock = templater(
+        'squarecategory',
+        ['By Last Update', comicSquares()],
+        sortstyle
+      );
+
+      return shuffledBlock;
+    }
     case 'genre': {
       const genreList = generateGenreList();
       const populatedGenreList = genreList.map((genrename) => {
@@ -130,6 +148,11 @@ const comicSquares = (comicset = comics) => {
     thumbImg.alt = comic.name;
     const comicThumb = templater('square', [thumbImg, comic.name]);
     comicThumb.dataset.name = comic.name;
+    comicThumb.dataset.lastupdated = getPlainDate(comic.lastupdated);
+    comicThumb.dataset.lastupdatedmobile = getPlainDate(
+      comic.lastupdated,
+      true
+    );
     comicThumb.addEventListener('click', gridToRack);
     fragment.appendChild(comicThumb);
   });

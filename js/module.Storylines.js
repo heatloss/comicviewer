@@ -2,12 +2,13 @@ import {
   getComic,
   getPopulatedComic,
   getCoversForComic,
-  bufferCoverImages,
 } from './module.Comicdata.js';
 import {
   getUserData,
   addSubscription,
   removeSubscription,
+  hasReadingPosition,
+  isSubscribed,
 } from './module.Userdata.js';
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
@@ -17,6 +18,8 @@ import { initAdvancers } from './module.Touch.js';
 
 const app = document.querySelector('#app');
 const rackState = {};
+const placeholderImg =
+  'data:image/svg+xml;utf8,<svg fill="dimgray" viewBox="0 0 666.667 800" xmlns="http://www.w3.org/2000/svg"><path d="m0 0v800h666.667v-800zm613.333 746.667h-560v-693.334h560z"/></svg>';
 
 const handleExternalLink = (e) => {
   console.log(e.target);
@@ -51,6 +54,8 @@ const buildStorylines = async (title) => {
   splashImage.src = 'img/' + comic.square;
 
   const comicCredits = comic.credits || '';
+  const comicLastUpdated =
+    new Date(comic.lastupdated).toLocaleDateString('en-US') || '';
   const comicDesc = comic.description || '';
 
   const coversList = document.createElement('ul');
@@ -80,6 +85,7 @@ const buildStorylines = async (title) => {
   const storylineBox = templater('storylines', [
     splashImage,
     comicCredits,
+    comicLastUpdated,
     comicDesc,
     coversList,
     linksUl,
@@ -90,6 +96,22 @@ const buildStorylines = async (title) => {
   initTabs('aboutcomic');
   initAdvancers();
   app.addEventListener('advance', exitRack);
+};
+
+const addCoverSources = async (coversListElem) => {
+  const title = rackState.title;
+  const storylineArray = await getCoversForComic(title);
+  // bufferCoverImages(storylineArray); Not sure what this is doing anymore
+  storylineArray.forEach((storyline, index) => {
+    const coverImage = coversListElem.querySelector(
+      `.cover-list-item[data-storyindex='${index}'] img.cover-image`
+    );
+    const img = new Image();
+    img.onload = () => {
+      coverImage.src = img.src;
+    };
+    img.src = optimizeImage(storyline.pages[0].img.original, 200);
+  });
 };
 
 const fillStoryBox = async (storylineBox) => {
@@ -123,18 +145,16 @@ const fillStoryBox = async (storylineBox) => {
       ].archivepageindex + 1
     );
   };
-  // TODO: Insert loading animation
   const userData = getUserData();
-  const coversList = storylineBox.querySelector('.covers-list');
+  const coversListElem = storylineBox.querySelector('.covers-list');
   const title = rackState.title;
   const comic = await getPopulatedComic(title);
   storylineBox.querySelector('.storylines-desc').textContent =
     comic.description;
-  const storylineArray = await getCoversForComic(title);
-  storylineArray.forEach((storyline, index) => {
+  comic.storylines.forEach((storyline, index) => {
     const coverImage = document.createElement('img');
     coverImage.classList.add('cover-image');
-    coverImage.src = optimizeImage(storyline.pages[0].img.original, 200);
+    coverImage.src = placeholderImg;
     const coverLi = templater(
       'storylinecover',
       [coverImage, storyline.name],
@@ -143,8 +163,9 @@ const fillStoryBox = async (storylineBox) => {
     coverLi.dataset.title = title;
     coverLi.dataset.storyindex = index;
     coverLi.addEventListener('click', gotoComicPage);
-    coversList.appendChild(coverLi);
+    coversListElem.appendChild(coverLi);
   });
+  addCoverSources(coversListElem);
   const firstPageBtn = storylineBox.querySelector(
     "li.nav-btn[data-btntype='forward']:first-child"
   );
@@ -154,17 +175,14 @@ const fillStoryBox = async (storylineBox) => {
   const subscribeBtn = storylineBox.querySelector(
     "li.nav-btn[data-btntype='subscribe']"
   );
-  const isSubscribed = userData.subscribedComics.includes(title);
-  const hasReadingPosition =
-    userData.readComics[title]?.storyindex &&
-    userData.readComics[title]?.pageindex;
-  if (hasReadingPosition) {
+
+  if (hasReadingPosition(title)) {
     firstPageBtn.querySelector('.label').textContent = 'Continue from page ';
     firstPageBtn.querySelector('.page').textContent = getArchivePageNum(title);
     firstPageBtn.dataset.storyindex = userData.readComics[title].storyindex;
     firstPageBtn.dataset.pageindex = userData.readComics[title].pageindex;
   }
-  if (isSubscribed) {
+  if (isSubscribed(title)) {
     subscribeBtn.dataset.subscribed = '';
     subscribeBtn.textContent = 'Remove Subscription';
   }
@@ -178,8 +196,6 @@ const fillStoryBox = async (storylineBox) => {
   firstPageBtn.addEventListener('click', gotoComicPage);
   lastPageBtn.addEventListener('click', gotoComicPage);
   subscribeBtn.addEventListener('click', handleSubscription);
-
-  bufferCoverImages(storylineArray);
 };
 
 const exitRack = async (e) => {

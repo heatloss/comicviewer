@@ -185,7 +185,7 @@ const transitionComicPage = async (e) => {
     gotoInterstitial();
     return false;
   }
-  console.log(`${advDir < 0 ? '<-' : '->'} ${requestedPageIndex}`);
+  // console.log(`${advDir < 0 ? '<-' : '->'} ${requestedPageIndex}`);
 
   setAdvancersActive(false);
   updatePageNumber(requestedPageIndex);

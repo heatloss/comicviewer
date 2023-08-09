@@ -14,6 +14,23 @@ const getUserData = () => {
   return userData;
 };
 
+const hasReadingPosition = (title) => {
+  if (userData.readComics[title]) {
+    if (
+      userData.readComics[title].storyindex +
+        userData.readComics[title].pageindex >
+      0 // If both values are zero, might as well consider the comic unread.
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const isSubscribed = (title) => {
+  return userData.subscribedComics.includes(title);
+};
+
 const setReadingPosition = (title, storylineNum, pageNum) => {
   if (!userData.readComics[title]) {
     userData.readComics[title] = { storyline: 0, page: 0 };
@@ -43,4 +60,6 @@ export {
   addSubscription,
   removeSubscription,
   setReadingPosition,
+  hasReadingPosition,
+  isSubscribed,
 };
