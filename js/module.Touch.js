@@ -2,6 +2,8 @@ const app = document.querySelector('#app');
 let advancementDisabled = false;
 let advanceButtons;
 
+const touchConfig = {};
+
 const initAdvancers = () => {
   advanceButtons = app.querySelectorAll('[data-pageadvance]');
   advanceButtons.forEach((elem) => {
@@ -42,4 +44,156 @@ const setAdvancersActive = (active) => {
   });
 };
 
-export { initAdvancers, setAdvancersActive };
+const initSwiper = (swipeSelector) => {
+  if (window.matchMedia('(pointer:coarse)').matches) {
+    touchConfig.swipezone = app.querySelector(swipeSelector); // storing the DOM object
+    touchConfig.swipezone.addEventListener('pointerdown', startDrag);
+    window.addEventListener('orientationchange', initParams);
+    resetSwiper();
+    initParams();
+  }
+};
+
+const initParams = () => {
+  touchConfig.screenWidth = window.innerWidth;
+  touchConfig.dragMax = window.innerWidth;
+  touchConfig.dragMin = -1 * window.innerWidth;
+  touchConfig.snaps = [-touchConfig.screenWidth, 0, touchConfig.screenWidth];
+};
+
+const resetSwiper = () => {
+  touchConfig.drag = 0;
+  touchConfig.touching = false;
+  touchConfig.x = 0;
+  touchConfig.y = 0;
+  touchConfig.previndex = 1;
+};
+
+const startDrag = (evtData) => {
+  if (advancementDisabled) return false;
+
+  touchConfig.x = evtData.pageX;
+  touchConfig.y = evtData.pageY;
+  touchConfig.dir = 0;
+  touchConfig.primaryDir = '';
+  touchConfig.swiper = touchConfig.swipezone.querySelector('.swiper');
+  touchConfig.swipezone.addEventListener('pointermove', moveDrag);
+  window.addEventListener('pointerup', endDrag);
+  touchConfig.touching = true;
+  touchConfig.tapped = true;
+  touchConfig.swiped = false;
+  requestAnimationFrame(updateAnim);
+};
+
+const moveDrag = (e) => {
+  const evtData = e;
+  const xPos = evtData.pageX;
+  const yPos = evtData.pageY;
+  const xDelta = xPos - touchConfig.x;
+  const yDelta = yPos - touchConfig.y;
+  if (
+    touchConfig.primaryDir === '' &&
+    Math.abs(xDelta) + Math.abs(yDelta) > 1
+  ) {
+    // The drag axis needs a minimum delta to be set; can't be changed until the touch is released.
+    touchConfig.primaryDir =
+      Math.abs(xDelta) > Math.abs(yDelta * 2.83) ? 'x' : 'y'; // Initial horizontal movement must be 2.83x the vertical movement in order to trigger a swipe.
+    if (touchConfig.primaryDir === 'x') {
+      touchConfig.swiper.classList.add('dragging');
+      touchConfig.swiped = true;
+    }
+  }
+  if (touchConfig.primaryDir === 'x') {
+    e.preventDefault();
+    e.stopPropagation();
+    swipeLimiter(xDelta);
+    touchConfig.x = xPos;
+    touchConfig.y = yPos;
+  }
+  touchConfig.tapped = false;
+};
+
+const endDrag = () => {
+  touchConfig.swipezone.removeEventListener('pointermove', moveDrag);
+  window.removeEventListener('pointerup', endDrag);
+  touchConfig.touching = false;
+  touchConfig.swiper.classList.remove('dragging');
+  if (touchConfig.swiped) {
+    calcSnap();
+  }
+};
+
+const updateAnim = () => {
+  if (!touchConfig.touching) return;
+  requestAnimationFrame(updateAnim); // Use of requestAnimationFrame improves performance on slower CPUs.
+  transformSlides(touchConfig.drag);
+};
+
+const transformSlides = (num) => {
+  if (typeof num !== 'undefined' && num !== 0) {
+    touchConfig.swiper.style.transform =
+      'translate3d(' + touchConfig.drag + 'px, 0, 0)';
+  } else {
+    touchConfig.swiper.style.transform = '';
+  }
+};
+
+const calcSnap = () => {
+  const closestNum = touchConfig.snaps.reduce((a, b) => {
+    return Math.abs(b - touchConfig.drag) < Math.abs(a - touchConfig.drag)
+      ? b
+      : a;
+  });
+  const closestIndex = touchConfig.snaps.indexOf(closestNum);
+  let snapIndex = closestIndex;
+  const goalIndex = 1 + touchConfig.dir;
+  console.log(closestIndex, goalIndex);
+  if (closestIndex !== goalIndex) {
+    const dragDistance =
+      touchConfig.drag - touchConfig.snaps[touchConfig.previndex];
+    const spanDistance = touchConfig.screenWidth;
+    const dragPercent = dragDistance / spanDistance;
+    if (dragPercent * touchConfig.dir > 0.1) {
+      snapIndex = goalIndex;
+    }
+  }
+  snapswiper(snapIndex);
+};
+
+const swipeLimiter = (x) => {
+  touchConfig.drag += x;
+  if (Math.abs(x) > 0) {
+    touchConfig.dir = x / Math.abs(x); // The dir can flip back and forth with the drag direction, but won't go back to zero until the touch is released.
+  }
+  touchConfig.drag =
+    touchConfig.drag < touchConfig.dragMax
+      ? touchConfig.drag
+      : touchConfig.drag - touchConfig.screenWidth;
+  touchConfig.drag =
+    touchConfig.drag > touchConfig.dragMin
+      ? touchConfig.drag
+      : touchConfig.drag + touchConfig.screenWidth;
+};
+
+const snapswiper = (snapIndex = touchConfig.previndex) => {
+  if (touchConfig.drag !== touchConfig.snaps[snapIndex]) {
+    touchConfig.swiper.addEventListener('transitionend', endSnapping);
+    touchConfig.drag = touchConfig.snaps[snapIndex];
+    transformSlides(touchConfig.drag);
+    setAdvancersActive(false);
+  }
+  touchConfig.previndex = snapIndex;
+};
+
+const endSnapping = () => {
+  touchConfig.swiper.removeEventListener('transitionend', endSnapping);
+  setAdvancersActive(true);
+  const dirVector = 1 - touchConfig.previndex;
+  if (dirVector !== 0) {
+    touchConfig.swiper.dataset.transition = 'completed';
+    requestAdvancement(dirVector);
+    resetSwiper();
+  }
+};
+
+export { initAdvancers, setAdvancersActive, initSwiper };

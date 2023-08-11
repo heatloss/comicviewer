@@ -1,24 +1,30 @@
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
+import { getUserData, setColorMode } from './module.Userdata.js';
 
 const headerselectors = {};
 const app = document.querySelector('#app');
-
+const userData = getUserData();
 const routeToHome = () => {
   render('/home:comiclist'); // Navigates to Home: Grid
 };
 
 const initDarkMode = () => {
-  const themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const colorModeFromOS = window.matchMedia('(prefers-color-scheme: dark)')
+    .matches
     ? 'dark'
     : 'light';
-  document.documentElement.setAttribute('data-theme', themeMode);
+  document.documentElement.setAttribute(
+    'data-theme',
+    userData.colormode || colorModeFromOS
+  );
 };
 
 const toggleMode = () => {
   const themeMode =
     document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', themeMode);
+  setColorMode(themeMode);
 };
 
 const activateHeaderMenu = () => {

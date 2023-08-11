@@ -7,7 +7,7 @@ const generateHTMLTemplate = async (templatename) => {
 
 const ghostmount = document.createElement('template');
 ghostmount.innerHTML = `
-  <article class="comicpages-ghostmount">
+  <article class="comicpages-ghostmount swiper">
     <section class="comicpage ghost pos-prev" data-templater></section>
     <section class="comicpage active" data-templater></section>
     <section class="comicpage ghost pos-next" data-templater></section>

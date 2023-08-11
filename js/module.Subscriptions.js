@@ -117,7 +117,6 @@ const generateRandomList = () => {
 };
 
 const buildSubscriptions = async () => {
-  console.log(userData.subscribedComics);
   if (userData.subscribedComics.length > 0) {
     for (const title of userData.subscribedComics) {
       await getPopulatedComic(title);

@@ -1,6 +1,8 @@
 const emptyUserData = {
   readComics: {},
   subscribedComics: [],
+  gridsort: '',
+  colormode: '',
 };
 
 const userData = JSON.parse(localStorage.getItem('userdata')) || emptyUserData;
@@ -33,7 +35,7 @@ const isSubscribed = (title) => {
 
 const setReadingPosition = (title, storylineNum, pageNum) => {
   if (!userData.readComics[title]) {
-    userData.readComics[title] = { storyline: 0, page: 0 };
+    userData.readComics[title] = { storyindex: 0, pageindex: 0 };
   }
   userData.readComics[title].storyindex = storylineNum;
   userData.readComics[title].pageindex = pageNum;
@@ -54,6 +56,16 @@ const removeSubscription = (title) => {
   storeUserData();
 };
 
+const setColorMode = (colorstate) => {
+  userData.colormode = colorstate;
+  storeUserData();
+};
+
+const setGridSort = (sortstyle) => {
+  userData.gridsort = sortstyle;
+  storeUserData();
+};
+
 export {
   storeUserData,
   getUserData,
@@ -62,4 +74,6 @@ export {
   setReadingPosition,
   hasReadingPosition,
   isSubscribed,
+  setColorMode,
+  setGridSort,
 };

@@ -40,7 +40,7 @@ const rackToComicPage = (e) => {
   );
 };
 
-const buildStorylines = async (title) => {
+const buildStorylines = (title) => {
   app.querySelector('#headertitle').textContent = title;
   rackState.title = title;
 

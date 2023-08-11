@@ -113,10 +113,27 @@ const getComic = (title) => {
   return selectedComic;
 };
 
+const wasRecentlyChecked = (title) => {
+  const checkComic = getComic(title);
+  if (checkComic?.lastchecked) {
+    if (new Date() - new Date(checkComic.lastchecked) < 3600000) {
+      return true; // If last checked less than an hour ago
+    }
+  }
+  return false;
+};
+
+const updatePubDate = (title, pubdate) => {
+  const comic = getComic(title);
+  comic.lastupdated = pubdate;
+  comic.lastchecked = new Date();
+  storeComicData();
+};
+
 const getPopulatedComic = async (title) => {
   const selectedComic = getComic(title);
-  if (!selectedComic.storylines) {
-    // TODO: Find a better way to determine whether to skip the Archive parsing process.
+  console.log(title);
+  if (!selectedComic?.storylines?.length > 0 || !wasRecentlyChecked(title)) {
     const archiveAndChapters = await getPagesFromArchive(
       selectedComic.archiveurl
     );
@@ -162,4 +179,6 @@ export {
   bufferCoverImages,
   getAllComics,
   generateProgressbar,
+  wasRecentlyChecked,
+  updatePubDate,
 };

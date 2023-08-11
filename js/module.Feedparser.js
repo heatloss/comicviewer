@@ -1,4 +1,8 @@
-import { getAllComics } from './module.Comicdata.js';
+import {
+  getAllComics,
+  wasRecentlyChecked,
+  updatePubDate,
+} from './module.Comicdata.js';
 
 const config = {
   proxy: 'http://proxy.luckbat.com:3000/url/proxy?url=',
@@ -48,15 +52,17 @@ const getLastDateFromRSS = async (feedUrl) => {
   }
 };
 
-const setAllLastDatesFromRSS = async () => {
+const setAllUpatesFromRSS = async () => {
   const comics = getAllComics().comics;
-  await Promise.all(
-    comics.map(async (comic) => {
-      const lastDate = await getLastDateFromRSS(comic.rssurl);
-      comic.lastupdated = lastDate;
-      return comic;
-    })
-  );
+  if (!wasRecentlyChecked(comics[0].name)) {
+    await Promise.all(
+      comics.map(async (comic) => {
+        const lastDate = await getLastDateFromRSS(comic.rssurl);
+        updatePubDate(comic.name, lastDate);
+        return comic;
+      })
+    );
+  }
 };
 
-export { getLastDateFromRSS, setAllLastDatesFromRSS };
+export { setAllUpatesFromRSS };

@@ -1,10 +1,12 @@
 import { templater } from './module.Templater.js';
 import { getAllComics } from './module.Comicdata.js';
+import { getUserData, setGridSort } from './module.Userdata.js';
 import { closeMenu, replaceHeaderTitle } from './module.Header.js';
 import { render } from './module.Router.js';
+import { setAllUpatesFromRSS } from './module.Feedparser.js';
 
 const app = document.querySelector('#app');
-
+const userData = getUserData();
 const comics = getAllComics().comics;
 
 const getSort = (sortid) => {
@@ -40,8 +42,14 @@ const sortingMethods = [
   },
 ];
 
-const doSort = (e) => {
-  const style = e.currentTarget ? e.target.dataset.action : e;
+const handleSort = (e) => {
+  const style = e.target.dataset.action;
+  setGridSort(style);
+  doSort(style);
+};
+
+const doSort = (style) => {
+  // const style = e.currentTarget ? e.target.dataset.action : e;
   buildGrid(style);
   const sortStyleObj = sortingMethods.find(
     (sortmethod) => sortmethod.id === style
@@ -159,12 +167,13 @@ const comicSquares = (comicset = comics) => {
   return fragment;
 };
 
-const initGrid = (style = 'shuffle') => {
+const initGrid = (style = userData.gridsort || 'shuffle') => {
   doSort(style);
   buildGridMenu(style);
+  setAllUpatesFromRSS();
 };
 
-const buildGrid = (style = 'shuffle') => {
+const buildGrid = (style) => {
   const gridList = app.querySelector('#comicslist > .comicsgrid');
   gridList.replaceChildren(generateComicGrid(style));
 };
@@ -176,7 +185,7 @@ const buildGridMenu = () => {
     menuLi.textContent = sortmethod.name;
     menuLi.classList.add('menu-btn');
     menuLi.dataset.action = sortmethod.id;
-    menuLi.addEventListener('click', doSort);
+    menuLi.addEventListener('click', handleSort);
     fragment.appendChild(menuLi);
   });
   const gridMenu = templater('gridsortmenu', fragment);

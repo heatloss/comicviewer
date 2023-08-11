@@ -2,6 +2,7 @@ import {
   getComic,
   bufferStorylineImages,
   generateProgressbar,
+  getPopulatedComic,
 } from './module.Comicdata.js';
 import {
   getUserData,
@@ -11,7 +12,11 @@ import {
 } from './module.Userdata.js';
 import { templater } from './module.Templater.js';
 import { getImageFromPage, optimizeImage } from './module.Archiveparser.js';
-import { initAdvancers, setAdvancersActive } from './module.Touch.js';
+import {
+  initAdvancers,
+  setAdvancersActive,
+  initSwiper,
+} from './module.Touch.js';
 import { render } from './module.Router.js';
 import { reverseZone } from './module.Zonesystem.js';
 import { closeMenu, replaceHeaderTitle } from './module.Header.js';
@@ -97,12 +102,12 @@ const buildComicMenu = (title = readingState.title) => {
 };
 
 const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
-  // TODO: Make sure this function can initialize the storylines if navigated to directly.
+  // Initialize the storylines if not already present.
+  const comic = await getPopulatedComic(title);
   readingState.title = title;
   readingState.storyIndex = parseInt(storyNumParam, 10);
   readingState.pageIndex = parseInt(pageNumParam, 10);
-  readingState.stack =
-    getComic(title).storylines[readingState.storyIndex].pages;
+  readingState.stack = comic.storylines[readingState.storyIndex].pages;
   buildChapterProgressBar();
   buildComicMenu();
   bufferStorylineImages(readingState.stack, readingState.pageIndex);
@@ -116,6 +121,7 @@ const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
     readingState.pageIndex
   );
   initAdvancers();
+  initSwiper('#ghostmount-region');
   app.addEventListener('advance', transitionComicPage);
 };
 
@@ -162,7 +168,6 @@ const removeGhostMount = (ghostMount) => {
 
 const transitionComicPage = async (e) => {
   const advDir = typeof e === 'number' ? e : e.detail;
-
   const gotoRack = () => {
     app.removeEventListener('advance', transitionComicPage);
     render(`/rack:${readingState.title}`);
@@ -171,7 +176,6 @@ const transitionComicPage = async (e) => {
     app.removeEventListener('advance', transitionComicPage);
     render(`/interstitial:${readingState.title}:${storyidx}`);
   };
-
   const requestedPageIndex = readingState.pageIndex + advDir;
   if (requestedPageIndex < 0) {
     if (readingState.storyIndex > 0) {
@@ -185,17 +189,19 @@ const transitionComicPage = async (e) => {
     gotoInterstitial();
     return false;
   }
-  // console.log(`${advDir < 0 ? '<-' : '->'} ${requestedPageIndex}`);
-
   setAdvancersActive(false);
   updatePageNumber(requestedPageIndex);
   const ghostMount = app.querySelector(
     '#ghostmount-region > .comicpages-ghostmount'
   );
-  ghostMount.classList.add(advDir > 0 ? 'movePrev' : 'moveNext');
-  ghostMount.addEventListener('transitionend', completeSlide);
   readingState.pageIndex = requestedPageIndex;
-
+  console.log(ghostMount.dataset.transition);
+  if (ghostMount.dataset.transition === 'completed') {
+    completeSlide();
+  } else {
+    ghostMount.classList.add(advDir > 0 ? 'movePrev' : 'moveNext');
+    ghostMount.addEventListener('transitionend', completeSlide);
+  }
   bufferStorylineImages(readingState.stack, readingState.pageIndex);
 };
 
@@ -220,6 +226,11 @@ const completeSlide = async () => {
     readingState.title,
     readingState.storyIndex,
     readingState.pageIndex
+  );
+  window.history.pushState(
+    null,
+    readingState.title,
+    `/comic:${readingState.title}:${readingState.storyIndex}:${readingState.pageIndex}`
   );
   setAdvancersActive(true);
 };

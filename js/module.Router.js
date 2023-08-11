@@ -6,6 +6,7 @@ import { buildSubscriptions } from './module.Subscriptions.js';
 import { buildStorylines } from './module.Storylines.js';
 import { buildInterstitial } from './module.Interstitial.js';
 import { initComic } from './module.Comicreader.js';
+import { setAllUpatesFromRSS } from './module.Feedparser.js';
 
 const gotoHome = (pathdata) => {
   gotoZone('home');
@@ -16,6 +17,7 @@ const gotoHome = (pathdata) => {
 
 const gotoIntro = () => {
   gotoZone('rack', 'Comic Viewer');
+  setAllUpatesFromRSS();
 };
 
 const gotoRack = (pathdata) => {
@@ -35,8 +37,8 @@ const gotoComic = (pathdata) => {
   initComic(pathdata[1], pathdata[2], pathdata[3]);
 };
 
-const goRoutes = {
-  '/': gotoHome,
+const doRoute = {
+  '/': gotoIntro,
   '/home': gotoHome,
   '/intro': gotoIntro,
   '/rack': gotoRack,
@@ -44,18 +46,18 @@ const goRoutes = {
   '/interstitial': gotoInterstitial,
 };
 
-const render = (path) => {
-  const pathdata = path.split(':');
+const render = (path, writestate = true) => {
+  const pathdata = decodeURI(path).split(':');
   // TODO: If requested route is the same as existing route, do nothing.
-  goRoutes[pathdata[0]](pathdata);
+  doRoute[pathdata[0]](pathdata);
   console.log(path);
-  window.history.replaceState(null, pathdata[0], path);
+  if (writestate) {
+    window.history.pushState(null, pathdata[0], path);
+  }
 };
 
-// window.addEventListener('popstate', (e) =>
-//   render(new URL(window.location.href).pathname)
-// );
-
-// render("/");
+window.addEventListener('popstate', () => {
+  render(new URL(window.location.href).pathname, false);
+});
 
 export { render };

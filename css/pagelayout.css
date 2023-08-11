@@ -299,8 +299,8 @@ img {
 }
 
 #comicslist .thumbsgrid .thumb-frame {
-  width: calc(25% - (1.5em / 4));
-  margin-bottom: 0.5em;
+  width: calc(25% - (0.75em / 4));
+  margin-bottom: 0.25em;
   position: relative;
 }
 
@@ -552,9 +552,15 @@ img {
   }
 } */
 
-@media only screen and (min-width: 481px) and (max-width: 768px) {
+@media only screen and (min-width: 1195px) {
   #comicslist .thumbsgrid .thumb-frame {
-    width: calc(33.33% - (1em / 3));
+    width: calc(16.667% - (1.25em / 6));
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 834px) {
+  #comicslist .thumbsgrid .thumb-frame {
+    width: calc(33.33% - (0.5em / 3));
   }
 
   #rack .storylines-list > .covers-list > li > .storyline-cover .cover-title {
@@ -629,7 +635,8 @@ img {
 
   #rack .storylines-frame,
   #interstitial .interstitial-frame {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0;
     padding-top: 4em;
     height: 100%;
     box-sizing: border-box;
@@ -653,6 +660,7 @@ img {
 
   #comicslist .thumbsgrid .thumb-frame {
     width: calc(50% - 0.125em);
+    /* margin-bottom: 0.25em; */
   }
 
   #comicpages .comicpagesbox {
