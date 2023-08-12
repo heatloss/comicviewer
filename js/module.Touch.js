@@ -1,8 +1,21 @@
+import { setPrevZone } from './module.Zonesystem.js';
+
 const app = document.querySelector('#app');
 let advancementDisabled = false;
 let advanceButtons;
 
 const touchConfig = {};
+
+const setStackEdges = (edge, selector) => {
+  if (edge === 'prev') {
+    touchConfig.prevzone = app.querySelector(selector);
+  } else if (edge === 'next') {
+    touchConfig.nextzone = app.querySelector(selector);
+  } else {
+    touchConfig.prevzone = null;
+    touchConfig.nextzone = null;
+  }
+};
 
 const initAdvancers = () => {
   advanceButtons = app.querySelectorAll('[data-pageadvance]');
@@ -46,11 +59,11 @@ const setAdvancersActive = (active) => {
 
 const initSwiper = (swipeSelector) => {
   if (window.matchMedia('(pointer:coarse)').matches) {
-    touchConfig.swipezone = app.querySelector(swipeSelector); // storing the DOM object
+    touchConfig.swipezone = app.querySelector(swipeSelector); // The swipe zone is where we listen for touches
     touchConfig.swipezone.addEventListener('pointerdown', startDrag);
     window.addEventListener('orientationchange', initParams);
-    resetSwiper();
     initParams();
+    resetSwiper();
   }
 };
 
@@ -58,7 +71,7 @@ const initParams = () => {
   touchConfig.screenWidth = window.innerWidth;
   touchConfig.dragMax = window.innerWidth;
   touchConfig.dragMin = -1 * window.innerWidth;
-  touchConfig.snaps = [-touchConfig.screenWidth, 0, touchConfig.screenWidth];
+  touchConfig.snaps = [touchConfig.dragMin, 0, touchConfig.dragMax];
 };
 
 const resetSwiper = () => {
@@ -67,6 +80,16 @@ const resetSwiper = () => {
   touchConfig.x = 0;
   touchConfig.y = 0;
   touchConfig.previndex = 1;
+  if (touchConfig.prevzone) {
+    touchConfig.prevzone.classList.remove('snapping');
+    touchConfig.prevzone.style.transform = '';
+    setPrevZone(''); // Prevents the Zone system from animating to the left-hand zone
+  }
+  if (touchConfig.nextzone) {
+    touchConfig.nextzone.classList.remove('snapping');
+    touchConfig.nextzone.style.transform = '';
+    setPrevZone(''); // Prevents the Zone system from animating to the right-hand zone
+  }
 };
 
 const startDrag = (evtData) => {
@@ -126,15 +149,16 @@ const endDrag = () => {
 const updateAnim = () => {
   if (!touchConfig.touching) return;
   requestAnimationFrame(updateAnim); // Use of requestAnimationFrame improves performance on slower CPUs.
-  transformSlides(touchConfig.drag);
+  transformPages();
 };
 
-const transformSlides = (num) => {
-  if (typeof num !== 'undefined' && num !== 0) {
-    touchConfig.swiper.style.transform =
-      'translate3d(' + touchConfig.drag + 'px, 0, 0)';
-  } else {
-    touchConfig.swiper.style.transform = '';
+const transformPages = () => {
+  touchConfig.swiper.style.transform = `translateX(${touchConfig.drag}px)`;
+  if (touchConfig.prevzone) {
+    touchConfig.prevzone.style.transform = `translateX(calc(-100vw + ${touchConfig.drag}px))`;
+  }
+  if (touchConfig.nextzone) {
+    touchConfig.nextzone.style.transform = `translateX(calc(100vw + ${touchConfig.drag}px))`;
   }
 };
 
@@ -147,7 +171,6 @@ const calcSnap = () => {
   const closestIndex = touchConfig.snaps.indexOf(closestNum);
   let snapIndex = closestIndex;
   const goalIndex = 1 + touchConfig.dir;
-  console.log(closestIndex, goalIndex);
   if (closestIndex !== goalIndex) {
     const dragDistance =
       touchConfig.drag - touchConfig.snaps[touchConfig.previndex];
@@ -179,7 +202,13 @@ const snapswiper = (snapIndex = touchConfig.previndex) => {
   if (touchConfig.drag !== touchConfig.snaps[snapIndex]) {
     touchConfig.swiper.addEventListener('transitionend', endSnapping);
     touchConfig.drag = touchConfig.snaps[snapIndex];
-    transformSlides(touchConfig.drag);
+    if (touchConfig.prevzone) {
+      touchConfig.prevzone.classList.add('snapping');
+    }
+    if (touchConfig.nextzone) {
+      touchConfig.nextzone.classList.add('snapping');
+    }
+    transformPages(touchConfig.drag);
     setAdvancersActive(false);
   }
   touchConfig.previndex = snapIndex;
@@ -196,4 +225,4 @@ const endSnapping = () => {
   }
 };
 
-export { initAdvancers, setAdvancersActive, initSwiper };
+export { initAdvancers, setAdvancersActive, initSwiper, setStackEdges };

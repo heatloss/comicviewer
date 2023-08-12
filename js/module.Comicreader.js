@@ -16,10 +16,13 @@ import {
   initAdvancers,
   setAdvancersActive,
   initSwiper,
+  setStackEdges,
 } from './module.Touch.js';
 import { render } from './module.Router.js';
 import { reverseZone } from './module.Zonesystem.js';
 import { closeMenu, replaceHeaderTitle } from './module.Header.js';
+import { buildStorylines } from './module.Storylines.js';
+import { buildInterstitial } from './module.Interstitial.js';
 
 const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
@@ -41,8 +44,9 @@ const handleSubscription = (e) => {
 
 const updatePageNumber = (num = readingState.pageIndex) => {
   num = parseInt(num, 10);
-  app.querySelector('#comicsreadernav .op-page').textContent =
-    readingState.stack[num].archivepageindex + 1;
+  // app.querySelector('#comicsreadernav .op-page').textContent =
+  // readingState.stack[num].archivepageindex + 1;
+  app.querySelector('#comicsreadernav .op-page').textContent = num + 1;
 };
 
 const menuToCover = (e) => {
@@ -120,6 +124,7 @@ const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
     readingState.storyIndex,
     readingState.pageIndex
   );
+  markStackEdge();
   initAdvancers();
   initSwiper('#ghostmount-region');
   app.addEventListener('advance', transitionComicPage);
@@ -166,6 +171,32 @@ const removeGhostMount = (ghostMount) => {
   ghostMount.remove();
 };
 
+const markStackEdge = () => {
+  if (readingState.pageIndex === 0) {
+    if (readingState.storyIndex === 0) {
+      setStackEdges('prev', '#rack');
+      buildStorylines(readingState.title);
+    } else {
+      setStackEdges('prev', '#interstitial');
+      buildInterstitial(readingState.title, readingState.storyIndex - 1);
+    }
+  } else if (readingState.pageIndex === readingState.stack.length - 1) {
+    if (
+      readingState.storyIndex ===
+      getComic(readingState.title).storylines.length - 1
+    ) {
+      setStackEdges('next', '#interstitial');
+      // load the finished-comic interstitial, as needed
+      buildInterstitial(readingState.title, readingState.storyIndex);
+    } else {
+      setStackEdges('next', '#interstitial');
+      buildInterstitial(readingState.title, readingState.storyIndex);
+    }
+  } else {
+    setStackEdges();
+  }
+};
+
 const transitionComicPage = async (e) => {
   const advDir = typeof e === 'number' ? e : e.detail;
   const gotoRack = () => {
@@ -195,7 +226,6 @@ const transitionComicPage = async (e) => {
     '#ghostmount-region > .comicpages-ghostmount'
   );
   readingState.pageIndex = requestedPageIndex;
-  console.log(ghostMount.dataset.transition);
   if (ghostMount.dataset.transition === 'completed') {
     completeSlide();
   } else {
@@ -221,17 +251,20 @@ const completeSlide = async () => {
 
   setTimeout(removeGhostMount, 10, ghostMount);
 
-  // updatePageNumber();
   setReadingPosition(
     readingState.title,
     readingState.storyIndex,
     readingState.pageIndex
   );
+
+  markStackEdge();
+
   window.history.pushState(
     null,
     readingState.title,
     `/comic:${readingState.title}:${readingState.storyIndex}:${readingState.pageIndex}`
   );
+
   setAdvancersActive(true);
 };
 

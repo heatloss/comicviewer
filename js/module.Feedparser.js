@@ -5,7 +5,8 @@ import {
 } from './module.Comicdata.js';
 
 const config = {
-  proxy: 'http://proxy.luckbat.com:3000/url/proxy?url=',
+  // proxy: 'http://proxy.luckbat.com:3000/url/proxy?url=',
+  proxy: 'https://comic-viewer-proxy.glitch.me/url/proxy?url=',
 };
 
 /*
@@ -54,7 +55,11 @@ const getLastDateFromRSS = async (feedUrl) => {
 
 const setAllUpatesFromRSS = async () => {
   const comics = getAllComics().comics;
-  if (!wasRecentlyChecked(comics[0].name)) {
+  console.log();
+  if (
+    !wasRecentlyChecked(comics[0].name) ||
+    isNaN(Date.parse(comics[0].lastupdated))
+  ) {
     await Promise.all(
       comics.map(async (comic) => {
         const lastDate = await getLastDateFromRSS(comic.rssurl);

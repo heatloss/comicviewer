@@ -137,14 +137,14 @@ const fillStoryBox = async (storylineBox) => {
       subscribeButton.dataset.subscribed = '';
     }
   };
-  const getArchivePageNum = (title = rackState.title) => {
-    console.log();
-    return (
-      getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
-        userData.readComics[title]?.pageindex
-      ].archivepageindex + 1
-    );
-  };
+  // const getArchivePageNum = (title = rackState.title) => {
+  //   console.log();
+  //   return (
+  //     getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
+  //       userData.readComics[title]?.pageindex
+  //     ].archivepageindex + 1
+  //   );
+  // };
   const userData = getUserData();
   const coversListElem = storylineBox.querySelector('.covers-list');
   const title = rackState.title;
@@ -177,8 +177,8 @@ const fillStoryBox = async (storylineBox) => {
   );
 
   if (hasReadingPosition(title)) {
-    firstPageBtn.querySelector('.label').textContent = 'Continue from page ';
-    firstPageBtn.querySelector('.page').textContent = getArchivePageNum(title);
+    firstPageBtn.querySelector('.label').textContent = 'Continue reading';
+    // firstPageBtn.querySelector('.page').textContent = getArchivePageNum(title);
     firstPageBtn.dataset.storyindex = userData.readComics[title].storyindex;
     firstPageBtn.dataset.pageindex = userData.readComics[title].pageindex;
   }

@@ -45,22 +45,18 @@ const generateSubOps = (title) => {
       render(`/rack:${readData.title}`);
     }
   };
-  const getArchivePageNum = () => {
-    return (
-      getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
-        userData.readComics[title]?.pageindex
-      ].archivepageindex + 1
-    );
-  };
+  // const getArchivePageNum = () => {
+  //   return (
+  //     getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
+  //       userData.readComics[title]?.pageindex
+  //     ].archivepageindex + 1
+  //   );
+  // };
   const isSubbed = isSubscribed(title);
   const hasReadPos = hasReadingPosition(title);
   const subOpsArray = [
     `${hasReadPos ? 'Continue' : 'Learn more'}`,
-    `${
-      hasReadPos
-        ? 'Continue from Page ' + getArchivePageNum()
-        : 'More about this comic'
-    }`,
+    `${hasReadPos ? 'Continue reading' : 'More about this comic'}`,
     `${isSubbed ? 'Unsubscribe' : 'Subscribe'}`,
     `${isSubbed ? 'Remove from subscriptions' : 'Add to subscriptions'}`,
   ];

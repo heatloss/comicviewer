@@ -111,7 +111,7 @@ img {
 .nav-btn-box .nav-btn-hed {
   font-size: 1.2em;
   font-weight: bold;
-  margin-bottom: 0.75em;
+  margin-bottom: 1em;
   color: var(--accent-text-color);
 }
 
@@ -377,7 +377,7 @@ img {
 #rack .storylines-frame,
 #interstitial .interstitial-frame {
   margin: 4em auto;
-  width: calc(100% - 12vw);
+  /* width: calc(100% - 12vw); */
   max-width: 60em;
 }
 
@@ -402,7 +402,8 @@ img {
   text-align: center;
 }
 
-#subscriptions .subscription-frame .subscription-subhed {
+#subscriptions .subscription-frame .subscription-subhed,
+#settings .settings-subhed {
   font-size: 1.1em;
   font-weight: bold;
   margin: 2em 0 1.5em 0;
@@ -648,6 +649,10 @@ img {
   #rack .storylines-frame .splash-image {
     width: 100%;
     margin: 0 0 1em 0;
+  }
+
+  .nav-btn-group .nav-btn .abbrev {
+    display: block;
   }
 
   .nav-btn-group .nav-btn .unabbreviated {
