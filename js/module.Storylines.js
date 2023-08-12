@@ -14,7 +14,7 @@ import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { initTabs } from './module.Tabsystem.js';
 import { optimizeImage } from './module.Archiveparser.js';
-import { initAdvancers } from './module.Touch.js';
+// import { initAdvancers } from './module.Touch.js';
 
 const app = document.querySelector('#app');
 const rackState = {};
@@ -23,21 +23,6 @@ const placeholderImg =
 
 const handleExternalLink = (e) => {
   console.log(e.target);
-};
-
-const rackToHome = () => {
-  app.removeEventListener('advance', exitRack);
-  render('/home:comiclist');
-};
-
-const rackToComicPage = (e) => {
-  app.removeEventListener('advance', exitRack);
-  const storylineData = e.currentTarget ? e.currentTarget.dataset : e;
-  render(
-    `/comic:${storylineData.title}:${storylineData.storyindex || 0}:${
-      storylineData.pageindex || 0
-    }`
-  );
 };
 
 const buildStorylines = (title) => {
@@ -94,14 +79,11 @@ const buildStorylines = (title) => {
   app.querySelector('#rack').replaceChildren(storylineBox);
   fillStoryBox(storylineBox);
   initTabs('aboutcomic');
-  initAdvancers();
-  app.addEventListener('advance', exitRack);
 };
 
 const addCoverSources = async (coversListElem) => {
   const title = rackState.title;
   const storylineArray = await getCoversForComic(title);
-  // bufferCoverImages(storylineArray); Not sure what this is doing anymore
   storylineArray.forEach((storyline, index) => {
     const coverImage = coversListElem.querySelector(
       `.cover-list-item[data-storyindex='${index}'] img.cover-image`
@@ -116,7 +98,6 @@ const addCoverSources = async (coversListElem) => {
 
 const fillStoryBox = async (storylineBox) => {
   const gotoComicPage = (e) => {
-    app.removeEventListener('advance', exitRack);
     const storylineData = e.currentTarget.dataset;
     render(
       `/comic:${storylineData.title}:${storylineData.storyindex || 0}:${
@@ -137,14 +118,7 @@ const fillStoryBox = async (storylineBox) => {
       subscribeButton.dataset.subscribed = '';
     }
   };
-  // const getArchivePageNum = (title = rackState.title) => {
-  //   console.log();
-  //   return (
-  //     getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
-  //       userData.readComics[title]?.pageindex
-  //     ].archivepageindex + 1
-  //   );
-  // };
+
   const userData = getUserData();
   const coversListElem = storylineBox.querySelector('.covers-list');
   const title = rackState.title;
@@ -178,7 +152,6 @@ const fillStoryBox = async (storylineBox) => {
 
   if (hasReadingPosition(title)) {
     firstPageBtn.querySelector('.label').textContent = 'Continue reading';
-    // firstPageBtn.querySelector('.page').textContent = getArchivePageNum(title);
     firstPageBtn.dataset.storyindex = userData.readComics[title].storyindex;
     firstPageBtn.dataset.pageindex = userData.readComics[title].pageindex;
   }
@@ -196,17 +169,6 @@ const fillStoryBox = async (storylineBox) => {
   firstPageBtn.addEventListener('click', gotoComicPage);
   lastPageBtn.addEventListener('click', gotoComicPage);
   subscribeBtn.addEventListener('click', handleSubscription);
-};
-
-const exitRack = async (e) => {
-  const advDir = e.detail;
-  const eData = { title: rackState.title };
-  if (advDir === -1) {
-    rackToHome();
-  } else if (advDir === 1) {
-    rackToComicPage(eData); // First-page cover
-  }
-  console.log(`${advDir < 0 ? '<- HOME' : '-> CHAPTER 1 COVER'}`);
 };
 
 export { buildStorylines };

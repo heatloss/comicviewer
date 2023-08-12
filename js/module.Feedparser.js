@@ -5,8 +5,8 @@ import {
 } from './module.Comicdata.js';
 
 const config = {
-  // proxy: 'http://proxy.luckbat.com:3000/url/proxy?url=',
-  proxy: 'https://comic-viewer-proxy.glitch.me/url/proxy?url=',
+  proxy: 'http://proxy.luckbat.com:3000/url/proxy?url=',
+  // proxy: 'https://comic-viewer-proxy.glitch.me/url/proxy?url=',
 };
 
 /*

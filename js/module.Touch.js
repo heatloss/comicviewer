@@ -182,7 +182,7 @@ const calcSnap = () => {
       snapIndex = goalIndex;
     }
   }
-  snapswiper(snapIndex);
+  snapSwiper(snapIndex);
 };
 
 const swipeLimiter = (x) => {
@@ -200,7 +200,7 @@ const swipeLimiter = (x) => {
       : touchConfig.drag + touchConfig.screenWidth;
 };
 
-const snapswiper = (snapIndex = touchConfig.previndex) => {
+const snapSwiper = (snapIndex = touchConfig.previndex) => {
   if (touchConfig.drag !== touchConfig.snaps[snapIndex]) {
     touchConfig.swiper.addEventListener('transitionend', endSnapping);
     touchConfig.drag = touchConfig.snaps[snapIndex];
@@ -223,8 +223,8 @@ const endSnapping = () => {
   if (dirVector !== 0) {
     touchConfig.swiper.dataset.transition = 'completed';
     requestAdvancement(dirVector);
-    resetSwiper();
   }
+  resetSwiper();
 };
 
 export { initAdvancers, setAdvancersActive, initSwiper, setStackEdges };
