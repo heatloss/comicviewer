@@ -6,11 +6,7 @@ import {
   hasReadingPosition,
   isSubscribed,
 } from './module.Userdata.js';
-import {
-  getComic,
-  getPopulatedComic,
-  getAllComics,
-} from './module.Comicdata.js';
+import { getPopulatedComic, getAllComics } from './module.Comicdata.js';
 import { render } from './module.Router.js';
 
 const app = document.querySelector('#app');
@@ -33,7 +29,6 @@ const generateSubOps = (title) => {
   };
   const handleReadMore = (e) => {
     const readData = e.currentTarget.dataset;
-    console.log(readData, userData);
     if (
       userData.readComics[readData.title]?.storyindex &&
       userData.readComics[readData.title]?.pageindex

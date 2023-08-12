@@ -1,4 +1,5 @@
 import { activateHeaderMenu, deactivateHeaderMenu } from './module.Header.js';
+import { history } from './module.Router.js';
 
 const app = document.querySelector('#app');
 
@@ -24,10 +25,17 @@ const gotoTab = (tabsystem, tabpos) => {
 
 const selectTab = (e) => {
   e.stopPropagation();
-  const tabPos = e.target.dataset.tabpos;
+  const tabPos = e.currentTarget.dataset.tabpos;
   const tabSystemId =
-    e.target.dataset.tabsysid ||
-    e.target.closest('.tabsystem').dataset.tabsysid;
+    e.currentTarget.dataset.tabsysid ||
+    e.currentTarget.closest('.tabsystem').dataset.tabsysid;
+  const currentPath = decodeURIComponent(window.location.pathname).split(':');
+  const historyPath =
+    currentPath[0] === '/rack'
+      ? `${currentPath[0]}:${currentPath[1]}:${tabPos}`
+      : `${currentPath[0]}:${tabPos}`;
+  console.log(historyPath);
+  history(historyPath);
   gotoTab(tabSystemId, tabPos);
 };
 

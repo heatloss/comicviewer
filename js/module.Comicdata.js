@@ -132,7 +132,6 @@ const updatePubDate = (title, pubdate) => {
 
 const getPopulatedComic = async (title) => {
   const selectedComic = getComic(title);
-  console.log(title);
   if (!selectedComic?.storylines?.length > 0 || !wasRecentlyChecked(title)) {
     const archiveAndChapters = await getPagesFromArchive(
       selectedComic.archiveurl

@@ -1,6 +1,7 @@
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { getUserData, setColorMode } from './module.Userdata.js';
+import { buildSettings } from './module.Settings.js';
 
 const headerselectors = {};
 const app = document.querySelector('#app');
@@ -20,11 +21,18 @@ const initDarkMode = () => {
   );
 };
 
+const toggleNavBars = (state) => {
+  const toggledAttr = app.dataset.navdisplay === 'hide' ? 'show' : 'hide';
+  const visibilityState = state || toggledAttr;
+  app.setAttribute('data-navdisplay', visibilityState);
+};
+
 const toggleMode = () => {
   const themeMode =
     document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', themeMode);
   setColorMode(themeMode);
+  buildSettings();
 };
 
 const activateHeaderMenu = () => {
@@ -96,4 +104,5 @@ export {
   replaceHeaderTitle,
   activateHeaderMenu,
   deactivateHeaderMenu,
+  toggleNavBars,
 };

@@ -43,21 +43,18 @@ const sortingMethods = [
 ];
 
 const handleSort = (e) => {
-  const style = e.target.dataset.action;
+  const style = e.currentTarget.dataset.action;
   setGridSort(style);
   doSort(style);
 };
 
 const doSort = (style) => {
-  // const style = e.currentTarget ? e.target.dataset.action : e;
   buildGrid(style);
   const sortStyleObj = sortingMethods.find(
     (sortmethod) => sortmethod.id === style
   );
   replaceHeaderTitle(`Sorting: `, style);
-  app.querySelector(
-    '#homenav #togrid'
-  ).dataset.tabhed = `Sorted ${sortStyleObj.name}`;
+  app.querySelector('#homenav #togrid').dataset.tabhed = `Sorting: `;
   app.querySelector('#comicslist > .section-hed').textContent = `All Comics, ${
     sortStyleObj.id === 'shuffle' ? 'Shuffled' : sortStyleObj.name
   }`;

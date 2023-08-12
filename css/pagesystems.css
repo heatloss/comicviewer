@@ -250,6 +250,11 @@
   bottom: 0;
   width: 100%;
   background-color: var(--ux-bg-color);
+  transition: transform 0.125s cubic-bezier(0.25, 0, 0, 1);
+}
+
+#app[data-navdisplay='hide'] #comicsreadernav {
+  transform: translateY(101%);
 }
 
 #comicpages #comicsreadernav .comic-ops {
@@ -287,6 +292,13 @@
   margin-top: 3em;
   height: calc(100vh - 6em);
   overflow: hidden;
+  transition: margin 0.125s cubic-bezier(0.25, 0, 0, 1),
+    height 0.125s cubic-bezier(0.25, 0, 0, 1);
+}
+
+#app[data-navdisplay='hide'] #ghostmount-region {
+  margin-top: 0em;
+  height: 100vh;
 }
 
 #ghostmount-region .comicpages-ghostmount {
@@ -367,6 +379,35 @@
   width: 50vw;
 }
 
+#settings .settings-controls {
+  margin: 2em 0 4em 0;
+}
+
+#settings .settings-controls fieldset + fieldset {
+  margin-top: 2em;
+}
+
+#settings .settings-controls label {
+  display: block;
+  font-size: 1.1em;
+  margin: 0 0 0.75em 0.75em;
+  font-weight: bold;
+}
+
+#settings .settings-controls select {
+  font-size: 1.1em;
+  background-color: var(--ux-bg-color);
+  color: var(--ux-text-color);
+  border-radius: 0.5em;
+  padding: 0.5em 2em 0.5em 0.5em;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='dimgray' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5em center;
+  background-size: 1em;
+  margin-left: 0.5em;
+}
+
 @media only screen and (max-width: 480px) {
   .tabsystem.tabgroup {
     display: flex;
@@ -414,6 +455,10 @@
   #interstitial .interstitial-frame article section {
     margin: 0;
     padding: 0 9vw 3em 9vw;
+  }
+
+  #settings .settings-controls select {
+    font-size: 1.25em;
   }
 }
 

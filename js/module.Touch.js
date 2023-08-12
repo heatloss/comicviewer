@@ -143,6 +143,8 @@ const endDrag = () => {
   touchConfig.swiper.classList.remove('dragging');
   if (touchConfig.swiped) {
     calcSnap();
+  } else {
+    touchConfig.swiper.style.transform = ''; // Remove inline transform style to un-block transition animation.
   }
 };
 

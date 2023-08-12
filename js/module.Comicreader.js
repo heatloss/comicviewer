@@ -18,9 +18,13 @@ import {
   initSwiper,
   setStackEdges,
 } from './module.Touch.js';
-import { render } from './module.Router.js';
+import { render, history } from './module.Router.js';
 import { reverseZone } from './module.Zonesystem.js';
-import { closeMenu, replaceHeaderTitle } from './module.Header.js';
+import {
+  closeMenu,
+  replaceHeaderTitle,
+  toggleNavBars,
+} from './module.Header.js';
 import { buildStorylines } from './module.Storylines.js';
 import { buildInterstitial } from './module.Interstitial.js';
 
@@ -28,8 +32,18 @@ const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
 const userData = getUserData();
 
+const handleComicTap = () => {
+  const doTap = {
+    advances: () => transitionComicPage(1),
+    hidesbars: toggleNavBars,
+    unset: () => {},
+  };
+  console.log(userData.comictap);
+  doTap[userData.comictap]();
+};
+
 const handleSubscription = (e) => {
-  const subscribeButton = e.target;
+  const subscribeButton = e.currentTarget;
   const subscribeTitle = subscribeButton.dataset.title;
   if (subscribeButton.hasAttribute('data-subscribed')) {
     removeSubscription(subscribeTitle);
@@ -127,6 +141,7 @@ const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
   markStackEdge();
   initAdvancers();
   initSwiper('#ghostmount-region');
+  toggleNavBars('show');
   app.addEventListener('advance', transitionComicPage);
 };
 
@@ -134,17 +149,17 @@ const generateGhostMount = async (pageNum) => {
   const ghostPagePrev = document.createElement('img');
   const activePage = document.createElement('img');
   const ghostPageNext = document.createElement('img');
-
   activePage.onload = () => {
     app.querySelector('#ghostProg')?.remove();
   };
-
+  activePage.addEventListener('click', handleComicTap);
   if (pageNum > 0) {
     const ghostPagePrevOrig =
       readingState.stack[pageNum - 1]?.img?.original ||
       (await getImageFromPage(readingState.stack[pageNum - 1].href));
     ghostPagePrev.src = optimizeImage(ghostPagePrevOrig, 800);
   }
+
   const activePageOrig =
     readingState.stack[pageNum]?.img?.original ||
     (await getImageFromPage(readingState.stack[pageNum].href));
@@ -230,6 +245,7 @@ const transitionComicPage = async (e) => {
     completeSlide();
   } else {
     ghostMount.classList.add(advDir > 0 ? 'movePrev' : 'moveNext');
+    // TODO: Remove inline styles on rack/interstitial, so that they don't block transition animation.
     ghostMount.addEventListener('transitionend', completeSlide);
   }
   bufferStorylineImages(readingState.stack, readingState.pageIndex);
@@ -259,9 +275,7 @@ const completeSlide = async () => {
 
   markStackEdge();
 
-  window.history.pushState(
-    null,
-    readingState.title,
+  history(
     `/comic:${readingState.title}:${readingState.storyIndex}:${readingState.pageIndex}`
   );
 

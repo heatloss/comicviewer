@@ -116,24 +116,26 @@ const initTemplates = async () => {
   const comicreader = await generateHTMLTemplate('comicreader.html');
   const interstitial = await generateHTMLTemplate('interstitial.html');
   const subscriptions = await generateHTMLTemplate('subscriptions.html');
+  const settings = await generateHTMLTemplate('settings.html');
   templates = {
     main,
     header,
     comicreader,
-    progressbar,
+    comicchaptermenu,
     ghostmount,
+    gridsortmenu,
     interstitial,
+    loading,
+    progressbar,
+    settings,
     squarecategory,
     square,
-    subscriptions,
-    subscriptionrow,
-    subscriptionops,
-    loading,
     storylines,
     storylinecover,
     storylinenavbtns,
-    gridsortmenu,
-    comicchaptermenu,
+    subscriptions,
+    subscriptionrow,
+    subscriptionops,
   };
 };
 

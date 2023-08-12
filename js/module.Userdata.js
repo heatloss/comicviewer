@@ -1,8 +1,9 @@
 const emptyUserData = {
   readComics: {},
   subscribedComics: [],
-  gridsort: '',
-  colormode: '',
+  gridsort: 'shuffle',
+  colormode: 'unset',
+  comictap: 'unset',
 };
 
 const userData = JSON.parse(localStorage.getItem('userdata')) || emptyUserData;
@@ -66,6 +67,11 @@ const setGridSort = (sortstyle) => {
   storeUserData();
 };
 
+const setComicTap = (tappref) => {
+  userData.comictap = tappref;
+  storeUserData();
+};
+
 export {
   storeUserData,
   getUserData,
@@ -76,4 +82,5 @@ export {
   isSubscribed,
   setColorMode,
   setGridSort,
+  setComicTap,
 };
