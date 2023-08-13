@@ -339,31 +339,6 @@ img {
   text-shadow: 0 0 2px var(--page-bg-color);
 }
 
-/* #comicslist li {
-  font-size: 1.5em;
-  margin-bottom: 1em;
-  font-weight: bold;
-}
-
-#comicslist li a {
-  text-decoration: none;
-  color: inherit;
-} */
-
-/* #rack {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--ux-bg-color);
-  transition: transform 0.25s ease-out;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
-
 #rack .loading {
   margin: 7em 2em;
   text-align: center;
@@ -509,7 +484,7 @@ img {
 #comicpages .transitionPage {
   width: 100vw;
   height: 100vh;
-  height: -webkit-fill-available;
+  height: 100dvh;
   overflow: hidden;
   position: relative;
 }

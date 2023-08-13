@@ -6,7 +6,7 @@
 #zonesFrame {
   width: 100vw;
   min-height: 100vh;
-  /* min-height: -webkit-fill-available; */
+  /* min-height: 100dvh; */
   position: relative;
   display: flex;
   flex-direction: row;
@@ -19,7 +19,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  height: -webkit-fill-available;
+  height: 100dvh;
 }
 
 #zonesFrame.transitioning [data-zoneid] {
@@ -358,7 +358,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: -webkit-fill-available;
+  height: 100dvh;
 }
 
 #comicpages #ghostmount-region {
@@ -374,7 +374,7 @@
 #app[data-navdisplay='hide'] #ghostmount-region {
   margin-top: 0em;
   height: 100vh;
-  height: -webkit-fill-available;
+  height: 100dvh;
 }
 
 #ghostmount-region .comicpages-ghostmount {
