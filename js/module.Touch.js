@@ -67,7 +67,9 @@ const setAdvancersActive = (active) => {
 const initSwiper = (swipeSelector) => {
   if (window.matchMedia('(pointer:coarse)').matches) {
     touchConfig.swipezone = app.querySelector(swipeSelector); // The swipe zone is where we listen for touches
-    touchConfig.swipezone.addEventListener('pointerdown', startDrag);
+    touchConfig.swipezone.addEventListener('touchstart', startDrag, {
+      passive: true,
+    });
     window.addEventListener('orientationchange', initParams);
     initParams();
     resetSwiper();
@@ -100,17 +102,21 @@ const resetSwiper = () => {
   }
 };
 
-const startDrag = (evtData) => {
+const startDrag = (e) => {
   if (advancementDisabled) return false;
-  if (touchConfig.evcache.length > 1) return false;
+  // if (touchConfig.evcache.length > 1) return false;
+  if (e.targetTouches.length > 1) return false;
 
+  const evtData = e.targetTouches[0];
   touchConfig.x = evtData.pageX;
   touchConfig.y = evtData.pageY;
   touchConfig.dir = 0;
   touchConfig.primaryDir = '';
   touchConfig.swiper = touchConfig.swipezone.querySelector('.swiper');
-  touchConfig.swipezone.addEventListener('pointermove', moveDrag);
-  window.addEventListener('pointerup', endDrag);
+  touchConfig.swipezone.addEventListener('touchmove', moveDrag, {
+    passive: true,
+  });
+  window.addEventListener('touchend', endDrag, { passive: true });
   touchConfig.touching = true;
   touchConfig.tapped = true;
   touchConfig.swiped = false;
@@ -119,7 +125,7 @@ const startDrag = (evtData) => {
 };
 
 const moveDrag = (e) => {
-  const evtData = e;
+  const evtData = e.targetTouches[0];
   const xPos = evtData.pageX;
   const yPos = evtData.pageY;
   const xDelta = xPos - touchConfig.x;
@@ -137,7 +143,7 @@ const moveDrag = (e) => {
     }
   }
   if (touchConfig.primaryDir === 'x') {
-    e.preventDefault();
+    // e.preventDefault();
     e.stopPropagation();
     swipeLimiter(xDelta);
     touchConfig.x = xPos;
@@ -147,8 +153,8 @@ const moveDrag = (e) => {
 };
 
 const endDrag = (evtData) => {
-  touchConfig.swipezone.removeEventListener('pointermove', moveDrag);
-  window.removeEventListener('pointerup', endDrag);
+  touchConfig.swipezone.removeEventListener('touchmove', moveDrag);
+  window.removeEventListener('touchend', endDrag);
   touchConfig.touching = false;
   touchConfig.swiper.classList.remove('dragging');
   if (touchConfig.swiped) {

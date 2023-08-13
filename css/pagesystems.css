@@ -241,9 +241,9 @@
   box-sizing: border-box;
 }
 
-#comicpages {
+/* #comicpages #ghostmount-region .comicpages-ghostmount.dragging {
   touch-action: none;
-}
+} */
 
 #comicpages #comicsreadernav {
   position: fixed;
