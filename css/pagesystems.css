@@ -241,10 +241,6 @@
   box-sizing: border-box;
 }
 
-/* #comicpages #ghostmount-region .comicpages-ghostmount.dragging {
-  touch-action: none;
-} */
-
 #comicpages #comicsreadernav {
   position: fixed;
   bottom: 0;
@@ -342,6 +338,7 @@
   height: 2em;
   padding: 0 0.5em 0 0.25em;
   border-radius: 1em;
+  margin: 0.5em;
 }
 
 #comicpages #comicsreadernav .comic-ops .comic-op .op-pagenum {
@@ -540,6 +537,30 @@
 
   #settings .settings-controls select {
     font-size: 1.25em;
+  }
+}
+
+@media only screen and (display-mode: standalone) {
+  #comicpages #comicsreadernav {
+    transform: translateY(4em);
+  }
+
+  #comicpages #comicsreadernav[data-controlsdisplay='show'] {
+    transform: translateY(0em);
+  }
+
+  #app[data-navdisplay='hide'] #comicsreadernav {
+    transform: translateY(8.1em);
+  }
+
+  #comicpages #comicsreadernav .comic-ops {
+    align-items: flex-start;
+    height: 4em;
+  }
+
+  #comicpages #comicsreadernav .pagenum-rangebox {
+    top: -0.75em;
+    height: 4em;
   }
 }
 

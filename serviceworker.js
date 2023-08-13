@@ -1,16 +1,5 @@
 // Core assets (JS and CSS are automatically cached)
-let coreAssets = [
-  '/index.html',
-  '/templates/main.html',
-  '/templates/header.html',
-  '/templates/comicreader.html',
-  '/templates/storylines.html',
-  '/templates/interstitial.html',
-  '/templates/subscriptions.html',
-  '/favicon.ico',
-  '/favicon-16x16.png',
-  '/favicon-32x32.png',
-];
+let coreAssets = ['/favicon.ico', '/favicon-16x16.png', '/favicon-32x32.png'];
 
 // On install, cache core assets
 self.addEventListener('install', function (event) {
@@ -51,7 +40,6 @@ self.addEventListener('fetch', function (event) {
               return cache.put(request, copy);
             })
           );
-
           // Return the response
           return response;
         })
@@ -100,7 +88,6 @@ self.addEventListener('fetch', function (event) {
                 return cache.put(request, copy);
               })
             );
-
             // Return the response
             return response;
           })

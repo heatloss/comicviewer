@@ -116,7 +116,7 @@ const startDrag = (e) => {
   touchConfig.swipezone.addEventListener('touchmove', moveDrag, {
     passive: true,
   });
-  window.addEventListener('touchend', endDrag, { passive: true });
+  window.addEventListener('touchend', endDrag);
   touchConfig.touching = true;
   touchConfig.tapped = true;
   touchConfig.swiped = false;
@@ -143,7 +143,7 @@ const moveDrag = (e) => {
     }
   }
   if (touchConfig.primaryDir === 'x') {
-    // e.preventDefault();
+    e.preventDefault();
     e.stopPropagation();
     swipeLimiter(xDelta);
     touchConfig.x = xPos;
