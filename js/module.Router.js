@@ -9,6 +9,10 @@ import { buildInterstitial } from './module.Interstitial.js';
 import { initComic } from './module.Comicreader.js';
 import { setAllUpatesFromRSS } from './module.Feedparser.js';
 
+const routeConfig = {
+  prevpath: '',
+};
+
 const gotoHome = (pathdata) => {
   initGrid();
   buildSubscriptions();
@@ -49,11 +53,14 @@ const doRoute = {
 };
 
 const render = (path, writestate = true) => {
+  if (path === routeConfig.prevpath) {
+    return false;
+  }
   const workpath = decodeURIComponent(path);
   const pathdata = workpath.split(':');
   console.log(decodeURIComponent(workpath));
-  // TODO: If requested route is the same as existing route, do nothing.
   doRoute[pathdata[0]](pathdata);
+  routeConfig.prevpath = path;
   if (writestate) {
     history(workpath);
   }

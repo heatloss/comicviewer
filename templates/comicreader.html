@@ -5,10 +5,25 @@
       <li class="comic-op">
         <button class="btn op-prev" data-pageadvance="-1">PREV</button>
       </li>
-      <li class="comic-op"><var class="op-page">1</var></li>
+      <li class="comic-op">
+        <button class="btn op-page">
+          <var class="op-pagenum">1</var>
+        </button>
+      </li>
       <li class="comic-op">
         <button class="btn op-next" data-pageadvance="1">NEXT</button>
       </li>
     </menu>
+    <div class="pagenum-rangebox">
+      <var class="pagenum-rangeval min">1</var>
+      <input
+        class="pagenum-ranger"
+        type="range"
+        min="1"
+        max="10"
+        step="1"
+        value="0"
+      /><var class="pagenum-rangeval max">2</var>
+    </div>
   </nav>
 </div>

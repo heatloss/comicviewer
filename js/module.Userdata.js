@@ -10,7 +10,7 @@ const userData = JSON.parse(localStorage.getItem('userdata')) || emptyUserData;
 
 const storeUserData = () => {
   localStorage.setItem('userdata', JSON.stringify(userData));
-  console.log(userData);
+  // console.log(userData);
 };
 
 const getUserData = () => {

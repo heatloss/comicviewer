@@ -409,15 +409,16 @@ img {
   text-align: center;
 }
 
-#settings .settings-subhed > span {
-  white-space: nowrap;
-  font-weight: inherit;
-}
-
 #interstitial .interstitial-frame .interstitial-blurb {
   font-size: 1.1em;
   margin-bottom: 2em;
   text-align: center;
+}
+
+#settings .settings-subhed > span,
+#interstitial .interstitial-frame .interstitial-blurb > span {
+  white-space: nowrap;
+  font-weight: inherit;
 }
 
 #rack .storylines-frame .splash-image {

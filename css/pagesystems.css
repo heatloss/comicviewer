@@ -251,10 +251,19 @@
   width: 100%;
   background-color: var(--ux-bg-color);
   transition: transform 0.125s cubic-bezier(0.25, 0, 0, 1);
+  /* transition: transform 0.125s cubic-bezier(0.34, 1.56, 0.64, 1); */
+  z-index: 1;
+  transform: translateY(3em);
+}
+
+#comicpages #comicsreadernav[data-controlsdisplay='show'] {
+  transition: transform 0.125s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: translateY(0em);
 }
 
 #app[data-navdisplay='hide'] #comicsreadernav {
-  transform: translateY(101%);
+  /* transition: transform 0.125s cubic-bezier(0.25, 0, 0, 1); */
+  transform: translateY(6.1em);
 }
 
 #comicpages #comicsreadernav .comic-ops {
@@ -265,17 +274,62 @@
   height: 3em;
 }
 
+#comicpages #comicsreadernav .pagenum-rangebox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 3em;
+  position: relative;
+  top: -0.5em;
+}
+
+#comicpages #comicsreadernav .pagenum-rangebox .pagenum-rangeval {
+  font-size: 0.9em;
+  color: dimgray;
+  width: 3em;
+  text-align: center;
+}
+
+#comicpages #comicsreadernav .pagenum-rangebox input[type='range'] {
+  display: block;
+  -webkit-appearance: none;
+  background-color: var(--page-border-color);
+  width: calc(100% - 6em);
+  height: 0.25em;
+  border-radius: 0.5em;
+  margin: 0 auto;
+}
+
+#comicpages
+  #comicsreadernav
+  .pagenum-rangebox
+  input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: var(--ux-border-color);
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  border: 2px solid dimgray;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
 #comicpages #comicsreadernav .comic-ops .comic-op button {
   background-repeat: no-repeat;
   background-size: 1.3em;
   background-position: center center;
-  width: 2.3em;
   height: 2.3em;
   padding: 0.5em 1.5em;
-  text-indent: -999vw;
-  overflow: hidden;
   border: none;
   background-color: transparent;
+  text-align: center;
+}
+
+#comicpages #comicsreadernav .comic-ops .comic-op button:not(.op-page) {
+  width: 2.3em;
+  text-indent: -999vw;
+  overflow: hidden;
 }
 
 #comicpages #comicsreadernav .comic-ops .comic-op button[disabled] {
@@ -283,7 +337,14 @@
 }
 
 #comicpages #comicsreadernav .comic-ops .comic-op .op-page {
-  color: var(--accent-text-color);
+  position: relative;
+}
+
+#comicpages #comicsreadernav .comic-ops .comic-op .op-pagenum {
+  color: var(--ux-text-color);
+  font-size: 1.1em;
+  font-weight: bold;
+  padding-left: 0.75em;
 }
 
 #comicpages #ghostmount-region {
@@ -406,6 +467,12 @@
   background-position: right 0.5em center;
   background-size: 1em;
   margin-left: 0.5em;
+}
+
+@media only screen and (pointer: coarse) {
+  #comicpages #comicsreadernav .comic-ops .comic-op button:not(.op-page) {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 480px) {

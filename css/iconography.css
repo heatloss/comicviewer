@@ -22,7 +22,8 @@
 }
 
 #headersystems #headertitle,
-#headersystems .headerbutton {
+#headersystems .headerbutton,
+#comicsreadernav .comic-ops .comic-op button {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -159,6 +160,23 @@
 
 #comicpages #comicsreadernav .btn.op-next {
   background-image: url('data:image/svg+xml;utf8,<svg fill="dimgray" viewBox="0 0 666.667 666.667" xmlns="http://www.w3.org/2000/svg"><path d="m48.816 617.85c48.815 48.817 127.382 48.817 284.517 48.817 157.134 0 235.704 0 284.517-48.817 48.817-48.813 48.817-127.383 48.817-284.517 0-157.135 0-235.702-48.817-284.517-48.813-48.816-127.383-48.816-284.517-48.816-157.135 0-235.702 0-284.517 48.816-48.816 48.815-48.816 127.382-48.816 284.517 0 157.134 0 235.704 48.816 284.517zm216.84-166.84c-9.763-9.763-9.763-25.59 0-35.353l82.321-82.324-82.321-82.322c-9.763-9.763-9.763-25.592 0-35.355 9.764-9.763 25.591-9.763 35.354 0l100 100.001c4.69 4.686 7.323 11.046 7.323 17.676s-2.633 12.99-7.323 17.677l-100 100c-9.763 9.763-25.59 9.763-35.354 0z"/></svg>');
+}
+
+#comicpages #comicsreadernav .btn.op-page:after {
+  content: '';
+  display: inline-block;
+  background-position: center center;
+  width: 0.75em;
+  height: 0.75em;
+  /* margin-left: 0.25em; */
+  transition: transform 0.125s ease-in;
+  transform: rotate(180deg);
+  background-image: url('data:image/svg+xml;utf8,<svg fill="dimgray" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg"><path d="m412.347 527.837 214.323-221.015c13.373-13.791 5.267-40.155-12.347-40.155h-428.646c-17.614 0-25.721 26.364-12.347 40.155l214.323 221.015c7.104 7.33 17.59 7.326 24.694 0z"/></svg>');
+  opacity: 0.5;
+}
+
+#comicpages #comicsreadernav[data-controlsdisplay='show'] .btn.op-page:after {
+  transform: rotate(0deg);
 }
 
 #rack .link-list > ul > li > a {

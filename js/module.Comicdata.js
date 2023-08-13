@@ -19,7 +19,7 @@ const comicData =
 
 const storeComicData = () => {
   localStorage.setItem('comicdata', JSON.stringify(comicData));
-  console.log(comicData);
+  // console.log(comicData);
 };
 
 // const getArchivePageIndex = (title, storyindex, pageindex) => {
@@ -145,11 +145,6 @@ const getCoversForComic = async (title) => {
   const storylinesWithCovers = await sourceAllStorylineCovers(title);
   return storylinesWithCovers;
 };
-
-// const getStorylineImageBuffer = async (storypages, pagenum = 0) => {
-//   const imageBuffer = await sourceSomeImagesInStoryline(storypages, pagenum);
-//   return imageBuffer;
-// };
 
 const bufferCoverImages = async (storylines) => {
   const coversArray = storylines.map((storyline) => {

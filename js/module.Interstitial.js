@@ -17,6 +17,11 @@ const interstitialToComicPage = (e) => {
   );
 };
 
+const interstitialToHome = (e) => {
+  const tab = e.currentTarget.dataset.tab;
+  render(`/home:${tab}`);
+};
+
 const interstitialToComicPageReversed = (e) => {
   const eData = e.currentTarget ? e.currentTarget.dataset : e;
   reverseZone('#comicpages');
@@ -33,39 +38,58 @@ const buildInterstitial = async (title, storyNumParam) => {
   app.querySelector('#headertitle').textContent = title;
 
   const comic = getComic(title);
-  if (storylineIndex === comic.storylines.length - 1) {
-    alert('NO MORE CHAPTERS'); // TODO: Build end interstitial
-    return false;
-  }
 
-  // const lastChapterNumber = storylineIndex + 1;
   const lastChapterName = comic.storylines[storylineIndex].name;
   interstitialState.title = title;
   interstitialState.storylineindex = storylineIndex;
-  const interstitialBox = templater('interstitial', [lastChapterName]);
 
-  const loadNextPageBtn = interstitialBox.querySelector(
-    "li.nav-btn[data-btntype='forward']:first-child"
-  );
-  const backToRackBtn = interstitialBox.querySelector(
-    "li.nav-btn[data-btntype='back']"
-  );
-  const lastPageBtn = interstitialBox.querySelector(
-    "li.nav-btn[data-btntype='forward']:last-child"
-  );
-  loadNextPageBtn.dataset.storytitle = title;
-  loadNextPageBtn.dataset.storyindex = storylineIndex + 1;
+  const interstitialBox =
+    storylineIndex === comic.storylines.length - 1
+      ? templater('interstitialend', [lastChapterName])
+      : templater('interstitial', [lastChapterName]);
 
-  backToRackBtn.dataset.storytitle = title;
+  if (storylineIndex === comic.storylines.length - 1) {
+    const backToHomeBtn = interstitialBox.querySelector(
+      "li.nav-btn[data-btntype='forward']:first-child"
+    );
+    const backToRackBtn = interstitialBox.querySelector(
+      "li.nav-btn[data-btntype='back']"
+    );
+    const toSubscriptionsBtn = interstitialBox.querySelector(
+      "li.nav-btn[data-btntype='forward']:last-child"
+    );
 
-  lastPageBtn.dataset.storytitle = title;
-  lastPageBtn.dataset.storyindex = comic.storylines.length - 1;
-  lastPageBtn.dataset.pageindex =
-    comic.storylines[comic.storylines.length - 1].pages.length - 1;
+    backToHomeBtn.dataset.tab = 'comiclist';
+    backToRackBtn.dataset.storytitle = title;
+    toSubscriptionsBtn.dataset.tab = 'subscriptions';
 
-  loadNextPageBtn.addEventListener('click', interstitialToComicPageReversed);
-  backToRackBtn.addEventListener('click', interstitialToRack);
-  lastPageBtn.addEventListener('click', interstitialToComicPage);
+    backToHomeBtn.addEventListener('click', interstitialToHome);
+    backToRackBtn.addEventListener('click', interstitialToRack);
+    toSubscriptionsBtn.addEventListener('click', interstitialToHome);
+  } else {
+    const loadNextPageBtn = interstitialBox.querySelector(
+      "li.nav-btn[data-btntype='forward']:first-child"
+    );
+    const backToRackBtn = interstitialBox.querySelector(
+      "li.nav-btn[data-btntype='back']"
+    );
+    const lastPageBtn = interstitialBox.querySelector(
+      "li.nav-btn[data-btntype='forward']:last-child"
+    );
+    loadNextPageBtn.dataset.storytitle = title;
+    loadNextPageBtn.dataset.storyindex = storylineIndex + 1;
+
+    backToRackBtn.dataset.storytitle = title;
+
+    lastPageBtn.dataset.storytitle = title;
+    lastPageBtn.dataset.storyindex = comic.storylines.length - 1;
+    lastPageBtn.dataset.pageindex =
+      comic.storylines[comic.storylines.length - 1].pages.length - 1;
+
+    loadNextPageBtn.addEventListener('click', interstitialToComicPageReversed);
+    backToRackBtn.addEventListener('click', interstitialToRack);
+    lastPageBtn.addEventListener('click', interstitialToComicPage);
+  }
 
   app.querySelector('#interstitial').replaceChildren(interstitialBox);
   // initAdvancers();

@@ -19,7 +19,7 @@ import {
   setStackEdges,
 } from './module.Touch.js';
 import { render, history } from './module.Router.js';
-import { reverseZone } from './module.Zonesystem.js';
+import { reverseZone, setPrevZone } from './module.Zonesystem.js';
 import {
   closeMenu,
   replaceHeaderTitle,
@@ -31,6 +31,9 @@ import { buildInterstitial } from './module.Interstitial.js';
 const app = document.querySelector('#app');
 const readingState = { pageIndex: 0 };
 const userData = getUserData();
+const pageNumberConfig = {
+  display: 'hide',
+};
 
 const handleComicTap = () => {
   const doTap = {
@@ -56,11 +59,51 @@ const handleSubscription = (e) => {
   }
 };
 
+const initPageNumControls = () => {
+  pageNumberConfig.pagebar = app.querySelector('#comicsreadernav');
+  pageNumberConfig.pagebtn = app.querySelector('#comicsreadernav .btn.op-page');
+  pageNumberConfig.pagenumval = app.querySelector(
+    '#comicsreadernav .op-pagenum'
+  );
+  pageNumberConfig.pageranger = app.querySelector(
+    '#comicsreadernav .pagenum-ranger'
+  );
+  pageNumberConfig.pageranger.max = readingState.stack.length;
+  pageNumberConfig.pagebar.querySelector('.pagenum-rangeval.max').textContent =
+    readingState.stack.length;
+  pageNumberConfig.pagebtn.addEventListener('click', togglePageNumControls);
+  pageNumberConfig.pageranger.addEventListener('input', adjustPageNumValues);
+  pageNumberConfig.pageranger.addEventListener('change', rangerToComicPageNum);
+  togglePageNumControls('hide');
+};
+
+const adjustPageNumValues = (e) => {
+  const selectedPageNum = e.currentTarget.value;
+  pageNumberConfig.pagenumval.textContent = selectedPageNum;
+  pageNumberConfig.pageranger.value = selectedPageNum;
+};
+
+const togglePageNumControls = (e) => {
+  const toggledAttr = pageNumberConfig.display === 'hide' ? 'show' : 'hide';
+  pageNumberConfig.display = typeof e === 'string' ? e : toggledAttr;
+  pageNumberConfig.pagebar.setAttribute(
+    'data-controlsdisplay',
+    pageNumberConfig.display
+  );
+};
+
 const updatePageNumber = (num = readingState.pageIndex) => {
   num = parseInt(num, 10);
-  // app.querySelector('#comicsreadernav .op-page').textContent =
-  // readingState.stack[num].archivepageindex + 1;
-  app.querySelector('#comicsreadernav .op-page').textContent = num + 1;
+  pageNumberConfig.pagenumval.textContent = num + 1;
+  pageNumberConfig.pageranger.value = num + 1;
+  // app.querySelector('#comicsreadernav .op-page').textContent = num + 1;
+};
+
+const rangerToComicPageNum = (e) => {
+  const pageIndex = e.currentTarget.value - 1;
+  render(
+    `/comic:${readingState.title}:${readingState.storyIndex}:${pageIndex}`
+  );
 };
 
 const menuToCover = (e) => {
@@ -132,6 +175,7 @@ const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
   const ghostMount = await generateGhostMount(readingState.pageIndex);
   const comicReader = templater('comicreader', ghostMount);
   app.querySelector('#comicpages').replaceChildren(comicReader);
+  initPageNumControls();
   updatePageNumber();
   setReadingPosition(
     readingState.title,
@@ -216,10 +260,12 @@ const transitionComicPage = async (e) => {
   const advDir = typeof e === 'number' ? e : e.detail;
   const gotoRack = () => {
     app.removeEventListener('advance', transitionComicPage);
+    setPrevZone('comic');
     render(`/rack:${readingState.title}`);
   };
   const gotoInterstitial = (storyidx = readingState.storyIndex) => {
     app.removeEventListener('advance', transitionComicPage);
+    setPrevZone('comic');
     render(`/interstitial:${readingState.title}:${storyidx}`);
   };
   const requestedPageIndex = readingState.pageIndex + advDir;
@@ -245,7 +291,6 @@ const transitionComicPage = async (e) => {
     completeSlide();
   } else {
     ghostMount.classList.add(advDir > 0 ? 'movePrev' : 'moveNext');
-    // TODO: Remove inline styles on rack/interstitial, so that they don't block transition animation.
     ghostMount.addEventListener('transitionend', completeSlide);
   }
   bufferStorylineImages(readingState.stack, readingState.pageIndex);

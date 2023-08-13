@@ -115,6 +115,7 @@ const initTemplates = async () => {
   const storylines = await generateHTMLTemplate('storylines.html');
   const comicreader = await generateHTMLTemplate('comicreader.html');
   const interstitial = await generateHTMLTemplate('interstitial.html');
+  const interstitialend = await generateHTMLTemplate('interstitialend.html');
   const subscriptions = await generateHTMLTemplate('subscriptions.html');
   const settings = await generateHTMLTemplate('settings.html');
   templates = {
@@ -125,6 +126,7 @@ const initTemplates = async () => {
     ghostmount,
     gridsortmenu,
     interstitial,
+    interstitialend,
     loading,
     progressbar,
     settings,
