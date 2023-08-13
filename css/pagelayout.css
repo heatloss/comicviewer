@@ -668,10 +668,6 @@ img {
   height: auto;
 }
 
-/* .comic-image:not(:has(img)) {
-  height: 100vh;
-} */
-
 .lds-dual-ring {
   display: inline-block;
   width: 80px;

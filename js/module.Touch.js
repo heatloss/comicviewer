@@ -6,6 +6,13 @@ let advanceButtons;
 
 const touchConfig = {};
 
+const unCache = (evtData) => {
+  const index = touchConfig.evcache.findIndex(
+    (cachedEvt) => cachedEvt.pointerId === evtData.pointerId
+  );
+  touchConfig.evcache.splice(index, 1);
+};
+
 const setStackEdges = (edge, selector) => {
   if (edge === 'prev') {
     touchConfig.prevzone = app.querySelector(selector);
@@ -72,6 +79,7 @@ const initParams = () => {
   touchConfig.dragMax = window.innerWidth;
   touchConfig.dragMin = -1 * window.innerWidth;
   touchConfig.snaps = [touchConfig.dragMin, 0, touchConfig.dragMax];
+  touchConfig.evcache = [];
 };
 
 const resetSwiper = () => {
@@ -94,6 +102,7 @@ const resetSwiper = () => {
 
 const startDrag = (evtData) => {
   if (advancementDisabled) return false;
+  if (touchConfig.evcache.length > 1) return false;
 
   touchConfig.x = evtData.pageX;
   touchConfig.y = evtData.pageY;
@@ -105,6 +114,7 @@ const startDrag = (evtData) => {
   touchConfig.touching = true;
   touchConfig.tapped = true;
   touchConfig.swiped = false;
+  touchConfig.evcache.push(evtData);
   requestAnimationFrame(updateAnim);
 };
 
@@ -136,7 +146,7 @@ const moveDrag = (e) => {
   touchConfig.tapped = false;
 };
 
-const endDrag = () => {
+const endDrag = (evtData) => {
   touchConfig.swipezone.removeEventListener('pointermove', moveDrag);
   window.removeEventListener('pointerup', endDrag);
   touchConfig.touching = false;
@@ -146,6 +156,7 @@ const endDrag = () => {
   } else {
     touchConfig.swiper.style.transform = ''; // Remove inline transform style to un-block transition animation.
   }
+  unCache(evtData);
 };
 
 const updateAnim = () => {
