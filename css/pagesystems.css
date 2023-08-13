@@ -541,6 +541,10 @@
 }
 
 @media only screen and (display-mode: standalone) {
+  #homenav .footernav-btn-group .footernav-btn[data-tabactive] {
+    box-shadow: 0 2em 0 0 var(--ux-border-color);
+  }
+
   #comicpages #comicsreadernav {
     transform: translateY(4em);
   }

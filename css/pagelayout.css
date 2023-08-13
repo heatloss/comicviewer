@@ -88,6 +88,7 @@ img {
   transition: transform 0.125s ease-in-out;
   border: none;
   border-radius: 0;
+  overflow: inherit;
 }
 
 #homenav .footernav-btn-group .footernav-btn {
@@ -100,6 +101,7 @@ img {
   overflow: hidden;
   border: none;
   background-color: transparent;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -689,12 +691,8 @@ img {
 
 @media only screen and (display-mode: standalone) {
   #homenav {
+    height: 4em;
     justify-content: flex-start;
-    height: 4em;
-  }
-
-  #homenav .footernav-btn-group .footernav-btn {
-    height: 4em;
   }
 }
 
