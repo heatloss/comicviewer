@@ -648,7 +648,7 @@ img {
 
 @media only screen and (display-mode: standalone) {
   .section-content .footnote {
-    display: block;
+    display: none; /* Because it's already been added. */
   }
 
   #homenav {
