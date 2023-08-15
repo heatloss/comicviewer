@@ -2,6 +2,7 @@
   color-scheme: light dark;
   --page-bg-color: #fff;
   --page-text-color: #000;
+  --accent-bg-color: #ccc;
   --accent-text-color: #333;
   --page-border-color: #999;
   --ux-bg-color: #eee;
@@ -12,6 +13,7 @@
 [data-theme='dark'] {
   --page-bg-color: #000;
   --page-text-color: #ddd;
+  --accent-bg-color: #262626;
   --accent-text-color: #aaa;
   --page-border-color: #444;
   --ux-bg-color: #171717;
