@@ -159,8 +159,6 @@ const comicSquares = (comicset = comics) => {
       true
     );
     comicThumb.addEventListener('click', gridToRack);
-    const comicTitle = comicThumb.querySelector('.thumb-title');
-    comicTitle.style.backgroundImage = `url("img/${comic.square}")`;
     fragment.appendChild(comicThumb);
   });
   return fragment;
