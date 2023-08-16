@@ -194,8 +194,8 @@ const calcSnap = () => {
     const dragDistance =
       touchConfig.drag - touchConfig.snaps[touchConfig.previndex];
     const spanDistance = touchConfig.screenWidth;
-    const dragPercent = dragDistance / spanDistance;
-    if (dragPercent * touchConfig.dir > 0.1) {
+    const dragPercent = (dragDistance / spanDistance) * 100;
+    if (dragPercent * touchConfig.dir > 5) {
       snapIndex = goalIndex;
     }
   }
