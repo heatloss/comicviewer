@@ -1,5 +1,9 @@
 :root {
   color-scheme: light dark;
+}
+
+:root,
+:root[data-theme='light'] {
   --page-bg-color: #fff;
   --page-text-color: #000;
   --accent-bg-color: #ccc;
@@ -10,7 +14,7 @@
   --ux-text-color: #444;
 }
 
-[data-theme='dark'] {
+:root[data-theme='dark'] {
   --page-bg-color: #000;
   --page-text-color: #ddd;
   --accent-bg-color: #262626;
