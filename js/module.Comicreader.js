@@ -117,6 +117,7 @@ const menuToRack = () => {
     .querySelector("#headersystems .header-menu .menu-btn[data-btntype='back']")
     .removeEventListener('click', menuToRack);
   closeMenu();
+  toggleNavBars('show');
   render(`/rack:${readingState.title}`);
 };
 
@@ -261,11 +262,13 @@ const transitionComicPage = async (e) => {
   const gotoRack = () => {
     app.removeEventListener('advance', transitionComicPage);
     setPrevZone('comic');
+    toggleNavBars('show');
     render(`/rack:${readingState.title}`);
   };
   const gotoInterstitial = (storyidx = readingState.storyIndex) => {
     app.removeEventListener('advance', transitionComicPage);
     setPrevZone('comic');
+    toggleNavBars('show');
     render(`/interstitial:${readingState.title}:${storyidx}`);
   };
   const requestedPageIndex = readingState.pageIndex + advDir;

@@ -6,9 +6,9 @@
 :root[data-theme='light'] {
   --page-bg-color: #fff;
   --page-text-color: #000;
+  --page-border-color: #999;
   --accent-bg-color: #ccc;
   --accent-text-color: #333;
-  --page-border-color: #999;
   --ux-bg-color: #eee;
   --ux-border-color: #ddd;
   --ux-text-color: #444;
@@ -17,9 +17,9 @@
 :root[data-theme='dark'] {
   --page-bg-color: #000;
   --page-text-color: #ddd;
+  --page-border-color: #444;
   --accent-bg-color: #262626;
   --accent-text-color: #aaa;
-  --page-border-color: #444;
   --ux-bg-color: #171717;
   --ux-border-color: #0c0c0c;
   --ux-text-color: #999;
@@ -29,9 +29,9 @@
   :root {
     --page-bg-color: #000;
     --page-text-color: #ddd;
+    --page-border-color: #444;
     --accent-bg-color: #262626;
     --accent-text-color: #aaa;
-    --page-border-color: #444;
     --ux-bg-color: #171717;
     --ux-border-color: #0c0c0c;
     --ux-text-color: #999;
