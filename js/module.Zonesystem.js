@@ -50,9 +50,6 @@ const concludeZoneTransition = () => {
 const reverseZone = (zoneid) => {
   app.querySelector(zoneid).classList.add('reverse');
   app.querySelector('[data-zoneactive]').classList.add('reverse');
-  // zoneFrame.addEventListener('transitionend', unReverseZones);
 };
 
-const initZones = () => {}; // Presumably zones will need some global event listeners?
-
-export { initZones, gotoZone, reverseZone, setPrevZone };
+export { gotoZone, reverseZone, setPrevZone };

@@ -37,12 +37,10 @@ const toggleMode = () => {
 
 const activateHeaderMenu = () => {
   headerselectors.systems.dataset.menuActive = '';
-  // app.querySelector('#headertitle').disabled = false;
 };
 
 const deactivateHeaderMenu = () => {
   headerselectors.systems.removeAttribute('data-menu-active');
-  // app.querySelector('#headertitle').disabled = true;
 };
 
 const handleMenu = () => {

@@ -1,7 +1,5 @@
-// import comics from './comics.js';
 import { initTemplates, templater } from './module.Templater.js';
 import { initTabs } from './module.Tabsystem.js';
-// import { initGrid } from './module.Grid.js';
 import { initHeader } from './module.Header.js';
 
 import { render } from './module.Router.js';

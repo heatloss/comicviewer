@@ -40,13 +40,7 @@ const generateSubOps = (title) => {
       render(`/rack:${readData.title}`);
     }
   };
-  // const getArchivePageNum = () => {
-  //   return (
-  //     getComic(title).storylines[userData.readComics[title]?.storyindex].pages[
-  //       userData.readComics[title]?.pageindex
-  //     ].archivepageindex + 1
-  //   );
-  // };
+
   const isSubbed = isSubscribed(title);
   const hasReadPos = hasReadingPosition(title);
   const subOpsArray = [
@@ -88,7 +82,6 @@ const generateSubscriptionsList = (
       subscribedComic.name,
       subOpsList,
     ]);
-    // subRow.dataset.title = subscribedComic.name;
     fragment.appendChild(subRow);
   });
   return fragment;

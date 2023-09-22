@@ -14,7 +14,6 @@ import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { initTabs } from './module.Tabsystem.js';
 import { optimizeImage } from './module.Archiveparser.js';
-// import { initAdvancers } from './module.Touch.js';
 
 const app = document.querySelector('#app');
 const rackState = {};
@@ -47,7 +46,6 @@ const buildStorylines = (title) => {
   coversList.classList.add('covers-list');
 
   const linksUl = document.createElement('ul');
-  // const websiteLi = document.createElement('li');
   const extendedLinks = [
     {
       linktext: 'Comic Website',
