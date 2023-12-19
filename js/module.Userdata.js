@@ -3,7 +3,7 @@ const emptyUserData = {
   subscribedComics: [],
   gridsort: 'shuffle',
   colormode: 'unset',
-  comictap: 'unset',
+  comictap: 'advances',
 };
 
 const userData = JSON.parse(localStorage.getItem('userdata')) || emptyUserData;
