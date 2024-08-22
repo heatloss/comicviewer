@@ -70,7 +70,10 @@ const history = (path) => {
   const pathEncoded = path
     .substring(1)
     .split(':')
-    .map((pathcomponent) => encodeURIComponent(pathcomponent))
+    .map((pathcomponent) => {
+      encodeURIComponent(pathcomponent);
+      return path;
+    })
     .join(':');
   routeConfig.prevpath = path;
   window.history.pushState(null, '', '/' + pathEncoded);

@@ -10,6 +10,7 @@ const progbarConfig = {};
 const normalizedComics = () => {
   comics.comics.map((comic) => {
     comic.sortname = comic.sortname || comic.name;
+    return comic;
   });
   return comics;
 };

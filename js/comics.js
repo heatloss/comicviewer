@@ -9,9 +9,16 @@ export default {
       credits: 'August & Cory Brown',
       genres: ['action-adventure', 'lgbt', 'sci-fi'],
       links: [
-        { linktext: 'Store', linkurl: 'https://endcomic.gumroad.com' },
-        { linktext: 'Patreon', linkurl: 'http://www.patreon.com/skullamity' },
+        {
+          linktext: 'Store',
+          linkurl: 'https://endcomic.gumroad.com',
+        },
+        {
+          linktext: 'Patreon',
+          linkurl: 'http://www.patreon.com/skullamity',
+        },
       ],
+      id: 'TWCTL_theend',
     },
     {
       name: 'Ghost Junk Sickness',
@@ -29,12 +36,16 @@ export default {
           linktext: 'Patreon',
           linkurl: 'https://www.patreon.com/studioCARTRIDGE',
         },
-        { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/W7W1Q9V0#' },
+        {
+          linktext: 'Ko-Fi',
+          linkurl: 'https://ko-fi.com/W7W1Q9V0#',
+        },
         {
           linktext: 'Tumblr',
           linkurl: 'https://ghostjunksickness.tumblr.com/',
         },
       ],
+      id: 'TWCTL_ghostjunksickness',
     },
     {
       name: 'The Automan’s Daughter',
@@ -45,13 +56,20 @@ export default {
       credits: 'Mike Stamm',
       genres: ['action-adventure', 'sci-fi', 'steampunk'],
       links: [
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/luckbat' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/luckbat',
+        },
         {
           linktext: 'Mastodon',
           linkurl: 'https://mastodon.art/@ottomanproject',
         },
-        { linktext: 'Tumblr', linkurl: 'https://automansdaughter.tumblr.com/' },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://automansdaughter.tumblr.com/',
+        },
       ],
+      id: 'TWCTL_theautomansdaughter',
     },
     {
       name: 'Magical How?',
@@ -65,13 +83,20 @@ export default {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/eyugho',
         },
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/eyugho' },
-        { linktext: 'Tumblr', linkurl: 'https://eyugho.tumblr.com/' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/eyugho',
+        },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://eyugho.tumblr.com/',
+        },
         {
           linktext: 'DeviantArt',
           linkurl: 'https://www.deviantart.com/eyugho',
         },
       ],
+      id: 'TWCTL_magicalhow',
     },
     {
       name: 'Phantomarine',
@@ -85,11 +110,24 @@ export default {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/phantomarine',
         },
-        { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/phantomarine' },
-        { linktext: 'Instagram', linkurl: 'http://www.patreon.com/skullamity' },
-        { linktext: 'Tumblr', linkurl: 'https://phantomarine.tumblr.com/' },
-        { linktext: 'Discord', linkurl: 'https://discord.gg/ps2JtZA' },
+        {
+          linktext: 'Ko-Fi',
+          linkurl: 'https://ko-fi.com/phantomarine',
+        },
+        {
+          linktext: 'Instagram',
+          linkurl: 'http://www.patreon.com/skullamity',
+        },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://phantomarine.tumblr.com/',
+        },
+        {
+          linktext: 'Discord',
+          linkurl: 'https://discord.gg/ps2JtZA',
+        },
       ],
+      id: 'TWCTL_phantomarine',
     },
     {
       name: 'Hazy London',
@@ -103,8 +141,14 @@ export default {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/crystal-jayme-scotty',
         },
-        { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/scottycomics/shop' },
-        { linktext: 'Itch.io', linkurl: 'https://scottycomics.itch.io' },
+        {
+          linktext: 'Ko-Fi',
+          linkurl: 'https://ko-fi.com/scottycomics/shop',
+        },
+        {
+          linktext: 'Itch.io',
+          linkurl: 'https://scottycomics.itch.io',
+        },
         {
           linktext: 'Instagram',
           linkurl: 'https://www.instagram.com/scottycomics/',
@@ -115,6 +159,7 @@ export default {
             'https://www.youtube.com/channel/UC5NM2c84pa2xcMwSg2ntSvw?view_as=subscriber#_=_',
         },
       ],
+      id: 'TWCTL_hazylondon',
     },
     {
       name: 'Fairmeadow',
@@ -128,12 +173,16 @@ export default {
           linktext: 'Patreon',
           linkurl: 'https://www.patreon.com/hagofbolding',
         },
-        { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/hagofbolding' },
+        {
+          linktext: 'Ko-Fi',
+          linkurl: 'https://ko-fi.com/hagofbolding',
+        },
         {
           linktext: 'Instagram',
           linkurl: 'https://www.instagram.com/hagofbolding/',
         },
       ],
+      id: 'TWCTL_fairmeadow',
     },
     {
       name: 'Tigress Queen',
@@ -155,9 +204,16 @@ export default {
           linktext: 'Instagram',
           linkurl: 'https://www.instagram.com/allidrawscomics/',
         },
-        { linktext: 'Tumblr', linkurl: 'https://allidrawscomics.tumblr.com/' },
-        { linktext: 'Discord', linkurl: 'https://discord.gg/q3CmJux' },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://allidrawscomics.tumblr.com/',
+        },
+        {
+          linktext: 'Discord',
+          linkurl: 'https://discord.gg/q3CmJux',
+        },
       ],
+      id: 'TWCTL_tigressqueen',
     },
     {
       name: 'Godslave',
@@ -172,8 +228,12 @@ export default {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/godslave',
         },
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/megacarter' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/megacarter',
+        },
       ],
+      id: 'TWCTL_godslave',
     },
     {
       name: 'White Noise',
@@ -184,10 +244,20 @@ export default {
       credits: 'Adrien Lee (thephooka)',
       genres: ['action-adventure', 'lgbt', 'slice-of-life'],
       links: [
-        { linktext: 'Patreon', linkurl: 'http://www.patreon.com/thephooka' },
-        { linktext: 'Tumblr', linkurl: 'http://thephooka.tumblr.com/' },
-        { linktext: 'Discord', linkurl: 'https://discord.gg/mKjd37c' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'http://www.patreon.com/thephooka',
+        },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'http://thephooka.tumblr.com/',
+        },
+        {
+          linktext: 'Discord',
+          linkurl: 'https://discord.gg/mKjd37c',
+        },
       ],
+      id: 'TWCTL_whitenoise',
     },
     {
       name: 'Bicycle Boy',
@@ -197,11 +267,24 @@ export default {
       credits: 'Jackarais',
       genres: ['action-adventure', 'dystopian', 'sci-fi'],
       links: [
-        { linktext: 'Store', linkurl: 'https://payhip.com/Jackarais' },
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/jackarais' },
-        { linktext: 'DeviantArt', linkurl: 'http://jackarais.deviantart.com/' },
-        { linktext: 'Discord', linkurl: 'https://discord.gg/7Pt9GACSUC' },
+        {
+          linktext: 'Store',
+          linkurl: 'https://payhip.com/Jackarais',
+        },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/jackarais',
+        },
+        {
+          linktext: 'DeviantArt',
+          linkurl: 'http://jackarais.deviantart.com/',
+        },
+        {
+          linktext: 'Discord',
+          linkurl: 'https://discord.gg/7Pt9GACSUC',
+        },
       ],
+      id: 'TWCTL_bicycleboy',
     },
     {
       name: 'The Otherknown',
@@ -212,10 +295,20 @@ export default {
       credits: 'Lorian Merriman',
       genres: ['action-adventure', 'drama', 'sci-fi'],
       links: [
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/grackling' },
-        { linktext: 'Tumblr', linkurl: 'https://longlostlorian.tumblr.com/' },
-        { linktext: 'Portfolio', linkurl: 'http://www.longlostlorian.com/' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/grackling',
+        },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://longlostlorian.tumblr.com/',
+        },
+        {
+          linktext: 'Portfolio',
+          linkurl: 'http://www.longlostlorian.com/',
+        },
       ],
+      id: 'TWCTL_theotherknown',
     },
     {
       name: 'Heroes of Thantopolis',
@@ -225,8 +318,12 @@ export default {
       credits: 'Izzy Hall (Strontium)',
       genres: ['action-adventure', 'fantasy', 'lgbt'],
       links: [
-        { linktext: 'Tumblr', linkurl: 'https://strontiumsun.tumblr.com/' },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://strontiumsun.tumblr.com/',
+        },
       ],
+      id: 'TWCTL_heroesofthantopolis',
     },
     {
       name: 'Daughter of the Lilies',
@@ -240,7 +337,10 @@ export default {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/daughter-of-the-lilies',
         },
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/MegSyv' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/MegSyv',
+        },
         {
           linktext: 'Ko-Fi',
           linkurl: 'https://www.paypal.com/paypalme/MegSyv',
@@ -250,6 +350,7 @@ export default {
           linkurl: 'https://discordapp.com/invite/QScEaam',
         },
       ],
+      id: 'TWCTL_daughterofthelilies',
     },
     {
       name: 'Lies Within',
@@ -263,8 +364,12 @@ export default {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/lies-within',
         },
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/bylacey' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/bylacey',
+        },
       ],
+      id: 'TWCTL_lieswithin',
     },
     {
       name: 'In Blood We Rise',
@@ -274,31 +379,51 @@ export default {
       credits: 'Mera',
       genres: ['action-adventure', 'fantasy', 'historical-fiction', 'romance'],
       links: [
-        { linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/captainmera' },
-        { linktext: 'Instagram', linkurl: 'https://instagram.com/captainmera' },
+        {
+          linktext: 'Ko-Fi',
+          linkurl: 'https://ko-fi.com/captainmera',
+        },
+        {
+          linktext: 'Instagram',
+          linkurl: 'https://instagram.com/captainmera',
+        },
         {
           linktext: 'YouTube',
           linkurl: 'https://www.youtube.com/channel/UCqJDSDhMgIV_o3EgiIoykGw',
         },
-        { linktext: 'Tumblr', linkurl: 'https://captainmera.tumblr.com/' },
-        { linktext: 'Twitch', linkurl: 'https://www.twitch.tv/vikingmera' },
-        { linktext: 'Discord', linkurl: 'https://discord.gg/AaXX4Mt9Ye' },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://captainmera.tumblr.com/',
+        },
+        {
+          linktext: 'Twitch',
+          linkurl: 'https://www.twitch.tv/vikingmera',
+        },
+        {
+          linktext: 'Discord',
+          linkurl: 'https://discord.gg/AaXX4Mt9Ye',
+        },
       ],
+      id: 'TWCTL_inbloodwerise',
     },
     {
       name: 'Solstoria',
       rssurl: 'https://solstoria.net/comic/rss',
       archiveurl: 'https://solstoria.net/comic/archive',
       square: 'hubbox_SOLSTORIA.png',
-      credits: 'Angélica María',
+      credits: 'AngÃ©lica MarÃ­a',
       genres: ['action-adventure', 'fantasy'],
       links: [
         {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/solstoria',
         },
-        { linktext: 'Tumblr', linkurl: 'https://charmwitch.tumblr.com/' },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://charmwitch.tumblr.com/',
+        },
       ],
+      id: 'TWCTL_solstoria',
     },
     {
       name: 'Starhammer',
@@ -325,6 +450,7 @@ export default {
           linkurl: 'https://harrybogosian.portfolio.site',
         },
       ],
+      id: 'TWCTL_starhammer',
     },
     {
       name: 'Ozzie the Vampire',
@@ -342,8 +468,12 @@ export default {
           linktext: 'Instagram',
           linkurl: 'https://www.instagram.com/ericmlide/',
         },
-        { linktext: 'Tumblr', linkurl: 'https://ericlide.tumblr.com/' },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'https://ericlide.tumblr.com/',
+        },
       ],
+      id: 'TWCTL_ozziethevampire',
     },
     {
       name: 'Tiger, Tiger',
@@ -353,11 +483,24 @@ export default {
       credits: 'Petra Erika Nordlund',
       genres: ['action-adventure', 'historical-fiction', 'mystery'],
       links: [
-        { linktext: 'Store', linkurl: 'https://leppushop.storenvy.com' },
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/praguerace' },
-        { linktext: 'Paypal', linkurl: 'https://www.paypal.me/leppu' },
-        { linktext: 'Tumblr', linkurl: 'http://pepurika.tumblr.com/' },
+        {
+          linktext: 'Store',
+          linkurl: 'https://leppushop.storenvy.com',
+        },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/praguerace',
+        },
+        {
+          linktext: 'Paypal',
+          linkurl: 'https://www.paypal.me/leppu',
+        },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'http://pepurika.tumblr.com/',
+        },
       ],
+      id: 'TWCTL_tigertiger',
     },
     {
       name: 'Wytchwood',
@@ -371,13 +514,20 @@ export default {
           linktext: 'Store',
           linkurl: 'https://hivemill.com/collections/wychwood',
         },
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/varethane' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/varethane',
+        },
         {
           linktext: 'Instagram',
           linkurl: 'https://www.instagram.com/varethane1/',
         },
-        { linktext: 'Tumblr', linkurl: 'http://varethane.tumblr.com/' },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'http://varethane.tumblr.com/',
+        },
       ],
+      id: 'TWCTL_wytchwood',
     },
     {
       name: 'No End',
@@ -387,15 +537,28 @@ export default {
       credits: 'Erli and Kromi',
       genres: ['action-adventure', 'dystopian', 'romance', 'lgbt'],
       links: [
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/noendcomic' },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/noendcomic',
+        },
         {
           linktext: 'Instagram',
           linkurl: 'https://www.instagram.com/noendcomic',
         },
-        { linktext: 'Tumblr', linkurl: 'http://noendcomic.tumblr.com/' },
-        { linktext: 'Discord', linkurl: 'https://discord.gg/xyu7MMg' },
-        { linktext: 'Twitch', linkurl: 'http://twitch.tv/kromitar' },
+        {
+          linktext: 'Tumblr',
+          linkurl: 'http://noendcomic.tumblr.com/',
+        },
+        {
+          linktext: 'Discord',
+          linkurl: 'https://discord.gg/xyu7MMg',
+        },
+        {
+          linktext: 'Twitch',
+          linkurl: 'http://twitch.tv/kromitar',
+        },
       ],
+      id: 'TWCTL_noend',
     },
     {
       name: 'Tripping Over You',
@@ -405,14 +568,24 @@ export default {
       credits: 'Suzana and Owena',
       genres: ['slice-of-life', 'lgbt', 'romance'],
       links: [
-        { linktext: 'Store', linkurl: 'https://www.toyboxcomics.com' },
-        { linktext: 'Patreon', linkurl: 'https://www.patreon.com/toythecomic' },
+        {
+          linktext: 'Store',
+          linkurl: 'https://www.toyboxcomics.com',
+        },
+        {
+          linktext: 'Patreon',
+          linkurl: 'https://www.patreon.com/toythecomic',
+        },
         {
           linktext: 'Instagram',
           linkurl: 'https://www.instagram.com/toyboxcomics/',
         },
-        { linktext: 'Discord', linkurl: 'https://discord.gg/cMssHAQvUQ' },
+        {
+          linktext: 'Discord',
+          linkurl: 'https://discord.gg/cMssHAQvUQ',
+        },
       ],
+      id: 'TWCTL_trippingoveryou',
     },
     {
       name: 'The Mash',
@@ -422,7 +595,13 @@ export default {
       square: 'hubbox_THE_MASH.png',
       credits: 'Danigami',
       genres: ['fantasy', 'horror', 'mystery'],
-      links: [{ linktext: 'Ko-Fi', linkurl: 'https://ko-fi.com/danigami' }],
+      links: [
+        {
+          linktext: 'Ko-Fi',
+          linkurl: 'https://ko-fi.com/danigami',
+        },
+      ],
+      id: 'TWCTL_themash',
     },
   ],
 };

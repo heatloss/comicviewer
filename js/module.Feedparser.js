@@ -23,7 +23,6 @@ const getLastDateFromRSS = async (feedUrl) => {
 
 const setAllUpatesFromRSS = async () => {
   const comics = getAllComics().comics;
-  console.log();
   if (
     !wasRecentlyChecked(comics[0].name) ||
     isNaN(Date.parse(comics[0].lastupdated))
