@@ -1,0 +1,168 @@
+<div id="zonesFrame">
+  <header id="headerframe" class="showheader"></header>
+  <main id="home" data-zoneid="home">
+    <article class="tabsystem tabgroup" data-tabsysid="homenav">
+      <section class="tab" data-tabpos="comiclist">
+        <div id="comicslist" class="section-content">
+          <h2 class="section-hed">All Comics</h2>
+          <article class="comicsgrid"></article>
+        </div>
+      </section>
+      <section class="tab" data-tabpos="subscriptions">
+        <div id="subscriptions" class="section-content">
+          <h2 class="section-hed">Comic Subscriptions</h2>
+          <p>
+            Without true user accounts, conventional user subscriptions are
+            unfeasible for a prototype like this.
+          </p>
+        </div>
+      </section>
+      <section class="tab" data-tabpos="user">
+        <div id="user" class="section-content">
+          <h2 class="section-hed">User Profile</h2>
+          <p>
+            No user accounts means no user profile, but this page is where it
+            would live.
+          </p>
+          <p>
+            You'd be able to manage your username and profile photo, and perhaps
+            even post your public profile online, where other users could admire
+            your great taste in webcomics.
+          </p>
+        </div>
+      </section>
+      <section class="tab" data-tabpos="faq">
+        <div id="faq" class="section-content">
+          <h2 class="section-hed">Frequently Asked Questions</h2>
+          <dl>
+            <dt>Hey, what's the purpose of this app?</dt>
+            <dd>
+              It's a prototype to demonstrate how fun and cool it is to have
+              your own comic reading app.
+            </dd>
+            <dt>Prototype? Is this not already a full-fledged app?</dt>
+            <dd>
+              No. A legitimate app would not be built this way. A real
+              comic-reading app would need a centralized database of images,
+              optimized for viewing across a wide range of screens.
+            </dd>
+            <dd>
+              It would also have user accounts, presumably hosted on a secure
+              authentication platform.
+            </dd>
+            <dd>
+              And, of course, depending on the business model, a real app would
+              also have the ability to load third-party ads, or process
+              subscription payments, etc.
+            </dd>
+            <dt>Is this app… legal?</dt>
+            <dd>Sure, in the same way that Google Images is legal.</dd>
+            <dt>So is this prototype going to be developed into a real app?</dt>
+            <dd>
+              Not possible. All these comics are hosted on another company's
+              servers. Any commercial app built around this content would need
+              to be owned and operated by that company.
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="tab" data-tabpos="settings">
+        <div id="settings" class="section-content">
+          <h2 class="section-hed">App Settings</h2>
+          <p>
+            Settings, like comic subscriptions, would require a user account.
+          </p>
+          <p>
+            Examples of things a logged-in user might be able to configure here:
+          </p>
+          <ul>
+            <li>Whether to show comments (i.e., if the app had comments).</li>
+            <li>
+              Notification settings, e.g. push notifications vs. weekly digests,
+              etc.
+            </li>
+            <li>What level of age rating/NSFW imagery should be visible.</li>
+            <li>
+              Preferences connected to premium features, e.g. paywalled comics
+              or bonus art.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </article>
+    <nav id="homenav" class="tabsystem tabselector" data-tabsysid="homenav">
+      <menu class="tabselectormenu footernav-btn-group">
+        <li
+          id="togrid"
+          class="footernav-btn"
+          data-tabpos="comiclist"
+          data-tabheadermenu="grid-sort"
+        >
+          Comics browser
+        </li>
+        <li
+          id="tosubscriptions"
+          class="footernav-btn"
+          data-tabpos="subscriptions"
+          data-tabhed="Comic Subscriptions"
+        >
+          Comic Subscriptions
+        </li>
+        <li
+          id="touser"
+          class="footernav-btn"
+          data-tabpos="user"
+          data-tabhed="User Profile"
+        >
+          User Profile
+        </li>
+        <li
+          id="tofaq"
+          class="footernav-btn"
+          data-tabpos="faq"
+          data-tabhed="About Comic Viewer"
+        >
+          FAQ
+        </li>
+        <li
+          id="tosettings"
+          class="footernav-btn"
+          data-tabpos="settings"
+          data-tabhed="Settings"
+        >
+          Settings
+        </li>
+      </menu>
+    </nav>
+  </main>
+  <section id="rack" data-zoneid="rack">
+    <div class="section-content intro">
+      <h2 class="section-hed intro-hed">Welcome!</h2>
+      <p>
+        This is a prototype web app built on top of publicly available webcomic
+        feeds.
+      </p>
+      <p>
+        It is not under active development, as we have no control over the app's
+        contents.
+      </p>
+      <p>
+        The app's interface references several features that could only exist
+        alongside a comprehensive user-account system, a thing that this
+        prototype does not have the resources to include. But we did our best to
+        fake it, in places.
+      </p>
+      <p>Enjoy!</p>
+      <small> To get started, click the home icon in the top left. </small>
+      <div class="footnote">
+        <h2 class="section-subhed intro-subhed">Highly recommended:</h2>
+        <p>
+          Add this web app to your home screen via the
+          <span id="homescreenicon">browser's share</span> button.
+        </p>
+      </div>
+    </div>
+  </section>
+  <section id="comicpages" data-zoneid="comic"></section>
+  <section id="interstitial" data-zoneid="interstitial"></section>
+</div>

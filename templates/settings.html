@@ -1,0 +1,38 @@
+<section class="tab" data-tabpos="settings">
+  <h2 class="section-hed">App Settings</h2>
+  <p>
+    A real settings page would, of course, require a user account. But here are
+    a handful of pseudo-settings that are available inside this prototype.
+  </p>
+  <div class="settings-controls">
+    <fieldset data-settingsection="colormode">
+      <label for="colormode">App color scheme:</label>
+      <select name="colormode">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="unset">Use system setting</option>
+      </select>
+    </fieldset>
+    <fieldset data-settingsection="gridsort">
+      <label for="gridsort">Comics grid default sorting:</label>
+      <select name="gridsort">
+        <option value="alpha">Alphabetically</option>
+        <option value="shuffle">Randomly</option>
+        <option value="date">By last update</option>
+        <option value="genre">By genre</option>
+      </select>
+    </fieldset>
+    <fieldset data-settingsection="comictap">
+      <label for="comictap">Tapping a comic page:</label>
+      <select name="comictap">
+        <option value="advances">Advances to the next page</option>
+        <option value="hidesbars">Shows/hides the nav bars</option>
+        <option value="unset">Does nothing</option>
+      </select>
+    </fieldset>
+  </div>
+  <h5 class="settings-subhed">
+    <span>You are not subscribed</span> <span>to any comics.</span>
+  </h5>
+  <ul class="subs-list" data-templater></ul>
+</section>

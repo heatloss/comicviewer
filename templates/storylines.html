@@ -1,0 +1,53 @@
+<div class="storylines-frame">
+  <div class="tabsystem tabselector inline" data-tabsysid="aboutcomic">
+    <menu class="tabselectormenu">
+      <li class="intro" data-tabpos="intro" data-tabactive>Intro</li>
+      <li class="covers" data-tabpos="covers">Chapter covers</li>
+      <li class="share" data-tabpos="links">About this comic</li>
+    </menu>
+  </div>
+  <article class="tabsystem tabgroup" data-tabsysid="aboutcomic">
+    <section class="tab" data-tabpos="intro" data-tabactive>
+      <h4 class="storylines-hed">About the comic:</h4>
+      <div class="splash-image-frame" data-templater></div>
+      <div class="info-block">
+        <address class="author">
+          By <span class="credit" data-templater></span>
+        </address>
+        <div class="lastupdated">
+          Updated <time class="date" data-templater></time>
+        </div>
+      </div>
+      <p class="storylines-desc" data-templater></p>
+      <div class="nav-btn-box">
+        <h5 class="nav-btn-hed">Start reading:</h5>
+        <menu class="nav-btn-group">
+          <li class="nav-btn" data-btntype="forward">
+            <span class="label">First page</span>
+            <var class="page"></var>
+          </li>
+          <li
+            class="nav-btn tabproxy"
+            data-btntype="forward"
+            data-tabsysid="aboutcomic"
+            data-tabpos="covers"
+          >
+            Covers
+          </li>
+          <li class="nav-btn" data-btntype="forward">Latest page</li>
+        </menu>
+        <menu class="nav-btn-group">
+          <li class="nav-btn" data-btntype="subscribe">Add To Subscriptions</li>
+        </menu>
+      </div>
+    </section>
+    <section class="tab" data-tabpos="covers">
+      <h4 class="storylines-hed">Covers:</h4>
+      <div class="storylines-list" data-templater></div>
+    </section>
+    <section class="tab" data-tabpos="links">
+      <h4 class="storylines-hed">Links:</h4>
+      <div class="link-list" data-templater></div>
+    </section>
+  </article>
+</div>

@@ -1,0 +1,12 @@
+# OS files
+.DS_Store
+
+# Editor configs
+.nova/
+.vscode/
+
+# Dev tooling
+node_modules/
+
+# Wrangler
+.wrangler/

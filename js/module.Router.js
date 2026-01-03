@@ -1,67 +1,86 @@
-import { templater } from "./module.Templater.js";
-import { buildStorylines } from "./module.Storylines.js";
-import { buildComic } from "./module.Comicreader.js";
+// import { templater } from './module.Templater.js';
+import { gotoZone } from './module.Zonesystem.js';
+import { gotoTab } from './module.Tabsystem.js';
+import { initGrid } from './module.Grid.js';
+import { buildSubscriptions } from './module.Subscriptions.js';
+import { buildStorylines } from './module.Storylines.js';
+import { buildSettings } from './module.Settings.js';
+import { buildInterstitial } from './module.Interstitial.js';
+import { initComic } from './module.Comicreader.js';
+import { setAllUpatesFromRSS } from './module.Feedparser.js';
 
-const showGrid = (updatestate) => {
-  document.querySelector("#comicheader").classList.add("showgrid");
+const routeConfig = {
+  prevpath: '',
 };
 
-const hideGrid = (updatestate) => {
-  document.querySelector("#comicheader").classList.remove("showgrid");
-};
-
-const showStorylines = (updatestate) => {
-  document.querySelector("#comicheader").classList.add("showstorylines");
-};
-
-const hideStorylines = (updatestate) => {
-  document.querySelector("#comicheader").classList.remove("showstorylines");
+const gotoHome = (pathdata) => {
+  initGrid();
+  buildSubscriptions();
+  buildSettings();
+  gotoZone('home');
+  gotoTab('homenav', pathdata[1] || 'comiclist');
 };
 
 const gotoIntro = () => {
-  hideGrid();
-  hideStorylines();
-  const introMarkup = templater("intro");
-  document.querySelector("#comicpages").replaceChildren(introMarkup);
+  setAllUpatesFromRSS();
+  gotoZone('rack', 'Comic Viewer');
 };
 
-const gotoGrid = (updatestate) => {
-  // build the grid?
-  showGrid();
-};
-
-const gotoStorylines = (pathdata) => {
-  hideGrid();
-  showStorylines();
-  // if no pathdata, just navigate
+const gotoRack = (pathdata) => {
   buildStorylines(pathdata[1]);
-  // GENERATE STORYLINE VIEW FOR THAT COMIC
+  gotoZone('rack');
+  gotoTab('aboutcomic', pathdata[2] || 'intro');
+};
+
+const gotoInterstitial = (pathdata) => {
+  buildInterstitial(pathdata[1], pathdata[2]);
+  gotoZone('interstitial');
 };
 
 const gotoComic = (pathdata) => {
-  hideGrid();
-  hideStorylines();
   // if no pathdata, just navigate
-  buildComic(pathdata[1], pathdata[2], pathdata[3]);
-  // GENERATE COMIC VIEW FOR THAT COMIC, STORYLINE & PAGE
+  initComic(pathdata[1], pathdata[2], pathdata[3]);
+  gotoZone('comic', null, 'chapter-menu');
 };
 
-const routes = {
-  "/": gotoIntro,
-  "/grid": gotoGrid,
-  "/storylines": gotoStorylines,
-  "/comic": gotoComic,
+const doRoute = {
+  '/': gotoIntro,
+  '/home': gotoHome,
+  '/intro': gotoIntro,
+  '/rack': gotoRack,
+  '/comic': gotoComic,
+  '/interstitial': gotoInterstitial,
 };
 
-const render = (path) => {
-  const pathdata = path.split(":");
-  routes[pathdata[0]](pathdata);
+const render = (path, writestate = true) => {
+  if (path === routeConfig.prevpath) {
+    return false;
+  }
+  const workpath = decodeURIComponent(path);
+  const pathdata = workpath.split(':');
+  console.log(decodeURIComponent(workpath));
+  doRoute[pathdata[0]](pathdata);
+  routeConfig.prevpath = path;
+  if (writestate) {
+    history(workpath);
+  }
 };
 
-window.addEventListener("popstate", (e) =>
-  render(new URL(window.location.href).pathname)
-);
+const history = (path) => {
+  const pathEncoded = path
+    .substring(1)
+    .split(':')
+    .map((pathcomponent) => {
+      encodeURIComponent(pathcomponent);
+      return pathcomponent;
+    })
+    .join(':');
+  routeConfig.prevpath = path;
+  window.history.pushState(null, '', '/' + pathEncoded);
+};
 
-// render("/");
+window.addEventListener('popstate', () => {
+  render(new URL(window.location.href).pathname, false);
+});
 
-export { render };
+export { render, history };
