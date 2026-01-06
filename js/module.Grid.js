@@ -3,11 +3,12 @@ import { getAllComics } from './module.Comicdata.js';
 import { getUserData, setGridSort } from './module.Userdata.js';
 import { closeMenu, replaceHeaderTitle } from './module.Header.js';
 import { render } from './module.Router.js';
-import { setAllUpatesFromRSS } from './module.Feedparser.js';
+// import { setAllUpatesFromRSS } from './module.Feedparser.js';
 
 const app = document.querySelector('#app');
 const userData = getUserData();
 const comics = getAllComics().comics;
+console.log(comics);
 
 const getSort = (sortid) => {
   return sortingMethods.find((sortmethod) => sortmethod.id === sortid).sortfunc;
@@ -34,7 +35,7 @@ const sortingMethods = [
   {
     name: 'by Last Update',
     id: 'date',
-    sortfunc: (a, b) => new Date(b.lastupdated) - new Date(a.lastupdated),
+    sortfunc: (a, b) => new Date(b.latestPageDate) - new Date(a.latestPageDate),
   },
   {
     name: 'by Genre',
@@ -139,8 +140,8 @@ const generateComicGrid = (sortstyle) => {
 };
 
 const gridToRack = (e) => {
-  const title = e.currentTarget.dataset.name;
-  render(`/rack:${title}`);
+  const slug = e.currentTarget.dataset.slug;
+  render(`/rack:${slug}`);
 };
 
 const comicSquares = (comicset = comics) => {
@@ -149,13 +150,13 @@ const comicSquares = (comicset = comics) => {
   comicset.forEach((comic) => {
     const thumbImg = document.createElement('img');
     thumbImg.classList.add('thumb-image');
-    thumbImg.src = 'img/' + comic.square;
-    thumbImg.alt = comic.name;
-    const comicThumb = templater('square', [thumbImg, comic.name]);
-    comicThumb.dataset.name = comic.name;
-    comicThumb.dataset.lastupdated = getPlainDate(comic.lastupdated);
-    comicThumb.dataset.lastupdatedmobile = getPlainDate(
-      comic.lastupdated,
+    thumbImg.src = comic.square;
+    thumbImg.alt = comic.title;
+    const comicThumb = templater('square', [thumbImg, comic.title]);
+    comicThumb.dataset.slug = comic.slug;
+    comicThumb.dataset.latestPageDate = getPlainDate(comic.latestPageDate);
+    comicThumb.dataset.latestPageDateMobile = getPlainDate(
+      comic.latestPageDate,
       true
     );
     comicThumb.addEventListener('click', gridToRack);
@@ -167,7 +168,7 @@ const comicSquares = (comicset = comics) => {
 const initGrid = (style = userData.gridsort || 'shuffle') => {
   doSort(style);
   buildGridMenu(style);
-  setAllUpatesFromRSS();
+  // setAllUpatesFromRSS();
 };
 
 const buildGrid = (style) => {

@@ -7,7 +7,7 @@ import { buildStorylines } from './module.Storylines.js';
 import { buildSettings } from './module.Settings.js';
 import { buildInterstitial } from './module.Interstitial.js';
 import { initComic } from './module.Comicreader.js';
-import { setAllUpatesFromRSS } from './module.Feedparser.js';
+// import { setAllUpatesFromRSS } from './module.Feedparser.js';
 
 const routeConfig = {
   prevpath: '',
@@ -22,7 +22,7 @@ const gotoHome = (pathdata) => {
 };
 
 const gotoIntro = () => {
-  setAllUpatesFromRSS();
+  // setAllUpatesFromRSS();
   gotoZone('rack', 'Comic Viewer');
 };
 

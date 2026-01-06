@@ -1,7 +1,7 @@
 import {
   getComic,
   getPopulatedComic,
-  getCoversForComic,
+  bufferCoverImages,
 } from './module.Comicdata.js';
 import {
   getUserData,
@@ -13,7 +13,6 @@ import {
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
 import { initTabs } from './module.Tabsystem.js';
-import { optimizeImage } from './module.Archiveparser.js';
 
 const app = document.querySelector('#app');
 const rackState = {};
@@ -24,39 +23,32 @@ const handleExternalLink = (e) => {
   console.log(e.target);
 };
 
-const buildStorylines = (title) => {
+const buildStorylines = (slug) => {
+  const comic = getComic(slug);
+  const title = comic.title;
+
   app.querySelector('#headertitle').textContent = title;
+  rackState.slug = slug;
   rackState.title = title;
 
   const loadingmsg = templater('loading', title);
   app.querySelector('#rack').replaceChildren(loadingmsg);
 
-  const comic = getComic(title);
-
   const splashImage = document.createElement('img');
   splashImage.classList.add('splash-image');
-  splashImage.src = 'img/' + comic.square;
+  splashImage.src = comic.square;
 
   const comicCredits = comic.credits || '';
   const comicLastUpdated =
-    new Date(comic.lastupdated).toLocaleDateString('en-US') || '';
+    new Date(comic.latestPageDate).toLocaleDateString('en-US') || '';
   const comicDesc = comic.description || '';
 
   const coversList = document.createElement('ul');
   coversList.classList.add('covers-list');
 
   const linksUl = document.createElement('ul');
-  const extendedLinks = [
-    {
-      linktext: 'Comic Website',
-      linkurl: `https://${new URL(comic.archiveurl).hostname.replace(
-        'www.',
-        ''
-      )}`,
-    },
-    ...comic.links,
-  ];
-  extendedLinks.forEach((link) => {
+  const comicLinks = comic.links || [];
+  comicLinks.forEach((link) => {
     const externalLi = document.createElement('li');
     externalLi.innerHTML = `<a class="external-link" data-linktype="${link.linktext.toLowerCase()}" href="${
       link.linkurl
@@ -79,18 +71,25 @@ const buildStorylines = (title) => {
   initTabs('aboutcomic');
 };
 
-const addCoverSources = async (coversListElem) => {
-  const title = rackState.title;
-  const storylineArray = await getCoversForComic(title);
-  storylineArray.forEach((storyline, index) => {
+const addCoverSources = (coversListElem, storylines) => {
+  // Prefetch all cover images
+  bufferCoverImages(storylines);
+
+  storylines.forEach((storyline, index) => {
     const coverImage = coversListElem.querySelector(
       `.cover-list-item[data-storyindex='${index}'] img.cover-image`
     );
-    const img = new Image();
-    img.onload = () => {
-      coverImage.src = img.src;
-    };
-    img.src = optimizeImage(storyline.pages[0].img.original, 200);
+    const imgData = storyline.pages[0]?.img;
+    // Use mobile size for covers, fall back to original
+    const imgUrl = imgData?.mobile || imgData?.original;
+
+    if (imgUrl && coverImage) {
+      const img = new Image();
+      img.onload = () => {
+        coverImage.src = imgUrl;
+      };
+      img.src = imgUrl;
+    }
   });
 };
 
@@ -98,20 +97,20 @@ const fillStoryBox = async (storylineBox) => {
   const gotoComicPage = (e) => {
     const storylineData = e.currentTarget.dataset;
     render(
-      `/comic:${storylineData.title}:${storylineData.storyindex || 0}:${
+      `/comic:${storylineData.slug}:${storylineData.storyindex || 0}:${
         storylineData.pageindex || 0
       }`
     );
   };
   const handleSubscription = (e) => {
     const subscribeButton = e.currentTarget;
-    const subscribeTitle = subscribeButton.dataset.title;
+    const slug = subscribeButton.dataset.slug;
     if (subscribeButton.hasAttribute('data-subscribed')) {
-      removeSubscription(subscribeTitle);
+      removeSubscription(slug);
       subscribeButton.textContent = 'Add to Subscriptions';
       subscribeButton.removeAttribute('data-subscribed');
     } else {
-      addSubscription(subscribeTitle);
+      addSubscription(slug);
       subscribeButton.textContent = 'Remove Subscription';
       subscribeButton.dataset.subscribed = '';
     }
@@ -119,8 +118,8 @@ const fillStoryBox = async (storylineBox) => {
 
   const userData = getUserData();
   const coversListElem = storylineBox.querySelector('.covers-list');
-  const title = rackState.title;
-  const comic = await getPopulatedComic(title);
+  const slug = rackState.slug;
+  const comic = await getPopulatedComic(slug);
   storylineBox.querySelector('.storylines-desc').textContent =
     comic.description;
   comic.storylines.forEach((storyline, index) => {
@@ -132,12 +131,12 @@ const fillStoryBox = async (storylineBox) => {
       [coverImage, storyline.name],
       'cover-list-item'
     );
-    coverLi.dataset.title = title;
+    coverLi.dataset.slug = slug;
     coverLi.dataset.storyindex = index;
     coverLi.addEventListener('click', gotoComicPage);
     coversListElem.appendChild(coverLi);
   });
-  addCoverSources(coversListElem);
+  addCoverSources(coversListElem, comic.storylines);
   const firstPageBtn = storylineBox.querySelector(
     "li.nav-btn[data-btntype='forward']:first-child"
   );
@@ -148,18 +147,18 @@ const fillStoryBox = async (storylineBox) => {
     "li.nav-btn[data-btntype='subscribe']"
   );
 
-  if (hasReadingPosition(title)) {
+  if (hasReadingPosition(slug)) {
     firstPageBtn.querySelector('.label').textContent = 'Continue reading';
-    firstPageBtn.dataset.storyindex = userData.readComics[title].storyindex;
-    firstPageBtn.dataset.pageindex = userData.readComics[title].pageindex;
+    firstPageBtn.dataset.storyindex = userData.readComics[slug].storyindex;
+    firstPageBtn.dataset.pageindex = userData.readComics[slug].pageindex;
   }
-  if (isSubscribed(title)) {
+  if (isSubscribed(slug)) {
     subscribeBtn.dataset.subscribed = '';
     subscribeBtn.textContent = 'Remove Subscription';
   }
-  firstPageBtn.dataset.title = title;
-  lastPageBtn.dataset.title = title;
-  subscribeBtn.dataset.title = title;
+  firstPageBtn.dataset.slug = slug;
+  lastPageBtn.dataset.slug = slug;
+  subscribeBtn.dataset.slug = slug;
   lastPageBtn.dataset.storyindex = comic.storylines.length - 1;
   lastPageBtn.dataset.pageindex =
     comic.storylines[comic.storylines.length - 1].pages.length - 1;

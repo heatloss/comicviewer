@@ -17,11 +17,11 @@ const getUserData = () => {
   return userData;
 };
 
-const hasReadingPosition = (title) => {
-  if (userData.readComics[title]) {
+const hasReadingPosition = (slug) => {
+  if (userData.readComics[slug]) {
     if (
-      userData.readComics[title].storyindex +
-        userData.readComics[title].pageindex >
+      userData.readComics[slug].storyindex +
+        userData.readComics[slug].pageindex >
       0 // If both values are zero, might as well consider the comic unread.
     ) {
       return true;
@@ -30,29 +30,29 @@ const hasReadingPosition = (title) => {
   return false;
 };
 
-const isSubscribed = (title) => {
-  return userData.subscribedComics.includes(title);
+const isSubscribed = (slug) => {
+  return userData.subscribedComics.includes(slug);
 };
 
-const setReadingPosition = (title, storylineNum, pageNum) => {
-  if (!userData.readComics[title]) {
-    userData.readComics[title] = { storyindex: 0, pageindex: 0 };
+const setReadingPosition = (slug, storylineNum, pageNum) => {
+  if (!userData.readComics[slug]) {
+    userData.readComics[slug] = { storyindex: 0, pageindex: 0 };
   }
-  userData.readComics[title].storyindex = storylineNum;
-  userData.readComics[title].pageindex = pageNum;
+  userData.readComics[slug].storyindex = storylineNum;
+  userData.readComics[slug].pageindex = pageNum;
   storeUserData();
 };
 
-const addSubscription = (title) => {
-  if (title) {
-    userData.subscribedComics.push(title);
+const addSubscription = (slug) => {
+  if (slug) {
+    userData.subscribedComics.push(slug);
   }
   storeUserData();
 };
 
-const removeSubscription = (title) => {
+const removeSubscription = (slug) => {
   userData.subscribedComics = userData.subscribedComics.filter(
-    (item) => item !== title
+    (item) => item !== slug
   );
   storeUserData();
 };

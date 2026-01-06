@@ -19,8 +19,8 @@ const userData = getUserData();
 const comics = getAllComics().comics;
 
 const settingsToRack = (e) => {
-  const readData = e.currentTarget.dataset;
-  render(`/rack:${readData.title}`);
+  const slug = e.currentTarget.dataset.slug;
+  render(`/rack:${slug}`);
 };
 
 const doSetting = (e) => {
@@ -32,12 +32,13 @@ const doSetting = (e) => {
 
 const generateSubsList = () => {
   const fragment = document.createDocumentFragment();
-  userData.subscribedComics.forEach((subscription) => {
-    const subscribedComic = comics.find((comic) => comic.name === subscription);
+  userData.subscribedComics.forEach((slug) => {
+    const subscribedComic = comics.find((comic) => comic.slug === slug);
+    if (!subscribedComic) return;
     const subsLi = document.createElement('li');
     subsLi.classList.add('nav-btn');
-    subsLi.textContent = subscribedComic.name;
-    subsLi.dataset.title = subscribedComic.name;
+    subsLi.textContent = subscribedComic.title;
+    subsLi.dataset.slug = slug;
     subsLi.addEventListener('click', settingsToRack);
     fragment.appendChild(subsLi);
   });

@@ -1,7 +1,5 @@
 import {
-  getComic,
   bufferStorylineImages,
-  generateProgressbar,
   getPopulatedComic,
 } from './module.Comicdata.js';
 import {
@@ -11,7 +9,6 @@ import {
   setReadingPosition,
 } from './module.Userdata.js';
 import { templater } from './module.Templater.js';
-import { getImageFromPage, optimizeImage } from './module.Archiveparser.js';
 import {
   initAdvancers,
   setAdvancersActive,
@@ -47,13 +44,13 @@ const handleComicTap = () => {
 
 const handleSubscription = (e) => {
   const subscribeButton = e.currentTarget;
-  const subscribeTitle = subscribeButton.dataset.title;
+  const slug = subscribeButton.dataset.slug;
   if (subscribeButton.hasAttribute('data-subscribed')) {
-    removeSubscription(subscribeTitle);
+    removeSubscription(slug);
     subscribeButton.textContent = 'Add to Subscriptions';
     subscribeButton.removeAttribute('data-subscribed');
   } else {
-    addSubscription(subscribeTitle);
+    addSubscription(slug);
     subscribeButton.textContent = 'Remove Subscription';
     subscribeButton.dataset.subscribed = '';
   }
@@ -102,14 +99,14 @@ const updatePageNumber = (num = readingState.pageIndex) => {
 const rangerToComicPageNum = (e) => {
   const pageIndex = e.currentTarget.value - 1;
   render(
-    `/comic:${readingState.title}:${readingState.storyIndex}:${pageIndex}`
+    `/comic:${readingState.slug}:${readingState.storyIndex}:${pageIndex}`
   );
 };
 
 const menuToCover = (e) => {
   const coverindex = e.currentTarget.dataset.storyindex;
   closeMenu();
-  render(`/comic:${readingState.title}:${coverindex}:0`);
+  render(`/comic:${readingState.slug}:${coverindex}:0`);
 };
 
 const menuToRack = () => {
@@ -118,22 +115,22 @@ const menuToRack = () => {
     .removeEventListener('click', menuToRack);
   closeMenu();
   toggleNavBars('show');
-  render(`/rack:${readingState.title}`);
+  render(`/rack:${readingState.slug}`);
 };
 
 const buildChapterProgressBar = () => {
-  const selectedComic = getComic(readingState.title);
-  const progBar = generateProgressbar();
+  const progBar = document.createElement('progress');
+  progBar.classList.add('progbar');
   const progbarBox = templater('progressbar', [
-    selectedComic.name + ':',
-    selectedComic.storylines[readingState.storyIndex].name,
+    readingState.comic.title + ':',
+    readingState.comic.storylines[readingState.storyIndex].name,
     progBar,
   ]);
   app.querySelector('#comicpages').replaceChildren(progbarBox);
 };
 
-const buildComicMenu = (title = readingState.title) => {
-  const storylines = getComic(title).storylines;
+const buildComicMenu = () => {
+  const storylines = readingState.comic.storylines;
   const fragment = document.createDocumentFragment();
   storylines.forEach((storyline, index) => {
     const menuLi = document.createElement('li');
@@ -148,8 +145,8 @@ const buildComicMenu = (title = readingState.title) => {
   const subscribeButton = gridMenu.querySelector(
     ".menu-btn[data-btntype='subscribe']"
   );
-  subscribeButton.dataset.title = title;
-  if (userData.subscribedComics.includes(title)) {
+  subscribeButton.dataset.slug = readingState.slug;
+  if (userData.subscribedComics.includes(readingState.slug)) {
     subscribeButton.dataset.subscribed = '';
     subscribeButton.textContent = 'Remove Subscription';
   }
@@ -159,14 +156,16 @@ const buildComicMenu = (title = readingState.title) => {
     .querySelector(".menu-btn[data-btntype='back']")
     .addEventListener('click', menuToRack);
 
-  replaceHeaderTitle(title);
+  replaceHeaderTitle(readingState.title); // Keep title for display
   app.querySelector('#headerframe .header-menu').replaceChildren(gridMenu);
 };
 
-const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
-  // Initialize the storylines if not already present.
-  const comic = await getPopulatedComic(title);
-  readingState.title = title;
+const initComic = async (slug, storyNumParam = 0, pageNumParam = 0) => {
+  // Fetch the full comic manifest
+  const comic = await getPopulatedComic(slug);
+  readingState.comic = comic;
+  readingState.slug = slug;
+  readingState.title = comic.title; // For display
   readingState.storyIndex = parseInt(storyNumParam, 10);
   readingState.pageIndex = parseInt(pageNumParam, 10);
   readingState.stack = comic.storylines[readingState.storyIndex].pages;
@@ -179,7 +178,7 @@ const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
   initPageNumControls();
   updatePageNumber();
   setReadingPosition(
-    readingState.title,
+    readingState.slug,
     readingState.storyIndex,
     readingState.pageIndex
   );
@@ -190,6 +189,15 @@ const initComic = async (title, storyNumParam = 0, pageNumParam = 0) => {
   app.addEventListener('advance', transitionComicPage);
 };
 
+/**
+ * Get the best image URL for display
+ * Prefers desktop optimized, falls back to original
+ */
+const getDisplayImage = (img) => {
+  if (!img) return null;
+  return img.desktop || img.original;
+};
+
 const generateGhostMount = async (pageNum) => {
   const ghostPagePrev = document.createElement('img');
   const activePage = document.createElement('img');
@@ -198,23 +206,27 @@ const generateGhostMount = async (pageNum) => {
     app.querySelector('#ghostProg')?.remove();
   };
   activePage.addEventListener('click', handleComicTap);
+
+  // Previous page
   if (pageNum > 0) {
-    const ghostPagePrevOrig =
-      readingState.stack[pageNum - 1]?.img?.original ||
-      (await getImageFromPage(readingState.stack[pageNum - 1].href));
-    ghostPagePrev.src = optimizeImage(ghostPagePrevOrig, 800);
+    const prevImg = getDisplayImage(readingState.stack[pageNum - 1]?.img);
+    if (prevImg) {
+      ghostPagePrev.src = prevImg;
+    }
   }
 
-  const activePageOrig =
-    readingState.stack[pageNum]?.img?.original ||
-    (await getImageFromPage(readingState.stack[pageNum].href));
-  activePage.src = optimizeImage(activePageOrig, 800);
+  // Current page
+  const currentImg = getDisplayImage(readingState.stack[pageNum]?.img);
+  if (currentImg) {
+    activePage.src = currentImg;
+  }
 
+  // Next page
   if (pageNum < readingState.stack.length - 1) {
-    const ghostPageNextOrig =
-      readingState.stack[pageNum + 1]?.img?.original ||
-      (await getImageFromPage(readingState.stack[pageNum + 1].href));
-    ghostPageNext.src = optimizeImage(ghostPageNextOrig, 800);
+    const nextImg = getDisplayImage(readingState.stack[pageNum + 1]?.img);
+    if (nextImg) {
+      ghostPageNext.src = nextImg;
+    }
   }
 
   const ghostMount = templater('ghostmount', [
@@ -235,22 +247,22 @@ const markStackEdge = () => {
   if (readingState.pageIndex === 0) {
     if (readingState.storyIndex === 0) {
       setStackEdges('prev', '#rack');
-      buildStorylines(readingState.title);
+      buildStorylines(readingState.slug);
     } else {
       setStackEdges('prev', '#interstitial');
-      buildInterstitial(readingState.title, readingState.storyIndex - 1);
+      buildInterstitial(readingState.comic, readingState.storyIndex - 1);
     }
   } else if (readingState.pageIndex === readingState.stack.length - 1) {
     if (
       readingState.storyIndex ===
-      getComic(readingState.title).storylines.length - 1
+      readingState.comic.storylines.length - 1
     ) {
       setStackEdges('next', '#interstitial');
       // load the finished-comic interstitial, as needed
-      buildInterstitial(readingState.title, readingState.storyIndex);
+      buildInterstitial(readingState.comic, readingState.storyIndex);
     } else {
       setStackEdges('next', '#interstitial');
-      buildInterstitial(readingState.title, readingState.storyIndex);
+      buildInterstitial(readingState.comic, readingState.storyIndex);
     }
   } else {
     setStackEdges();
@@ -263,13 +275,13 @@ const transitionComicPage = async (e) => {
     app.removeEventListener('advance', transitionComicPage);
     setPrevZone('comic');
     toggleNavBars('show');
-    render(`/rack:${readingState.title}`);
+    render(`/rack:${readingState.slug}`);
   };
   const gotoInterstitial = (storyidx = readingState.storyIndex) => {
     app.removeEventListener('advance', transitionComicPage);
     setPrevZone('comic');
     toggleNavBars('show');
-    render(`/interstitial:${readingState.title}:${storyidx}`);
+    render(`/interstitial:${readingState.slug}:${storyidx}`);
   };
   const requestedPageIndex = readingState.pageIndex + advDir;
   if (requestedPageIndex < 0) {
@@ -316,7 +328,7 @@ const completeSlide = async () => {
   setTimeout(removeGhostMount, 10, ghostMount);
 
   setReadingPosition(
-    readingState.title,
+    readingState.slug,
     readingState.storyIndex,
     readingState.pageIndex
   );
@@ -324,7 +336,7 @@ const completeSlide = async () => {
   markStackEdge();
 
   history(
-    `/comic:${readingState.title}:${readingState.storyIndex}:${readingState.pageIndex}`
+    `/comic:${readingState.slug}:${readingState.storyIndex}:${readingState.pageIndex}`
   );
 
   setAdvancersActive(true);

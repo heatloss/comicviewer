@@ -13,16 +13,16 @@ const app = document.querySelector('#app');
 const userData = getUserData();
 const comics = getAllComics().comics;
 
-const generateSubOps = (title) => {
+const generateSubOps = (slug) => {
   const handleSubscription = (e) => {
     const subscribeButton = e.currentTarget;
-    const subscribeTitle = subscribeButton.dataset.title;
+    const btnSlug = subscribeButton.dataset.slug;
     if (subscribeButton.hasAttribute('data-subscribed')) {
-      removeSubscription(subscribeTitle);
+      removeSubscription(btnSlug);
       subscribeButton.textContent = 'Add to Subscriptions';
       subscribeButton.removeAttribute('data-subscribed');
     } else {
-      addSubscription(subscribeTitle);
+      addSubscription(btnSlug);
       subscribeButton.textContent = 'Remove Subscription';
       subscribeButton.dataset.subscribed = '';
     }
@@ -30,19 +30,19 @@ const generateSubOps = (title) => {
   const handleReadMore = (e) => {
     const readData = e.currentTarget.dataset;
     if (
-      userData.readComics[readData.title]?.storyindex &&
-      userData.readComics[readData.title]?.pageindex
+      userData.readComics[readData.slug]?.storyindex &&
+      userData.readComics[readData.slug]?.pageindex
     ) {
       render(
-        `/comic:${readData.title}:${readData.storyindex}:${readData.pageindex}`
+        `/comic:${readData.slug}:${readData.storyindex}:${readData.pageindex}`
       );
     } else {
-      render(`/rack:${readData.title}`);
+      render(`/rack:${readData.slug}`);
     }
   };
 
-  const isSubbed = isSubscribed(title);
-  const hasReadPos = hasReadingPosition(title);
+  const isSubbed = isSubscribed(slug);
+  const hasReadPos = hasReadingPosition(slug);
   const subOpsArray = [
     `${hasReadPos ? 'Continue' : 'Learn more'}`,
     `${hasReadPos ? 'Continue reading' : 'More about this comic'}`,
@@ -52,10 +52,10 @@ const generateSubOps = (title) => {
   const subsOps = templater('subscriptionops', subOpsArray);
   const subsOpRead = subsOps.querySelector('[data-btntype="forward"]');
   const subsOpSubscribe = subsOps.querySelector('[data-btntype="subscribe"]');
-  subsOpRead.dataset.title = title;
-  subsOpRead.dataset.storyindex = userData.readComics[title]?.storyindex || 0;
-  subsOpRead.dataset.pageindex = userData.readComics[title]?.pageindex || 0;
-  subsOpSubscribe.dataset.title = title;
+  subsOpRead.dataset.slug = slug;
+  subsOpRead.dataset.storyindex = userData.readComics[slug]?.storyindex || 0;
+  subsOpRead.dataset.pageindex = userData.readComics[slug]?.pageindex || 0;
+  subsOpSubscribe.dataset.slug = slug;
   if (isSubbed) {
     subsOpSubscribe.dataset.subscribed = '';
   }
@@ -69,17 +69,18 @@ const generateSubscriptionsList = (
 ) => {
   const fragment = document.createElement('ul');
   fragment.classList.add('subs-list');
-  listContents.forEach((subscription) => {
-    const subscribedComic = comics.find((comic) => comic.name === subscription);
-    const subOpsList = generateSubOps(subscription);
+  listContents.forEach((slug) => {
+    const subscribedComic = comics.find((comic) => comic.slug === slug);
+    if (!subscribedComic) return; // Skip if comic not found
+    const subOpsList = generateSubOps(slug);
     const thumbImg = document.createElement('img');
     thumbImg.classList.add('thumb-image');
-    thumbImg.src = 'img/' + subscribedComic.square;
-    thumbImg.alt = subscribedComic.name;
+    thumbImg.src = subscribedComic.square;
+    thumbImg.alt = subscribedComic.title;
     const subRow = templater('subscriptionrow', [
-      subscribedComic.name,
+      subscribedComic.title,
       thumbImg,
-      subscribedComic.name,
+      subscribedComic.title,
       subOpsList,
     ]);
     fragment.appendChild(subRow);
@@ -90,20 +91,18 @@ const generateSubscriptionsList = (
 const generateRandomList = () => {
   const fragment = document.createElement('div');
   fragment.innerHTML = `<p class="nosubs">No subscriptions found! But here are three comics, selected at random:</p>`;
-  const comicsTitlesRandomizedThree = comics
-    .map((comic) => {
-      return comic.name;
-    })
+  const randomSlugs = comics
+    .map((comic) => comic.slug)
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
-  fragment.appendChild(generateSubscriptionsList(comicsTitlesRandomizedThree));
+  fragment.appendChild(generateSubscriptionsList(randomSlugs));
   return fragment;
 };
 
 const buildSubscriptions = async () => {
   if (userData.subscribedComics.length > 0) {
-    for (const title of userData.subscribedComics) {
-      await getPopulatedComic(title);
+    for (const slug of userData.subscribedComics) {
+      await getPopulatedComic(slug);
     }
   }
   const subscriptionsTab = app.querySelector('#subscriptions');

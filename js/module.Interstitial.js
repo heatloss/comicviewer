@@ -1,8 +1,8 @@
 import { templater } from './module.Templater.js';
 import { render } from './module.Router.js';
-import { getComic } from './module.Comicdata.js';
 // import { initAdvancers } from './module.Touch.js';
 import { reverseZone } from './module.Zonesystem.js';
+import { getPopulatedComic } from './module.Comicdata.js';
 
 const app = document.querySelector('#app');
 const interstitialState = {};
@@ -11,7 +11,7 @@ const interstitialToComicPage = (e) => {
   // app.removeEventListener('advance', exitIterstitial);
   const storylineData = e.currentTarget ? e.currentTarget.dataset : e;
   render(
-    `/comic:${storylineData.storytitle}:${storylineData.storyindex || 0}:${
+    `/comic:${storylineData.slug}:${storylineData.storyindex || 0}:${
       storylineData.pageindex || 0
     }`
   );
@@ -29,16 +29,22 @@ const interstitialToComicPageReversed = (e) => {
 };
 
 const interstitialToRack = () => {
-  render(`/rack:${interstitialState.title}`);
+  render(`/rack:${interstitialState.slug}`);
 };
 
-const buildInterstitial = async (title, storyNumParam) => {
+const buildInterstitial = async (comicOrSlug, storyNumParam) => {
+  // Accept either a comic object or a slug string
+  const comic =
+    typeof comicOrSlug === 'string'
+      ? await getPopulatedComic(comicOrSlug)
+      : comicOrSlug;
+  const slug = comic.id; // comic.id is the slug from transformManifest
   const storylineIndex = parseInt(storyNumParam, 10);
+  const title = comic.title;
   app.querySelector('#headertitle').textContent = title;
 
-  const comic = getComic(title);
-
   const lastChapterName = comic.storylines[storylineIndex].name;
+  interstitialState.slug = slug;
   interstitialState.title = title;
   interstitialState.storylineindex = storylineIndex;
 
@@ -59,7 +65,7 @@ const buildInterstitial = async (title, storyNumParam) => {
     );
 
     backToHomeBtn.dataset.tab = 'comiclist';
-    backToRackBtn.dataset.storytitle = title;
+    backToRackBtn.dataset.slug = slug;
     toSubscriptionsBtn.dataset.tab = 'subscriptions';
 
     backToHomeBtn.addEventListener('click', interstitialToHome);
@@ -75,12 +81,12 @@ const buildInterstitial = async (title, storyNumParam) => {
     const lastPageBtn = interstitialBox.querySelector(
       "li.nav-btn[data-btntype='forward']:last-child"
     );
-    loadNextPageBtn.dataset.storytitle = title;
+    loadNextPageBtn.dataset.slug = slug;
     loadNextPageBtn.dataset.storyindex = storylineIndex + 1;
 
-    backToRackBtn.dataset.storytitle = title;
+    backToRackBtn.dataset.slug = slug;
 
-    lastPageBtn.dataset.storytitle = title;
+    lastPageBtn.dataset.slug = slug;
     lastPageBtn.dataset.storyindex = comic.storylines.length - 1;
     lastPageBtn.dataset.pageindex =
       comic.storylines[comic.storylines.length - 1].pages.length - 1;
