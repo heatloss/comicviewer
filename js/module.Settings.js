@@ -24,8 +24,8 @@ const settingsToRack = (e) => {
 };
 
 const doSetting = (e) => {
-  userdataSetConfig[e.currentTarget.name](e.currentTarget.value); // Sets user data
-  if (e.currentTarget.name === 'colormode') {
+  userdataSetConfig[e.currentTarget.id](e.currentTarget.value); // Sets user data
+  if (e.currentTarget.id === 'colormode') {
     document.documentElement.setAttribute('data-theme', e.currentTarget.value);
   }
 };
@@ -57,7 +57,7 @@ const buildSettings = async () => {
     '.settings-controls select'
   );
   settingsControls.forEach((select) => {
-    const associatedSetting = userData[select.name];
+    const associatedSetting = userData[select.id];
     select.value = associatedSetting;
     select.addEventListener('change', doSetting);
   });

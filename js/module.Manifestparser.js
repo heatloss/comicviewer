@@ -38,7 +38,7 @@ const getComicsIndex = async () => {
 /**
  * Fetch manifest for a specific comic
  * @param {string} slug - Comic slug (e.g., "my-comic")
- * @returns {Promise<{comic: Object, chapters: Array, pages: Array, navigation: Object}>}
+ * @returns {Promise<{meta: Object, chapters: Array, pages: Array, navigation: Object}>}
  */
 const getComicManifest = async (slug) => {
   const url = `${config.cmsBaseUrl}${config.manifestPath}/comics/${slug}/manifest.json`;
@@ -118,15 +118,15 @@ const formatCredits = (credits) => {
  * @returns {Object} Transformed comic data matching SPA structure
  */
 const transformManifest = (manifest) => {
-  const { comic, chapters } = manifest;
+  const { meta, chapters } = manifest;
 
   // Map chapters to storylines (pages are already nested)
   const storylines = chapters
     .sort((a, b) => a.order - b.order)
     .map((chapter) => {
       const chapterPages = chapter.pages.map((page) => ({
-        id: `${comic.slug}-page-${page.globalPageNumber}`,
-        href: `${config.cmsBaseUrl}/comics/${comic.slug}/page/${page.globalPageNumber}`,
+        id: `${meta.slug}-page-${page.globalPageNumber}`,
+        href: `${config.cmsBaseUrl}/comics/${meta.slug}/page/${page.globalPageNumber}`,
         name: page.title || `Page ${page.chapterPageNumber}`,
         archivepageindex: page.globalPageNumber - 1,
         img: {
@@ -147,20 +147,20 @@ const transformManifest = (manifest) => {
     });
 
   // Handle comic thumbnail (may be string or object)
-  const thumbnailUrls = transformImageUrls(comic.thumbnail);
+  const thumbnailUrls = transformImageUrls(meta.thumbnail);
 
   return {
-    id: comic.slug,
-    title: comic.title,
-    sortname: comic.sortname || comic.title,
+    id: meta.slug,
+    title: meta.title,
+    sortname: meta.sortname || meta.title,
     square: thumbnailUrls.mobile || thumbnailUrls.original,
     thumbnail: thumbnailUrls,
-    description: comic.description || comic.tagline,
-    credits: formatCredits(comic.credits),
-    creditsData: comic.credits || [], // Raw data for future use
-    genres: comic.genres || [],
-    tags: comic.tags || [],
-    links: comic.links || [],
+    description: meta.description || meta.tagline,
+    credits: formatCredits(meta.credits),
+    creditsData: meta.credits || [], // Raw data for future use
+    genres: meta.genres || [],
+    tags: meta.tags || [],
+    links: meta.links || [],
     storylines,
   };
 };
