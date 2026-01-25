@@ -50,9 +50,9 @@ const buildStorylines = (slug) => {
   const comicLinks = comic.links || [];
   comicLinks.forEach((link) => {
     const externalLi = document.createElement('li');
-    externalLi.innerHTML = `<a class="external-link" data-linktype="${link.linktext.toLowerCase()}" href="${
-      link.linkurl
-    }">${link.linktext}</a>`;
+    externalLi.innerHTML = `<a class="external-link" data-linktype="${link.type}" href="${
+      link.url
+    }">${link.label}</a>`;
     externalLi.addEventListener('click', handleExternalLink);
     linksUl.appendChild(externalLi);
   });
