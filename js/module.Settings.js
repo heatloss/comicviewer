@@ -19,25 +19,26 @@ const userData = getUserData();
 const comics = getAllComics().comics;
 
 const settingsToRack = (e) => {
-  const readData = e.currentTarget.dataset;
-  render(`/rack:${readData.title}`);
+  const slug = e.currentTarget.dataset.slug;
+  render(`/rack:${slug}`);
 };
 
 const doSetting = (e) => {
-  userdataSetConfig[e.currentTarget.name](e.currentTarget.value); // Sets user data
-  if (e.currentTarget.name === 'colormode') {
+  userdataSetConfig[e.currentTarget.id](e.currentTarget.value); // Sets user data
+  if (e.currentTarget.id === 'colormode') {
     document.documentElement.setAttribute('data-theme', e.currentTarget.value);
   }
 };
 
 const generateSubsList = () => {
   const fragment = document.createDocumentFragment();
-  userData.subscribedComics.forEach((subscription) => {
-    const subscribedComic = comics.find((comic) => comic.name === subscription);
+  userData.subscribedComics.forEach((slug) => {
+    const subscribedComic = comics.find((comic) => comic.slug === slug);
+    if (!subscribedComic) return;
     const subsLi = document.createElement('li');
     subsLi.classList.add('nav-btn');
-    subsLi.textContent = subscribedComic.name;
-    subsLi.dataset.title = subscribedComic.name;
+    subsLi.textContent = subscribedComic.title;
+    subsLi.dataset.slug = slug;
     subsLi.addEventListener('click', settingsToRack);
     fragment.appendChild(subsLi);
   });
@@ -56,7 +57,7 @@ const buildSettings = async () => {
     '.settings-controls select'
   );
   settingsControls.forEach((select) => {
-    const associatedSetting = userData[select.name];
+    const associatedSetting = userData[select.id];
     select.value = associatedSetting;
     select.addEventListener('change', doSetting);
   });
