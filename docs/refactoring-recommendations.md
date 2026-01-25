@@ -2,9 +2,13 @@
 
 Improvements to the existing vanilla JS architecture, without introducing a framework.
 
+**Note**: Section 1 (Centralized State Store) has been expanded into a detailed implementation plan. See `STATE-MANAGEMENT-PLAN.md` for the full hybrid global/zone-specific state architecture.
+
 ---
 
 ## 1. Centralized State Store
+
+> **See `STATE-MANAGEMENT-PLAN.md`** for detailed implementation plan with hybrid state model.
 
 **Problem**: State is scattered across modules in module-level variables (`readingState`, `zoneConfig`, `comicData`, etc.). Hard to debug, no single source of truth.
 

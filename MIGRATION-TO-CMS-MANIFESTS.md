@@ -1,48 +1,63 @@
-# Migration Guide: Scraping → CMS JSON Manifests
+# Migration Guide: Scraping to CMS JSON Manifests
 
-This document describes how to migrate the comic viewer from the proxy/scraping system to consuming JSON manifests published by the Chimera CMS.
+This document describes the migration from the proxy/scraping system to consuming JSON manifests published by the Chimera CMS.
+
+**Status: Mostly Complete** — Core migration is done. This document updated January 2026.
 
 ## Overview
 
-**Current system:**
-- `comics.js` contains a hardcoded list of comics with metadata
-- `getPagesFromArchive()` fetches archive HTML via proxy, parses DOM to extract pages
-- `getImageFromPage()` scrapes individual pages to find image URLs
+### Old System (Removed)
+- `comics.js` contained a hardcoded list of comics with metadata
+- `getPagesFromArchive()` fetched archive HTML via proxy, parsed DOM to extract pages
+- `getImageFromPage()` scraped individual pages to find image URLs
 - Data cached in localStorage
 
-**New system:**
+### New System (Implemented)
 - CMS publishes `index.json` (master comics list) and `{slug}/manifest.json` (per-comic data)
 - All page data including image URLs is already in the manifest
 - No proxy, no scraping, no DOM parsing
+- `module.Manifestparser.js` handles fetching and transformation
 
 ## Data Source URLs
 
 The CMS publishes manifests to:
 
 ```
-https://api.chimeracomics.org/pub/v1/index.json          # All comics
-https://api.chimeracomics.org/pub/v1/comics/{slug}/manifest.json  # Per comic
-https://api.chimeracomics.org/media/{filename}           # Images
+https://api.chimeracomics.org/api/pub/v1/index.json              # All comics
+https://api.chimeracomics.org/api/pub/v1/comics/{slug}/manifest.json  # Per comic
+https://api.chimeracomics.org/api/media/{filename}               # Images (original)
+https://api.chimeracomics.org/api/pub/media/mobile/{filename}    # Images (mobile optimized)
+https://api.chimeracomics.org/api/pub/media/desktop/{filename}   # Images (desktop optimized)
 ```
 
-## Manifest Structures
+For local development, the base URL is `http://localhost:3333`.
+
+## Current Manifest Structures
 
 ### index.json (Comics List)
 
 ```json
 {
-  "version": "1.0",
-  "generatedAt": "2025-01-02T12:00:00Z",
+  "version": "1.1",
+  "generatedAt": "2026-01-22T23:23:49.715Z",
   "comics": [
     {
-      "id": 4,
-      "slug": "my-comic",
-      "title": "My Webcomic",
-      "tagline": "A story about adventure",
-      "thumbnail": "/media/comic-thumb.jpg",
-      "pageCount": 156,
-      "latestPageDate": "2025-01-01",
-      "route": "/my-comic/"
+      "id": 1,
+      "slug": "automans-daughter",
+      "title": "The Automan's Daughter",
+      "tagline": "An adventure story...",
+      "thumbnail": "/api/media/thumbnail/cover-thumbnail.jpg",
+      "pageCount": 27,
+      "latestPageDate": "2025-09-28T10:16:00.000Z",
+      "route": "/automans-daughter/",
+      "credits": [
+        { "role": "artist", "name": "Mike Stamm", "url": "https://..." }
+      ],
+      "genres": ["Steampunk", "Action-Adventure"],
+      "tags": ["Mecha", "Violence"],
+      "links": [
+        { "type": "patreon", "label": "Patreon", "url": "https://..." }
+      ]
     }
   ]
 }
@@ -52,372 +67,181 @@ https://api.chimeracomics.org/media/{filename}           # Images
 
 ```json
 {
-  "version": "1.0",
-  "generatedAt": "2025-01-02T12:00:00Z",
-  "comic": {
-    "id": 4,
-    "slug": "my-comic",
-    "title": "My Webcomic",
-    "tagline": "A story about adventure",
+  "version": "1.1",
+  "generatedAt": "2026-01-22T23:23:49.715Z",
+  "meta": {
+    "id": 1,
+    "slug": "automans-daughter",
+    "title": "The Automan's Daughter",
+    "tagline": "Short description...",
     "description": "Full description...",
-    "thumbnail": "/media/comic-thumb.jpg"
+    "thumbnail": "/api/media/thumbnail/cover-thumbnail.jpg",
+    "credits": [
+      { "role": "artist", "name": "Mike Stamm", "url": "https://..." }
+    ],
+    "links": [
+      { "type": "patreon", "label": "Patreon", "url": "https://..." }
+    ],
+    "genres": ["Steampunk", "Action-Adventure"],
+    "tags": ["Mecha", "Violence"]
   },
   "chapters": [
     {
       "id": 1,
-      "title": "Chapter 1: The Beginning",
-      "number": 1,
-      "startPage": 1,
-      "endPage": 24,
-      "pageCount": 24
-    }
-  ],
-  "pages": [
-    {
-      "number": 1,
-      "chapter": 1,
-      "image": "/media/abc123.jpg",
-      "thumbnail": "/media/abc123-thumb.jpg",
-      "width": 800,
-      "height": 1200,
-      "title": "Page 1",
-      "altText": "Description of the image",
-      "authorNote": "Author's commentary",
-      "publishedDate": "2024-06-15"
+      "slug": "chapter-1",
+      "title": "Chapter 1",
+      "order": 1,
+      "pages": [
+        {
+          "slug": "chapter-1-cover",
+          "globalPageNumber": 1,
+          "chapterPageNumber": 1,
+          "image": {
+            "original": "/api/media/file/issue-1-cover.jpg",
+            "mobile": "/api/pub/media/mobile/issue-1-cover.webp",
+            "desktop": "/api/pub/media/desktop/issue-1-cover.webp"
+          },
+          "thumbnail": "/api/media/thumbnail/issue-1-cover-thumbnail.jpg",
+          "width": 1600,
+          "height": 2464,
+          "title": "Chapter 1, cover",
+          "altText": "Description of the image",
+          "authorNote": null,
+          "contentWarning": null,
+          "publishedDate": "2025-08-28T21:15:12.332Z"
+        }
+      ]
     }
   ],
   "navigation": {
     "firstPage": 1,
-    "lastPage": 156,
-    "totalPages": 156
+    "lastPage": 27,
+    "totalPages": 27
   }
 }
 ```
+
+**Key changes from earlier versions:**
+- `comic` renamed to `meta`
+- `pages` array is now nested inside each `chapters[]` entry (not flat)
+- Images are objects with `original`, `mobile`, `desktop` variants
+- Links use `type`, `label`, `url` (not `linktext`, `linkurl`)
+- Added `contentWarning` field on pages
 
 ## Data Structure Mapping
 
-### Comics List
+### Comics List (index.json → SPA)
 
-| CMS `index.json` | SPA `comics.js` |
-|------------------|-----------------|
-| `comics[].slug` | `id` |
-| `comics[].title` | `name` |
-| `comics[].title` | `sortname` (derive or add to CMS) |
-| `comics[].thumbnail` | `square` |
-| `comics[].tagline` | `description` (partial) |
-| — | `credits` (add to CMS or manifest) |
-| — | `genres` (add to CMS or manifest) |
-| — | `links` (add to CMS or manifest) |
+| CMS Field | SPA Field | Status |
+|-----------|-----------|--------|
+| `comics[].slug` | `id` | Done |
+| `comics[].title` | `title` | Done |
+| `comics[].title` | `sortname` | Done (uses title, CMS can add sortname) |
+| `comics[].thumbnail` | `square` | Done |
+| `comics[].tagline` | `description` | Done |
+| `comics[].credits` | `credits` | Done (formatted to string) |
+| `comics[].genres` | `genres` | Done |
+| `comics[].tags` | `tags` | Done |
+| `comics[].links` | `links` | Done |
+| `comics[].latestPageDate` | `latestPageDate` | Done |
 
-**Note:** The CMS may need additional fields for `credits`, `genres`, and `links` if you want full parity with the current hardcoded data.
+### Per-Comic Manifest (manifest.json → SPA)
 
-### Per-Comic Data
+| CMS Field | SPA Field | Status |
+|-----------|-----------|--------|
+| `meta.*` | Comic metadata | Done |
+| `chapters[]` | `storylines[]` | Done |
+| `chapters[].title` | `storylines[].name` | Done |
+| `chapters[].pages[]` | `storylines[].pages[]` | Done |
+| `pages[].image` | `pages[].img` (with full URLs) | Done |
+| `pages[].contentWarning` | `pages[].contentWarning` | Passed through, UI pending |
 
-| CMS `manifest.json` | SPA Expected Structure |
-|---------------------|------------------------|
-| `chapters[]` | `storylines[]` |
-| `chapters[].title` | `storylines[].name` |
-| `chapters[].number` | `storylines[].pageindex` (derive from pages) |
-| `pages[]` | `storylines[].pages[]` (grouped by chapter) |
-| `pages[].number` | `pages[].archivepageindex` |
-| `pages[].image` | `pages[].img.original` |
-| `pages[].title` | `pages[].name` |
-| `comic.slug + page.number` | `pages[].id` |
-| `comic.slug + page.number` | `pages[].href` |
+## Implementation Status
 
-### Transformation Function
+### Completed
 
-The manifest needs to be transformed to match the SPA's expected structure:
+- [x] **module.Manifestparser.js** — Fetches and transforms CMS manifests
+  - `getComicsIndex()` — Fetches master comics list
+  - `getComicManifest(slug)` — Fetches per-comic manifest
+  - `transformManifest()` — Converts CMS structure to SPA structure
+  - `transformImageUrls()` — Handles image object format (original/mobile/desktop)
+  - `formatCredits()` — Converts credits array to display string
+  - `getImageUrl()` — Converts relative paths to full URLs
 
-```javascript
-function transformManifest(manifest, baseUrl) {
-  const { comic, chapters, pages } = manifest;
+- [x] **module.Comicdata.js** — Updated to use manifest parser
+  - `getPopulatedComic()` uses `getTransformedComic()` from manifest parser
+  - Image buffering uses URLs directly from manifest
+  - Removed scraping-related logic
 
-  // Group pages by chapter
-  const storylines = chapters.map(chapter => {
-    const chapterPages = pages
-      .filter(p => p.chapter === chapter.number)
-      .map(page => ({
-        id: `${comic.slug}-page-${page.number}`,
-        href: `${baseUrl}/comics/${comic.slug}/page/${page.number}`,
-        name: page.title || `Page ${page.number}`,
-        archivepageindex: page.number - 1,
-        img: {
-          original: `${baseUrl}${page.image}`,
-          thumbnail: page.thumbnail ? `${baseUrl}${page.thumbnail}` : null,
-          width: page.width,
-          height: page.height,
-        },
-        altText: page.altText,
-        authorNote: page.authorNote,
-        publishedDate: page.publishedDate,
-      }));
+- [x] **module.Grid.js** — Updated to use CMS data
+  - Loads comics from `normalizedComics()`
+  - Handles new thumbnail format
 
-    return {
-      name: chapter.title,
-      pageindex: chapterPages[0]?.archivepageindex || 0,
-      pages: chapterPages,
-    };
-  });
+- [x] **module.Storylines.js** — Updated for new link format
+  - Uses `link.type`, `link.label`, `link.url` (was `linktext`, `linkurl`)
 
-  // Handle pages without chapters (put in default storyline)
-  const unchapteredPages = pages.filter(p => !p.chapter);
-  if (unchapteredPages.length > 0) {
-    storylines.unshift({
-      name: 'Pages',
-      pageindex: 0,
-      pages: unchapteredPages.map(page => ({
-        id: `${comic.slug}-page-${page.number}`,
-        href: `${baseUrl}/comics/${comic.slug}/page/${page.number}`,
-        name: page.title || `Page ${page.number}`,
-        archivepageindex: page.number - 1,
-        img: {
-          original: `${baseUrl}${page.image}`,
-        },
-      })),
-    });
-  }
+- [x] **Removed legacy files**
+  - `module.Archiveparser.js` — Removed (replaced by Manifestparser)
+  - `module.Feedparser.js` — Removed
+  - Proxy configuration — Removed
 
-  return {
-    id: comic.slug,
-    name: comic.title,
-    sortname: comic.title, // Could add sortname to CMS
-    square: comic.thumbnail ? `${baseUrl}${comic.thumbnail}` : null,
-    description: comic.description || comic.tagline,
-    storylines,
-    allpages: pages.map(p => ({
-      id: `${comic.slug}-page-${p.number}`,
-      href: `${baseUrl}/comics/${comic.slug}/page/${p.number}`,
-      name: p.title || `Page ${p.number}`,
-      img: { original: `${baseUrl}${p.image}` },
-      archivepageindex: p.number - 1,
-    })),
-  };
-}
+### Remaining Work
+
+- [ ] **Content Warning UI** — `contentWarning` field is in manifest but UI not implemented
+  - See `docs/STATE-MANAGEMENT-PLAN.md` for implementation approach
+  - Requires state management updates to track dismissed warnings
+
+- [ ] **Author Notes UI** — `authorNote` field passed through but not displayed
+
+- [ ] **Alt Text** — `altText` field available but not used for accessibility
+
+## File Reference
+
+### Current Module Responsibilities
+
+| Module | Responsibility |
+|--------|----------------|
+| `module.Manifestparser.js` | Fetch CMS data, transform to SPA format |
+| `module.Comicdata.js` | Comic data access, image buffering |
+| `module.Comicreader.js` | Reader UI, page navigation |
+| `module.Storylines.js` | Rack view, chapter covers |
+| `module.Grid.js` | Home view, comics grid |
+| `module.Userdata.js` | localStorage persistence (reading positions, subscriptions) |
+
+### Transformation Flow
+
 ```
-
-## Files to Modify
-
-### 1. Create `module.Manifestparser.js` (replaces Archiveparser)
-
-```javascript
-const config = {
-  cmsBaseUrl: 'https://api.chimeracomics.org',
-  manifestPath: '/pub/v1',
-};
-
-/**
- * Fetch the master comics index
- */
-const getComicsIndex = async () => {
-  const response = await fetch(`${config.cmsBaseUrl}${config.manifestPath}/index.json`);
-  if (!response.ok) throw new Error('Failed to fetch comics index');
-  return response.json();
-};
-
-/**
- * Fetch manifest for a specific comic
- */
-const getComicManifest = async (slug) => {
-  const response = await fetch(
-    `${config.cmsBaseUrl}${config.manifestPath}/comics/${slug}/manifest.json`
-  );
-  if (!response.ok) throw new Error(`Failed to fetch manifest for ${slug}`);
-  return response.json();
-};
-
-/**
- * Transform CMS manifest to SPA expected format
- */
-const transformManifest = (manifest) => {
-  // ... transformation logic from above
-};
-
-/**
- * Replacement for getPagesFromArchive()
- * Returns data in the format the SPA expects
- */
-const getPagesFromManifest = async (slug) => {
-  const manifest = await getComicManifest(slug);
-  return transformManifest(manifest);
-};
-
-/**
- * Prefetch images (replaces bufferImageList)
- */
-const prefetchImages = (imageUrls) => {
-  imageUrls.forEach(url => {
-    const img = new Image();
-    img.src = url;
-  });
-};
-
-export {
-  getComicsIndex,
-  getComicManifest,
-  getPagesFromManifest,
-  prefetchImages,
-};
+CMS manifest.json
+       ↓
+getComicManifest(slug)
+       ↓
+transformManifest()
+  - meta → comic metadata
+  - chapters[].pages[] → storylines[].pages[]
+  - image URLs → full URLs with mobile/desktop variants
+       ↓
+SPA internal format
+       ↓
+Comicreader / Storylines / Grid
 ```
-
-### 2. Update `module.Comicdata.js`
-
-**Remove:**
-- `getPagesFromArchive` import
-- `getImageFromPage` import and all usages
-- Proxy-related logic
-
-**Change:**
-- `getPopulatedComic()` to use `getPagesFromManifest(comic.slug)` instead of `getPagesFromArchive(comic.archiveurl)`
-- Image buffering to use URLs directly from manifest (no scraping needed)
-
-**Simplify:**
-- `sourceSomeImagesInStoryline()` - images are already in the data, just prefetch them
-- `sourceAllStorylineCovers()` - covers are already known, just prefetch
-
-```javascript
-// Before
-const imgSrc = pageObj.img?.original || (await getImageFromPage(pageObj.href));
-
-// After
-const imgSrc = pageObj.img?.original; // Already populated from manifest
-```
-
-### 3. Update or Replace `comics.js`
-
-**Option A: Dynamic loading (recommended)**
-
-Remove the hardcoded list entirely. Load from `index.json` on startup:
-
-```javascript
-let comicsData = null;
-
-const loadComics = async () => {
-  if (comicsData) return comicsData;
-
-  const index = await getComicsIndex();
-  comicsData = {
-    comics: index.comics.map(c => ({
-      id: c.slug,
-      name: c.title,
-      sortname: c.title,
-      square: c.thumbnail,
-      // Additional fields if CMS provides them:
-      // credits, genres, links
-    }))
-  };
-  return comicsData;
-};
-
-export default { loadComics };
-```
-
-**Option B: Hybrid (fallback)**
-
-Keep the hardcoded list as fallback, merge with CMS data:
-
-```javascript
-import hardcodedComics from './comics-fallback.js';
-import { getComicsIndex } from './module.Manifestparser.js';
-
-const loadComics = async () => {
-  try {
-    const cmsIndex = await getComicsIndex();
-    // Merge CMS comics with any hardcoded ones not in CMS
-    return mergeComicsLists(cmsIndex.comics, hardcodedComics.comics);
-  } catch (e) {
-    console.warn('Failed to load CMS index, using fallback');
-    return hardcodedComics;
-  }
-};
-```
-
-### 4. Update `index.js` (if needed)
-
-If the app initialization assumes synchronous access to `comics.js`, update to handle async loading:
-
-```javascript
-// Before
-import comics from './comics.js';
-initApp(comics);
-
-// After
-import { loadComics } from './comics.js';
-loadComics().then(comics => initApp(comics));
-```
-
-## What to Delete
-
-Once migration is complete, remove:
-
-- `module.Archiveparser.js` (replaced by Manifestparser)
-- Proxy URL configuration
-- `getImageFromPage()` function
-- DOM parsing logic
-- Any ComicPress/archive selector logic
-
-## Caching Strategy
-
-The current app caches in localStorage. With manifests:
-
-1. **Manifest caching** - Cache the JSON with a timestamp, refresh periodically
-2. **Image caching** - Let the browser/service worker handle this
-3. **Freshness check** - Compare `manifest.version` or `generatedAt` to detect updates
-
-```javascript
-const CACHE_KEY = 'comic-manifest-';
-const CACHE_TTL = 3600000; // 1 hour
-
-const getCachedManifest = (slug) => {
-  const cached = localStorage.getItem(CACHE_KEY + slug);
-  if (!cached) return null;
-
-  const { data, timestamp } = JSON.parse(cached);
-  if (Date.now() - timestamp > CACHE_TTL) return null;
-
-  return data;
-};
-
-const cacheManifest = (slug, data) => {
-  localStorage.setItem(CACHE_KEY + slug, JSON.stringify({
-    data,
-    timestamp: Date.now(),
-  }));
-};
-```
-
-## Service Worker Considerations
-
-If adding a service worker for offline support:
-
-1. Cache the reader shell (HTML, JS, CSS)
-2. Cache manifests with stale-while-revalidate
-3. Cache images with cache-first (they're immutable)
-4. Prefetch upcoming pages based on reading position
-
-See the Chimera CMS documentation (`docs/future publishing/to hybrid SPA-SSG/`) for service worker examples.
 
 ## Testing Checklist
 
-- [ ] Comics list loads from `index.json`
-- [ ] Individual comic data loads from `manifest.json`
-- [ ] Chapters/storylines display correctly
-- [ ] Page navigation works
-- [ ] Images load from CMS media URLs
-- [ ] Image prefetching/buffering works
-- [ ] Reading progress saves/restores
-- [ ] Offline reading works (if service worker added)
-- [ ] Fallback works if CMS is unreachable
+- [x] Comics list loads from `index.json`
+- [x] Individual comic data loads from `manifest.json`
+- [x] Chapters/storylines display correctly
+- [x] Page navigation works
+- [x] Images load from CMS media URLs
+- [x] Desktop/mobile image variants work
+- [x] Image prefetching/buffering works
+- [x] Reading progress saves/restores
+- [x] External links work (Patreon, Bluesky, etc.)
+- [ ] Content warnings display and can be dismissed
+- [ ] Author notes display
+- [ ] Alt text used for accessibility
 
-## CMS Fields to Add (Optional)
+## Related Documentation
 
-For full feature parity, consider adding these fields to the CMS:
-
-| Field | Collection | Purpose |
-|-------|------------|---------|
-| `sortname` | Comics | For alphabetical sorting ("The End" → "End, The") |
-| `credits` | Comics | Author/artist attribution |
-| `genres` | Comics | Genre tags (relationship to Genres collection) |
-| `links` | Comics | External links (store, Patreon, social) |
-
-These may already exist in the CMS - check the Comics collection fields.
+- `docs/STATE-MANAGEMENT-PLAN.md` — Plan for centralized state (needed for content warnings)
+- `docs/refactoring-recommendations.md` — General architecture improvements
+- `docs/cms reference/` — CMS API specifications
