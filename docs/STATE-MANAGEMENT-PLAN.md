@@ -235,6 +235,18 @@ export const selectors = {
 
 ### Migration Phases
 
+The migration follows an **outside-in** approach, establishing navigation state foundations before migrating the more complex reader. This ensures each layer builds on stable ground and avoids the reader needing to query DOM for zone/tab state.
+
+```
+Phase 2: Zones (navigation foundation)
+    ↓
+Phase 3: Tabs (nested within zones)
+    ↓
+Phase 4: Reader (consumes zone/tab state, adds page-level state)
+    ↓
+Phase 5: Content Warning feature (now straightforward)
+```
+
 #### Phase 1: Foundation (Non-Breaking)
 
 1. Create `module.State.js` with store, actions, selectors
@@ -243,37 +255,57 @@ export const selectors = {
 
 **Validation**: Console log state changes, verify they match DOM state
 
-#### Phase 2: Comic Reader Migration
+#### Phase 2: Zone System Migration
+
+1. `Zonesystem.js` subscribes to `store.activeZone`
+2. `gotoZone()` becomes thin wrapper calling `actions.navigateToZone()`
+3. Remove DOM queries for `[data-zoneactive]`
+4. DOM attributes become write-only (set by subscription callbacks)
+5. Remove `zoneConfig.prevzone` — tracked in state
+
+**Outcome**: Zone transitions are state-driven. Foundation established for tabs and reader.
+
+#### Phase 3: Tab System Migration
+
+1. `Tabsystem.js` subscribes to zone tab state
+2. `gotoTab()` calls `actions.setTab()` instead of manipulating DOM
+3. `selectTab()` reads zone context from state, not URL parsing
+4. Remove DOM queries for `[data-tabactive]`
+
+**Outcome**: All navigation state (zones + tabs) lives in store.
+
+#### Phase 4: Comic Reader Migration
 
 1. Replace `readingState` in Comicreader.js with `store.zones.comic`
 2. Have `generateGhostMount()` read from state
-3. Implement content warning feature using `dismissedWarnings` state
+3. Reader can now cleanly check `store.get('activeZone') === 'comic'`
 4. `Touch.js` calls actions instead of dispatching events
+5. Remove `readingState` object
 
-**Why start here**: This is where the content warning feature is needed, provides immediate value.
+**Outcome**: Reader is state-driven. All view state centralized.
 
-#### Phase 3: Zone System Migration
+#### Phase 5: Content Warning Feature
 
-1. `Zonesystem.js` subscribes to `store.activeZone`
-2. Remove DOM queries for `[data-zoneactive]`
-3. DOM attributes become write-only (set by subscription callbacks)
+With state management in place, the content warning feature becomes straightforward:
 
-#### Phase 4: Tab System Migration
+1. Add `dismissedWarnings` to comic zone state (already in schema)
+2. Add `contentWarning` template markup to ghostmount
+3. `generateGhostMount()` checks page warnings against dismissed set
+4. Wire dismiss button to `actions.dismissWarning()`
+5. Add CSS for scrim positioning and styling
 
-1. `Tabsystem.js` subscribes to zone tab state
-2. Remove DOM queries for `[data-tabactive]`
-3. `selectTab()` calls `actions.setTab()` instead of manipulating DOM
+**Outcome**: Content warnings work cleanly because state is properly separated from DOM.
 
-#### Phase 5: Cleanup
+#### Phase 6: Cleanup
 
-1. Remove parallel DOM-state tracking
-2. Remove `zoneConfig.prevzone` (now in store)
-3. Remove scattered state variables from modules
-4. Update any remaining DOM queries to read from state
+1. Remove any remaining parallel DOM-state tracking
+2. Audit `querySelector` calls — ensure none read state
+3. Add state persistence if desired (sessionStorage for dismissed warnings)
+4. Consider dev tooling (state inspector, etc.)
 
 ## Content Warning Feature
 
-This feature motivated the state management discussion. With the new architecture:
+This feature motivated the state management discussion. It is implemented in **Phase 5**, after the state infrastructure is in place. With the new architecture:
 
 ### State
 
